@@ -1,0 +1,90 @@
+name: OneConnect
+version: '${version}'
+main: kiinse.me.oneconnect.plugin.OneConnect
+api-version: 1.16
+prefix: OneConnect
+authors: [ kiinse ]
+description: One account for all servers
+website: https://oneconnect.dev
+commands:
+  login:
+    description: Login command
+    permission: oneconnect.player.login
+    usage: /<command> <password>
+    aliases: [lg, log, l]
+  register:
+    description: Register command
+    permission: oneconnect.player.register
+    usage: /<command> <password> <password>
+    aliases: [reg]
+  2fa:
+    description: 2 factor authentication command
+    permission: oneconnect.player.2fa
+    usage: /<command>
+    aliases: [ reg ]
+  2fa help:
+    description: 2 factor authentication help command
+    permission: oneconnect.player.2fa
+    usage: /<command>
+    aliases: [ reg ]
+  2fa enable:
+    description: 2 factor authentication enable command
+    permission: oneconnect.player.2fa
+    usage: /<command> <email> <email>
+    aliases: [ reg ]
+  2fa disable:
+    description: 2 factor authentication disable command
+    permission: oneconnect.player.2fa
+    usage: /<command>
+    aliases: [ reg ]
+  changepassword:
+    description: Change password command
+    permission: oneconnect.player.changepassword
+    usage: /<command>
+    aliases: [ cp, changepass, chpass, chpassword ]
+  oneconnect:
+    description: Plugin tools
+    permission: oneconnect.player.help
+    usage: /<command>
+    aliases: [oc]
+  oneconnect help:
+    description: Help command
+    permission: oneconnect.player.help
+    usage: /<command>
+  oneconnect reload:
+    description: Reload command
+    permission: oneconnect.admin.reload
+    usage: /<command>
+permissions:
+  oneconnect.player.login:
+    description: Allows '/login <password>' command
+    default: op
+  oneconnect.player.register:
+    description: Allows '/register <password> <password>' command
+    default: op
+  oneconnect.player.2fa:
+    description: Allows 2fa commands
+    default: op
+  oneconnect.player.changepassword:
+    description: Allows '/changepassword <password> <password>' command
+    default: op
+  oneconnect.player.help:
+    description: Allows '/oneconnect' and '/oneconnect help' commands
+    default: op
+  oneconnect.admin.reload:
+    description: Allows '/oneconnect reload' command
+    default: op
+  oneconnect.player.*:
+    description: All perms
+    default: op
+    children:
+      oneconnect.player.login: true
+      oneconnect.player.2fa: true
+      oneconnect.player.register: true
+      oneconnect.player.changepassword: true
+      oneconnect.player.help: true
+  oneconnect.admin.*:
+    description: All perms
+    default: op
+    children:
+      oneconnect.admin.reload: true

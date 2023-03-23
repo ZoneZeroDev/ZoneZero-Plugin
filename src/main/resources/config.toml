@@ -1,0 +1,42 @@
+[credentials]
+token = "API TOKEN"
+
+[settings]
+# Can not authenticated players chat?
+# Keep in mind that this feature also blocks all commands not
+# listed in the list below.
+allowChat = false
+# Allowed commands for unauthenticated players
+allowCommands = ["/login", "/log", "/l", "/register", "/reg", "/2fa", "/oc", "/oneconnect"]
+# Should unregistered players be kicked immediately?
+kickNonRegistered = false
+# Should players be kicked on wrong password?
+kickOnWrongPassword = true
+# The custom join message,
+# keep empty to use the original one.
+# Available variables:
+# <PLAYER_NAME>: the player name (no colors)
+# <DISPLAY_NAME>: the player display name (with colors)
+# <DISPLAY_NAME_NO_COLOR>: the player display name (without colors)
+customJoinMessage = ""
+# The custom leave message,
+# keep empty to use the original one.
+# Available variables:
+# <PLAYER_NAME>: the player name (no colors)
+# <DISPLAY_NAME>: the player display name (with colors)
+# <DISPLAY_NAME_NO_COLOR>: the player display name (without colors)
+customLeaveMessage = ""
+# Should we remove the leave messages of unlogged users?
+removeUnloggedLeaveMessage = false
+# Should we remove join messages altogether?
+removeJoinMessage = false
+# Should we remove leave messages altogether?
+removeLeaveMessage = false
+# Do we need to add potion effect Blinding before login/register?
+applyBlindEffect = false
+
+[tools]
+debug = false
+
+[config]
+version = 1.0

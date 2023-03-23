@@ -1,0 +1,12 @@
+ &c|====================================UPDATE====================================
+ &c|
+ &c| &6New version of &bOneConnect &6found: '&a{NEW_VERSION}&6'! Your version is '&c{CURRENT_VERSION}&6'
+ &c| &6Plugin update will be automated downloaded and installed on next server &astart
+ &c|
+ &c| &6Or you can download this version manually from the link below:
+ &c| &fhttps://oneconnect.dev/download
+ &c|
+ &c| &6You can &cdisable&6 OneConnect version checking and updating by changing
+ &c| &6lines '&7update.check&6' and '&7update.download&6' in the plugin config
+ &c|
+ &c|==============================================================================
