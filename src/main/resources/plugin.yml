@@ -1,90 +1,90 @@
-name: OneConnect
+name: ZoneZero
 version: '${version}'
-main: kiinse.me.oneconnect.plugin.OneConnect
+main: kiinse.me.zonezero.plugin.ZoneZero
 api-version: 1.16
-prefix: OneConnect
-authors: [ kiinse ]
+prefix: ZoneZero
+authors: [ kiinse, vannakarenina ]
 description: One account for all servers
-website: https://oneconnect.dev
+website: https://zonezero.dev
 commands:
   login:
     description: Login command
-    permission: oneconnect.player.login
+    permission: zonezero.player.login
     usage: /<command> <password>
     aliases: [lg, log, l]
   register:
     description: Register command
-    permission: oneconnect.player.register
+    permission: zonezero.player.register
     usage: /<command> <password> <password>
     aliases: [reg]
   2fa:
     description: 2 factor authentication command
-    permission: oneconnect.player.2fa
+    permission: zonezero.player.2fa
     usage: /<command>
     aliases: [ reg ]
   2fa help:
     description: 2 factor authentication help command
-    permission: oneconnect.player.2fa
+    permission: zonezero.player.2fa
     usage: /<command>
     aliases: [ reg ]
   2fa enable:
     description: 2 factor authentication enable command
-    permission: oneconnect.player.2fa
+    permission: zonezero.player.2fa
     usage: /<command> <email> <email>
     aliases: [ reg ]
   2fa disable:
     description: 2 factor authentication disable command
-    permission: oneconnect.player.2fa
+    permission: zonezero.player.2fa
     usage: /<command>
     aliases: [ reg ]
   changepassword:
     description: Change password command
-    permission: oneconnect.player.changepassword
+    permission: zonezero.player.changepassword
     usage: /<command>
     aliases: [ cp, changepass, chpass, chpassword ]
-  oneconnect:
+  zonezero:
     description: Plugin tools
-    permission: oneconnect.player.help
+    permission: zonezero.player.help
     usage: /<command>
     aliases: [oc]
-  oneconnect help:
+  zonezero help:
     description: Help command
-    permission: oneconnect.player.help
+    permission: zonezero.player.help
     usage: /<command>
-  oneconnect reload:
+  zonezero reload:
     description: Reload command
-    permission: oneconnect.admin.reload
+    permission: zonezero.admin.reload
     usage: /<command>
 permissions:
-  oneconnect.player.login:
+  zonezero.player.login:
     description: Allows '/login <password>' command
     default: op
-  oneconnect.player.register:
+  zonezero.player.register:
     description: Allows '/register <password> <password>' command
     default: op
-  oneconnect.player.2fa:
+  zonezero.player.2fa:
     description: Allows 2fa commands
     default: op
-  oneconnect.player.changepassword:
+  zonezero.player.changepassword:
     description: Allows '/changepassword <password> <password>' command
     default: op
-  oneconnect.player.help:
-    description: Allows '/oneconnect' and '/oneconnect help' commands
+  zonezero.player.help:
+    description: Allows '/zonezero' and '/zonezero help' commands
     default: op
-  oneconnect.admin.reload:
-    description: Allows '/oneconnect reload' command
+  zonezero.admin.reload:
+    description: Allows '/zonezero reload' command
     default: op
-  oneconnect.player.*:
+  zonezero.player.*:
     description: All perms
     default: op
     children:
-      oneconnect.player.login: true
-      oneconnect.player.2fa: true
-      oneconnect.player.register: true
-      oneconnect.player.changepassword: true
-      oneconnect.player.help: true
-  oneconnect.admin.*:
+      zonezero.player.login: true
+      zonezero.player.2fa: true
+      zonezero.player.register: true
+      zonezero.player.changepassword: true
+      zonezero.player.help: true
+  zonezero.admin.*:
     description: All perms
     default: op
     children:
-      oneconnect.admin.reload: true
+      zonezero.admin.reload: true

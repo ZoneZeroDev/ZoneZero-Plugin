@@ -1,3 +1,3 @@
 
-rootProject.name = "OneConnect"
+rootProject.name = "ZoneZero"
 

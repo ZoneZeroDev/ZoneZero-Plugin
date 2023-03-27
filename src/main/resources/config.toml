@@ -7,7 +7,7 @@ token = "API TOKEN"
 # listed in the list below.
 allowChat = false
 # Allowed commands for unauthenticated players
-allowCommands = ["/login", "/log", "/l", "/register", "/reg", "/2fa", "/oc", "/oneconnect"]
+allowCommands = ["/login", "/log", "/l", "/register", "/reg", "/2fa", "/oc", "/zonezero"]
 # Should unregistered players be kicked immediately?
 kickNonRegistered = false
 # Should players be kicked on wrong password?

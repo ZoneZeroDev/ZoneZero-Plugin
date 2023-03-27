@@ -10,7 +10,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "kiinse.me.oneconnect.plugin"
+group = "kiinse.me.zonezero.plugin"
 version = "1.0.0-alpha.51"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -57,7 +57,7 @@ tasks {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "kiinse.me.oneconnect.plugin.OneConnect"
+        attributes["Main-Class"] = "kiinse.me.zonezero.plugin.ZoneZero"
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from(sourceSets.main.get().output)
