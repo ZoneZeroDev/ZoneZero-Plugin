@@ -14,7 +14,7 @@ class PublicKeyScheduler(plugin: ZoneZero, private val api: ApiService) : Schedu
             api.updateServerKey()
             ZoneZero.sendLog(Level.CONFIG, "Server key updated!")
         } catch (e: Exception) {
-            ZoneZero.sendLog(Level.SEVERE, "Error on updating server key! Message: ", e)
+            ZoneZero.sendLog(Level.SEVERE, "Error on updating server key! Message: ${e.message}")
         }
     }
 }

@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "kiinse.me.zonezero.plugin"
-version = "1.0.0-alpha.51"
+version = "1.0.0-alpha.56"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -22,6 +22,7 @@ repositories {
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
 }
 
+@Suppress("vulnability")
 dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
     implementation("org.json:json:20230227")
@@ -30,11 +31,12 @@ dependencies {
     implementation("commons-codec:commons-codec:1.15")
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("io.sentry:sentry:6.16.0")
+    implementation("io.sentry:sentry:6.17.0")
     implementation("org.apache.httpcomponents:fluent-hc:4.5.14")
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 
     compileOnly("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
     implementation(kotlin("stdlib-jdk8"))
 }
 

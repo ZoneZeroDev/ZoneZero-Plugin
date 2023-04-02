@@ -7,6 +7,7 @@ enum class Config(val value: String) {
     TABLE_SETTINGS("settings"),
     CREDENTIALS_TOKEN("token"),
     TOOLS_IS_DEBUG("debug"),
+    TOOLS_CUSTOM_IP("customIp"),
     CONFIG_VERSION("version"),
     SETTINGS_ALLOW_CHAT("allowChat"),
     KICK_UNREGISTERED("kickNonRegistered"),

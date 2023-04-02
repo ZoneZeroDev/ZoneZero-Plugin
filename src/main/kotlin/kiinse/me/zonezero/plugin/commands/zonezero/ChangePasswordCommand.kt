@@ -29,13 +29,17 @@ class ChangePasswordCommand(plugin: ZoneZero, private val playersData: PlayersDa
             return
         }
         val answer = playersData.changePassword(player, args[0], password)
-        when(answer.status) {
-            200 -> { messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_PASSWORD_CHANGED) }
-            404 -> { messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD) }
-            406 -> { messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD_SIZE, hashMapOf(Pair("size", answer.data.getString("message").split("than ")[1]))) }
-            429 -> { messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message").split("'")[1]))) }
-            202 -> { messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT) }
-            else -> { messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_PASSWORD_CHANGE) }
+        when (answer.status) {
+            200  -> messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_PASSWORD_CHANGED)
+            202  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
+            401  -> messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
+            404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
+            406  -> messageUtils.sendMessageWithPrefix(player,
+                Message.WRONG_PASSWORD_SIZE,
+                hashMapOf(Pair("size", answer.data.getString("message").split("than ")[1])))
+
+            429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message").split("'")[1])))
+            else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_PASSWORD_CHANGE)
         }
     }
 }

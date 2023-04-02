@@ -25,11 +25,6 @@ class FilesUtils(private val plugin: ZoneZero) {
         return Toml.parse(getFile(fileName).inputStream())
     }
 
-    fun updateTomlKey(fileName: String, string: String) {
-        println(getTomlFile(fileName).toString())
-        // TODO: Сделать обновление JWT
-    }
-
     private fun checkTomlFileVersion(configFile: File) {
         val cfgVersion = getConfigVersion(configFile)
         if (cfgVersion == 0.0) return;

@@ -33,5 +33,6 @@ enum class Message(val key: String) {
     TWO_FACTOR_SENT("two_factor_sent"),
     TWO_FACTOR_HELP("two_factor_help"),
     NOT_EMAIL("not_email"),
-    WRONG_PASSWORD_SIZE("wrong_password_size")
+    WRONG_PASSWORD_SIZE("wrong_password_size"),
+    CODE_OUTDATED("code_outdated")
 }

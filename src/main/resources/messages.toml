@@ -29,7 +29,7 @@ email_mismatch = "&cThe entered emails do not match!"
 error_on_register = "&cError on register!"
 error_on_login = "&cError on login!"
 error_on_password_change = "&cError on password change!"
-ERROR_ON_TWO_FACTOR = "&cError on 2fa code (Serverside)!"
+error_on_two_factor = "&cError on 2fa code (Serverside)!"
 please_wait = "&aPlease wait..."
 too_many_attempts = "&cToo many attempts. Please wait &f&l<SECONDS> &cseconds."
 authorize_on_server = "&cPlease, authorize on server to do this!"
@@ -38,6 +38,7 @@ two_factor_sent = "&aA two-step verification code has been sent to your email!"
 two_factor_help = "HELP ABOUT 2FA"
 not_email = "&cThis '<VALUE>' value is not an email!"
 wrong_password_size = "&cPassword size cannot be less than <SIZE>!"
+code_outdated = "&cYour code is outdated!"
 
 [config]
 version = 1.0

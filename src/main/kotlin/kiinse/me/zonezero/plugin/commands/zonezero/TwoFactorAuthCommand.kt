@@ -26,26 +26,21 @@ class TwoFactorAuthCommand(plugin: ZoneZero, private val playersData: PlayersDat
         messageUtils.sendMessageWithPrefix(player, Message.PLEASE_WAIT)
         val answer = playersData.codeTwoFa(player, context.args[0])
         when (answer.status) {
-            405 -> { messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED) }
-            404 -> { messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_INCORRECT) }
-            200 -> {
+            200  -> {
                 when (QueryType.valueOf(answer.data.getString("message"))) {
-                    QueryType.AUTH -> {
-                        playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
+                    QueryType.AUTH            -> {
                         messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_LOGGED_IN)
+                        playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
                     }
-                    QueryType.ENABLE_TFA -> {
-                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_TWO_FACTOR_ENABLED)
-                    }
-                    QueryType.CHANGE_PASSWORD  -> {
-                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_PASSWORD_CHANGED)
-                    }
-                    QueryType.DISABLE_TFA  -> {
-                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_TWO_FACTOR_DISABLED)
-                    }
+                    QueryType.ENABLE_TFA      -> messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_TWO_FACTOR_ENABLED)
+                    QueryType.CHANGE_PASSWORD -> messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_PASSWORD_CHANGED)
+                    QueryType.DISABLE_TFA     -> messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_TWO_FACTOR_DISABLED)
                 }
             }
-            else -> { messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_TWO_FACTOR) }
+            404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
+            403  -> messageUtils.sendMessageWithPrefix(player, Message.CODE_OUTDATED)
+            406  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_INCORRECT)
+            else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_TWO_FACTOR)
         }
     }
 
@@ -73,12 +68,13 @@ class TwoFactorAuthCommand(plugin: ZoneZero, private val playersData: PlayersDat
             return
         }
         val answer = playersData.enableTwoFa(player, email, args[0])
-        when(answer.status) {
-            405 -> { messageUtils.sendMessageWithPrefix(player, Message.NOT_EMAIL) }
-            403 -> { messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD) }
-            406 -> { messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_ALREADY_ENABLED, hashMapOf(Pair("email", answer.data.getString("message")))) }
-            200 -> { messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT) }
-            else -> { messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_TWO_FACTOR) }
+        when (answer.status) {
+            200  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
+            405  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_EMAIL)
+            401  -> messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
+            404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
+            406  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_ALREADY_ENABLED, hashMapOf(Pair("email", answer.data.getString("message"))))
+            else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_TWO_FACTOR)
         }
     }
 
@@ -91,12 +87,13 @@ class TwoFactorAuthCommand(plugin: ZoneZero, private val playersData: PlayersDat
             return
         }
         val answer = playersData.disableTwoFa(player, context.args[0])
-        when(answer.status) {
-            403 -> { messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD) }
-            429 -> { messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message")!!.split("'")[1]))) }
-            406 -> { messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_ALREADY_DISABLED) }
-            200 -> { messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT) }
-            else -> { messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_TWO_FACTOR) }
+        when (answer.status) {
+            200  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
+            401  -> messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
+            404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
+            429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message")!!.split("'")[1])))
+            406  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_ALREADY_DISABLED)
+            else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_TWO_FACTOR)
         }
     }
 

@@ -7,7 +7,7 @@ token = "API TOKEN"
 # listed in the list below.
 allowChat = false
 # Allowed commands for unauthenticated players
-allowCommands = ["/login", "/log", "/l", "/register", "/reg", "/2fa", "/oc", "/zonezero"]
+allowCommands = ["/login", "/log", "/l", "/register", "/reg", "/2fa", "/zz", "/zonezero"]
 # Should unregistered players be kicked immediately?
 kickNonRegistered = false
 # Should players be kicked on wrong password?
@@ -34,9 +34,6 @@ removeJoinMessage = false
 removeLeaveMessage = false
 # Do we need to add potion effect Blinding before login/register?
 applyBlindEffect = false
-
-[tools]
-debug = false
 
 [config]
 version = 1.0

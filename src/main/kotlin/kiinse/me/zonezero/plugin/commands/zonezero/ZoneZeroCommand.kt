@@ -25,13 +25,11 @@ class ZoneZeroCommand(plugin: ZoneZero) : MineCommand(plugin) {
 
     @SubCommand(command = "reload", permission = "zonezero.admin.reload")
     fun reload(context: MineCommandContext) {
-        if (context.args[0].equals("reload", ignoreCase = true)) {
-            try {
-                plugin.onReload()
-                messageUtils.sendMessageWithPrefix(context.sender, Message.PLUGIN_RESTARTED)
-            } catch (e: Exception) {
-                messageUtils.sendMessageWithPrefix(context.sender, Message.ERROR_ON_RESTART, hashMapOf(Pair("error", e.message ?: "Null")))
-            }
+        try {
+            plugin.onReload()
+            messageUtils.sendMessageWithPrefix(context.sender, Message.PLUGIN_RESTARTED)
+        } catch (e: Exception) {
+            messageUtils.sendMessageWithPrefix(context.sender, Message.ERROR_ON_RESTART, hashMapOf(Pair("error", e.message ?: "Null")))
         }
     }
 

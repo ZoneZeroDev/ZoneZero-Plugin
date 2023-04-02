@@ -11,24 +11,8 @@ import org.json.JSONObject
 
 class ServerService(private val api: ApiService) : ServerData {
 
-    override fun isPluginRegistered(zoneZero: ZoneZero): Boolean {
-        return api.post(ServerAddress.IS_PLUGIN_REGISTERED, getServerInfo(zoneZero)).status == 200
-    }
-
-    override fun getPluginCode(zoneZero: ZoneZero): String {
-        val answer = api.post(ServerAddress.GET_CODE, getServerInfo(zoneZero))
-        if (answer.status != 200) {
-            return "ERROR"
-        }
-        return answer.data.getString("message")
-    }
-
-    override fun isServerAllowed(zoneZero: ZoneZero): ServerAnswer {
-        return api.post(ServerAddress.IS_SERVER_ALLOWED, getServerCore(zoneZero))
-    }
-
-    override fun isTokenValid(): Boolean {
-        return api.get(ServerAddress.TEST_TOKEN).status == 200
+    override fun getPluginCode(zoneZero: ZoneZero): ServerAnswer {
+        return api.post(ServerAddress.GET_CODE, getServerInfo(zoneZero))
     }
 
     private fun getWorlds(server: Server): Set<String> {
@@ -42,6 +26,7 @@ class ServerService(private val api: ApiService) : ServerData {
         val server = zoneZero.server
         json.put("name", server.name)
         json.put("maxPlayers", server.maxPlayers)
+        json.put("pluginVersion", zoneZero.description.version)
         json.put("allowEnd", server.allowEnd)
         json.put("allowNether", server.allowNether)
         json.put("allowFlight", server.allowFlight)
@@ -55,14 +40,6 @@ class ServerService(private val api: ApiService) : ServerData {
         json.put("spawnRadius", server.spawnRadius)
         json.put("viewDistance", server.viewDistance)
         json.put("worlds", JSONArray(getWorlds(server)))
-        return json
-    }
-
-    private fun getServerCore(zoneZero: ZoneZero): JSONObject {
-        val json = JSONObject()
-        val server = zoneZero.server
-        json.put("name", server.name)
-        json.put("bukkitVersion", server.bukkitVersion)
         return json
     }
 }

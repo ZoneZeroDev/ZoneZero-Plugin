@@ -21,22 +21,19 @@ commands:
     description: 2 factor authentication command
     permission: zonezero.player.2fa
     usage: /<command>
-    aliases: [ reg ]
+    aliases: [2a, 2f]
   2fa help:
     description: 2 factor authentication help command
     permission: zonezero.player.2fa
     usage: /<command>
-    aliases: [ reg ]
   2fa enable:
     description: 2 factor authentication enable command
     permission: zonezero.player.2fa
     usage: /<command> <email> <email>
-    aliases: [ reg ]
   2fa disable:
     description: 2 factor authentication disable command
     permission: zonezero.player.2fa
     usage: /<command>
-    aliases: [ reg ]
   changepassword:
     description: Change password command
     permission: zonezero.player.changepassword
@@ -46,7 +43,7 @@ commands:
     description: Plugin tools
     permission: zonezero.player.help
     usage: /<command>
-    aliases: [oc]
+    aliases: [zz]
   zonezero help:
     description: Help command
     permission: zonezero.player.help

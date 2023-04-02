@@ -13,12 +13,10 @@ import kiinse.me.zonezero.plugin.schedulers.core.SchedulersManager;
 import kiinse.me.zonezero.plugin.schedulers.zonezero.PublicKeyScheduler;
 import kiinse.me.zonezero.plugin.service.ApiConnection;
 import kiinse.me.zonezero.plugin.service.LogFilter;
+import kiinse.me.zonezero.plugin.service.ServerAnswer;
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService;
 import kiinse.me.zonezero.plugin.utils.FilesUtils;
 import kiinse.me.zonezero.plugin.utils.MessageUtils;
-import kiinse.me.zonezero.plugin.commands.zonezero.*;
-import kiinse.me.zonezero.plugin.commands.zonezero.tabcomplete.*;
-import kiinse.me.zonezero.plugin.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Utility;
@@ -36,35 +34,39 @@ public class ZoneZero extends JavaPlugin {
     private final FilesUtils filesUtils = new FilesUtils(this);
     private TomlParseResult configuration = filesUtils.getTomlFile("config.toml");
     private final MessageUtils messageUtils = new MessageUtils(filesUtils);
+    private TomlTable toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue());
     private String token = configuration.getTableOrEmpty(Config.TABLE_CREDENTIALS.getValue()).getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
     private TomlTable settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.getValue());
-    private ApiService apiConnection = new ApiConnection(this);
-    private PlayersData playersData = new PlayersService(apiConnection, settingsTable);
+    private ApiService apiConnection = new ApiConnection(this, toolsTable);
+    private PlayersData playersData = new PlayersService(this, apiConnection, settingsTable);
     private ServerService serverService = new ServerService(apiConnection);
     private SchedulersManager schedulersManager = new SchedulersManager();
     private static Boolean isDebug = false;
-    private String serverCode = null;
+    private ServerAnswer serverAnswer = null;
 
     public void onReload() {
         try {
             sendInFrame(new ArrayList<>(){{
                 add("&dReloading &f" + getName() + "&a...");
             }});
+            playersData.savePlayersStatuses();
             configuration = filesUtils.getTomlFile("config.toml");
-            apiConnection = new ApiConnection(this);
+            apiConnection = new ApiConnection(this, toolsTable);
             serverService = new ServerService(apiConnection);
-            playersData = new PlayersService(apiConnection, settingsTable);
+            playersData = new PlayersService(this, apiConnection, settingsTable);
             settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.getValue());
             new MessageUtils(filesUtils).reload();
-            token = configuration.getTableOrEmpty(Config.TABLE_CREDENTIALS.getValue()).getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
+            toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue());
+            token = toolsTable.getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
             loadVariables();
-            onDisable();
-            onEnable();
+            getServer().getPluginManager().disablePlugin(this);
+            getServer().getPluginManager().enablePlugin(this);
             sendInFrame(new ArrayList<>(){{
                 add("&f" + getName() + " &areloaded!");
             }});
         } catch (Exception e) {
             Sentry.captureException(e);
+            sendLog(Level.SEVERE, "Error on loading " + getName() + "! Message:", e);
         }
     }
 
@@ -92,7 +94,10 @@ public class ZoneZero extends JavaPlugin {
             schedulersManager.register(new PublicKeyScheduler(this, apiConnection));
             var pluginManager = getServer().getPluginManager();
             pluginManager.registerEvents(new MoveListener(playersData), this);
-            pluginManager.registerEvents(new JoinListener(playersData, settingsTable, messageUtils), this);
+            pluginManager.registerEvents(new InteractListener(playersData), this);
+            pluginManager.registerEvents(new DamageListener(playersData), this);
+            pluginManager.registerEvents(new MoveListener(playersData), this);
+            pluginManager.registerEvents(new JoinListener(this, playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new QuitListener(playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new ExitListener(playersData), this);
             pluginManager.registerEvents(new ChatListener(playersData, settingsTable), this);
@@ -126,6 +131,7 @@ public class ZoneZero extends JavaPlugin {
                 add("&cDisabling &f" + getName() + "&a...");
             }});
 
+            playersData.savePlayersStatuses();
             schedulersManager.stopSchedulers();
 
             sendInFrame(new ArrayList<>(){{
@@ -148,39 +154,27 @@ public class ZoneZero extends JavaPlugin {
     private void checks(Runnable runnable, String onError) {
         try {
             apiConnection.updateServerKey();
-            var answer = serverService.isServerAllowed(this);
-            if (answer.getStatus() == 200) {
-                if (!serverService.isPluginRegistered(this)) {
-                    if (serverCode == null || serverCode.isEmpty() || serverCode.equals("ERROR")) serverCode = serverService.getPluginCode(this);
-                    sendInFrame(new ArrayList<>(){{
-                        add("&aRegister your server on &bhttps://zonezero.dev");
-                        add("");
-                        add("&aYour server code is '&b" + serverCode + "&a'");
-                        add("");
-                        add("&aEnter this code on &bhttps://zonezero.dev/server/register");
-                    }});
-                } else {
-                    if (!serverService.isTokenValid()) {
-                        sendInFrame(new ArrayList<>(){{
-                            add("&cYour token is invalid!");
-                            add("&cPlease, check your access token in config!");
-                        }});
-                    } else {
-                        runnable.run();
-                    }
-                }
+            if (serverAnswer == null || serverAnswer.getStatus() != 200) serverAnswer = serverService.getPluginCode(this);
+            var status = serverAnswer.getStatus();
+            if (status == 200) {
+                sendInFrame(new ArrayList<>(){{
+                    add("&aRegister your server on &bhttps://t.me/kiinse_bot");
+                    add("");
+                    add("&aYour server code is '&b" + serverAnswer.getData().getString("message") + "&a'");
+                    add("");
+                    add("&aEnter this code on &bhttps://t.me/kiinse_bot with command /register <CODE>");
+                }});
+            } else if (status == 403) {
+                sendInFrame(new ArrayList<>(){{
+                    add("&cServer core is not allowed!");
+                    add("&cPlugin supports only: &f" + serverAnswer.getData().getString("message"));
+                }});
+            } else if (status == 406) {
+                runnable.run();
             } else {
-                if (answer.getStatus() == 403) {
-                    sendInFrame(new ArrayList<>(){{
-                        add("&cServer core is not allowed!");
-                        add("&cPlugin supports only: &f" + answer.getData().getString("message"));
-                    }});
-                } else {
-                    sendInFrame(new ArrayList<>(){{
-                        add("&cError on checking server core!");
-                        add("&cMessage: " + answer.getData().getString("message"));
-                    }});
-                }
+                sendInFrame(new ArrayList<>(){{
+                    add("&cError on getting server code (Serverside)!");
+                }});
             }
         } catch (Exception e) {
             sendLog(Level.SEVERE, onError, e);
@@ -198,7 +192,7 @@ public class ZoneZero extends JavaPlugin {
     }
 
     private void loadVariables() {
-        isDebug = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue()).getBoolean(Config.TOOLS_IS_DEBUG.getValue(), () -> false );
+        isDebug = toolsTable.getBoolean(Config.TOOLS_IS_DEBUG.getValue(), () -> false );
     }
 
     public static void sendLog(String msg) {
