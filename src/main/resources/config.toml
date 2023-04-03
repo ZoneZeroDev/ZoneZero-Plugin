@@ -12,6 +12,8 @@ allowCommands = ["/login", "/log", "/l", "/register", "/reg", "/2fa", "/zz", "/z
 kickNonRegistered = false
 # Should players be kicked on wrong password?
 kickOnWrongPassword = true
+# Should JoinMessage appear only after user authorization/registration?
+joinMessageOnAuth = true
 # The custom join message,
 # keep empty to use the original one.
 # Available variables:
@@ -36,4 +38,4 @@ removeLeaveMessage = false
 applyBlindEffect = false
 
 [config]
-version = 1.0
+version = 1.1

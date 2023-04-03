@@ -25,23 +25,26 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
             messageUtils.sendMessageWithPrefix(player, Message.ALREADY_LOGGED_IN)
             return
         }
-        val answer = playersData.authPlayer(player, context.args[0])
-        when (answer.status) {
-            200  -> {
-                messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_LOGGED_IN)
-                playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
-            }
-            202  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
-            401  -> {
-                if (kickOnWrongPassword) {
-                    player.kickPlayer(messageUtils.getOrString(Message.WRONG_PASSWORD))
-                } else {
-                    messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
+        playersData.authPlayer(player, context.args[0]) { answer ->
+            run {
+                when (answer.status) {
+                    200  -> {
+                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_LOGGED_IN)
+                        playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
+                    }
+                    202  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
+                    401  -> {
+                        if (kickOnWrongPassword) {
+                            player.kickPlayer(messageUtils.getOrString(Message.WRONG_PASSWORD))
+                        } else {
+                            messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
+                        }
+                    }
+                    404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
+                    429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message")!!.split("'")[1])))
+                    else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_LOGIN)
                 }
             }
-            404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
-            429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message")!!.split("'")[1])))
-            else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_LOGIN)
-        }
+        }.start()
     }
 }

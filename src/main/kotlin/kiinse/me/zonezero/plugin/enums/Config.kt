@@ -13,6 +13,7 @@ enum class Config(val value: String) {
     KICK_UNREGISTERED("kickNonRegistered"),
     KICK_WRONG_PASSWORD("kickOnWrongPassword"),
     SETTINGS_ALLOW_COMMANDS("allowCommands"),
+    JOIN_MESSAGE_ON_AUTH("joinMessageOnAuth"),
     CUSTOM_JOIN_MESSAGE("customJoinMessage"),
     CUSTOM_LEAVE_MESSAGE("customLeaveMessage"),
     REMOVE_UNLOGGED_LEAVE_MESSAGE("removeUnloggedLeaveMessage"),

@@ -63,7 +63,7 @@ class MessageUtils(private val fileUtils: FilesUtils) {
     fun replace(string: String, map: HashMap<String, String>): String {
         var msg = string
         map.forEach { (key, value) ->
-            msg = msg.replace("<$key>", value)
+            msg = msg.replace("<$key>", value, ignoreCase = true)
         }
         return translateColors(msg)
     }

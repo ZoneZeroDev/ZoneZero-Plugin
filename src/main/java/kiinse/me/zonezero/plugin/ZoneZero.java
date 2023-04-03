@@ -8,6 +8,7 @@ import kiinse.me.zonezero.plugin.commands.zonezero.*;
 import kiinse.me.zonezero.plugin.commands.core.CommandManager;
 import kiinse.me.zonezero.plugin.commands.zonezero.tabcomplete.*;
 import kiinse.me.zonezero.plugin.enums.Config;
+import kiinse.me.zonezero.plugin.exceptions.VersioningException;
 import kiinse.me.zonezero.plugin.listeners.*;
 import kiinse.me.zonezero.plugin.schedulers.core.SchedulersManager;
 import kiinse.me.zonezero.plugin.schedulers.zonezero.PublicKeyScheduler;
@@ -17,6 +18,7 @@ import kiinse.me.zonezero.plugin.service.ServerAnswer;
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService;
 import kiinse.me.zonezero.plugin.utils.FilesUtils;
 import kiinse.me.zonezero.plugin.utils.MessageUtils;
+import kiinse.me.zonezero.plugin.utils.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Utility;
@@ -24,6 +26,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.tomlj.TomlParseResult;
 import org.tomlj.TomlTable;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -97,7 +101,7 @@ public class ZoneZero extends JavaPlugin {
             pluginManager.registerEvents(new InteractListener(playersData), this);
             pluginManager.registerEvents(new DamageListener(playersData), this);
             pluginManager.registerEvents(new MoveListener(playersData), this);
-            pluginManager.registerEvents(new JoinListener(this, playersData, settingsTable, messageUtils), this);
+            pluginManager.registerEvents(new JoinListener(playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new QuitListener(playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new ExitListener(playersData), this);
             pluginManager.registerEvents(new ChatListener(playersData, settingsTable), this);
@@ -170,7 +174,8 @@ public class ZoneZero extends JavaPlugin {
                     add("&c" + serverAnswer.getData().getString("message"));
                 }});
             } else if (status == 406) {
-                runnable.run();
+                runAsync(this::checkVersion);
+                runAsync(runnable);
             } else {
                 sendInFrame(new ArrayList<>(){{
                     add("&cError on getting server code (Serverside)!");
@@ -191,6 +196,42 @@ public class ZoneZero extends JavaPlugin {
         });
     }
 
+    private void checkVersion() {
+        try {
+            VersionUtils.INSTANCE.getLatestSpigotVersion(latest -> {
+                try {
+                    if (latest.isGreaterThan(VersionUtils.INSTANCE.getPluginVersion(this))) {
+                        var reader = new BufferedReader(new InputStreamReader(
+                                Objects.requireNonNull(this.getClass()
+                                        .getClassLoader()
+                                        .getResourceAsStream("version-message.txt"))));
+                        var builder = new StringBuilder("\n");
+                        while (reader.ready()) {
+                            builder.append(reader.readLine()).append("\n");
+                        }
+                        sendConsole(builder.toString()
+                                .replace("{NEW_VERSION}", latest.getOriginalValue())
+                                .replace("{CURRENT_VERSION}", getDescription().getVersion()));
+                    } else {
+                        sendInFrame(new ArrayList<>(){{
+                            add("&aYou have the latest version of the plugin installed, well done!");
+                        }});
+                    }
+                } catch (Exception e) {
+                    sendInFrame(new ArrayList<>(){{
+                        add("&cError on checking plugin version!");
+                        add("&cMessage: " + e.getMessage());
+                    }});
+                }
+            });
+        } catch (Exception e) {
+            sendInFrame(new ArrayList<>(){{
+                add("&cError on checking plugin version!");
+                add("&cMessage: " + e.getMessage());
+            }});
+        }
+    }
+
     private void loadVariables() {
         isDebug = toolsTable.getBoolean(Config.TOOLS_IS_DEBUG.getValue(), () -> false );
     }
@@ -209,25 +250,28 @@ public class ZoneZero extends JavaPlugin {
         if (isDebug) throwable.printStackTrace();
     }
 
-    public static void sendLog(Throwable throwable) {
-        sendLog(Level.WARNING, throwable.getMessage());
-        if (isDebug) throwable.printStackTrace();
-    }
-
     public static void sendLog(Level level, String msg) {
-        if (level.equals(Level.INFO)) {
-            sendConsole("&6[&bZoneZero&6]&a " + msg);
-        } else if (level.equals(Level.WARNING) || level.equals(Level.SEVERE)) {
-            sendConsole("&6[&bZoneZero&f/&c" + level + "&6] " + msg);
-        } else {
-            if (isDebug) sendConsole("&6[&bZoneZero&f/&dDEBUG&6] " + msg);
-        }
+        runAsync(() -> {
+            if (level.equals(Level.INFO)) {
+                sendConsole("&6[&bZoneZero&6]&a " + msg);
+            } else if (level.equals(Level.WARNING) || level.equals(Level.SEVERE)) {
+                sendConsole("&6[&bZoneZero&f/&c" + level + "&6] " + msg);
+            } else {
+                if (isDebug) sendConsole("&6[&bZoneZero&f/&dDEBUG&6] " + msg);
+            }
+        });
     }
 
     public static void sendInFrame(List<String> list) {
-        sendConsole(" &6|==============================");
-        for (var it : list) { sendConsole(" &6|  " + it); }
-        sendConsole(" &6|==============================");
+        runAsync(() -> {
+            sendConsole(" &6|==============================");
+            for (var it : list) { sendConsole(" &6|  " + it); }
+            sendConsole(" &6|==============================");
+        });
+    }
+
+    private static void runAsync(Runnable runnable) {
+        new Thread(runnable).start();
     }
 
     @Utility

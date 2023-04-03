@@ -20,7 +20,7 @@ commands:
   2fa:
     description: 2 factor authentication command
     permission: zonezero.player.2fa
-    usage: /<command>
+    usage: /<command> <code>
     aliases: [2a, 2f]
   2fa help:
     description: 2 factor authentication help command
@@ -29,15 +29,15 @@ commands:
   2fa enable:
     description: 2 factor authentication enable command
     permission: zonezero.player.2fa
-    usage: /<command> <email> <email>
+    usage: /<command> <password> <email> <email>
   2fa disable:
     description: 2 factor authentication disable command
     permission: zonezero.player.2fa
-    usage: /<command>
+    usage: /<command> <password>
   changepassword:
     description: Change password command
     permission: zonezero.player.changepassword
-    usage: /<command>
+    usage: /<command> <password> <newpassword> <newpassword>
     aliases: [ cp, changepass, chpass, chpassword ]
   zonezero:
     description: Plugin tools
@@ -63,7 +63,7 @@ permissions:
     description: Allows 2fa commands
     default: op
   zonezero.player.changepassword:
-    description: Allows '/changepassword <password> <password>' command
+    description: Allows '/changepassword <password> <newpassword> <newpassword>' command
     default: op
   zonezero.player.help:
     description: Allows '/zonezero' and '/zonezero help' commands

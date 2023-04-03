@@ -7,18 +7,24 @@ import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.service.ServerAnswer
 import kiinse.me.zonezero.plugin.service.enums.ServerAddress
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService
-import kiinse.me.zonezero.plugin.utils.FilesUtils
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.json.JSONObject
 import org.tomlj.TomlTable
 import java.util.*
+import java.util.function.Consumer
 import java.util.logging.Level
 
 class PlayersService(plugin: ZoneZero, private val api: ApiService, config: TomlTable) : PlayersData {
 
+    private val joinMessageOnAuth = config.getBoolean(Config.JOIN_MESSAGE_ON_AUTH.value) { false }
     private val applyBlindEffect = config.getBoolean(Config.APPLY_BLIND_EFFECT.value) { false }
+    private val joinMessages: HashMap<UUID, String> = HashMap()
     private val playersStatus: HashMap<UUID, PlayerStatus> = HashMap()
     private val filesUtils = plugin.filesUtils
 
@@ -46,12 +52,19 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
         return playersStatus[uuid]!!
     }
 
+    @Suppress("result_unused")
     override fun setPlayerStatus(player: Player, status: PlayerStatus) {
         val uuid = player.uniqueId
         if (status == PlayerStatus.NOT_AUTHORIZED) {
             if (applyBlindEffect) { player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 1000000000, 1000000000, false, false)) }
         } else {
             player.removePotionEffect(PotionEffectType.BLINDNESS)
+            if (joinMessageOnAuth) {
+                runBlocking {
+                    async { sendAllJoinMessage(getJoinMessage(player)) }.start()
+                    async { removeJoinMessage(player) }.start()
+                }
+            }
         }
         if (playersStatus.containsKey(uuid)) {
             playersStatus.replace(uuid, status)
@@ -60,45 +73,77 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
         playersStatus[uuid] = status
     }
 
-    override fun authPlayer(player: Player, password: String): ServerAnswer {
-        return api.post(ServerAddress.LOGIN_PLAYER, getPlayerInfo(player, password), player)
+    private fun sendAllJoinMessage(message: String) {
+        if (message.isEmpty()) return
+        Bukkit.getServer().onlinePlayers.forEach {
+            it.sendMessage(message)
+        }
     }
 
-    override fun changePassword(player: Player, oldPassword: String, newPassword: String): ServerAnswer {
-        val json = JSONObject()
-        json.put("oldPassword", oldPassword)
-        json.put("newPassword", newPassword)
-        json.put("ip", getPlayerIp(player))
-        return api.post(ServerAddress.CHANGE_PASSWORD, json, player)
+    private fun getJoinMessage(player: Player): String {
+        return joinMessages[player.uniqueId] ?: ""
     }
 
-    override fun authPlayerByIp(player: Player): ServerAnswer {
-        val json = JSONObject()
-        json.put("ip", getPlayerIp(player))
-        return api.post(ServerAddress.LOGIN_PLAYER_BY_IP, json, player)
+    override fun addJoinMessage(player: Player, string: String) {
+        joinMessages[player.uniqueId] = string
     }
 
-    override fun registerPlayer(player: Player, password: String): ServerAnswer {
-        return api.post(ServerAddress.REGISTER_PLAYER, getPlayerInfo(player, password), player)
+    override fun removeJoinMessage(player: Player) {
+        joinMessages.remove(player.uniqueId)
     }
 
-    override fun enableTwoFa(player: Player, email: String, password: String): ServerAnswer {
-        val json = JSONObject()
-        json.put("password", password)
-        json.put("email", email)
-        json.put("ip", getPlayerIp(player))
-        return api.post(ServerAddress.TWO_FA_ENABLE, json, player)
+    override fun authPlayer(player: Player, password: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post(ServerAddress.LOGIN_PLAYER, getPlayerInfo(player, password), player)) }
     }
 
-    override fun disableTwoFa(player: Player, password: String): ServerAnswer {
-        return api.post(ServerAddress.TWO_FA_DISABLE, getPlayerInfo(player, password), player)
+    override fun changePassword(
+        player: Player,
+        oldPassword: String,
+        newPassword: String,
+        consumer: Consumer<ServerAnswer>
+    ): Deferred<Unit> = runBlocking {
+        return@runBlocking async {
+            val json = JSONObject()
+            json.put("oldPassword", oldPassword)
+            json.put("newPassword", newPassword)
+            json.put("ip", getPlayerIp(player))
+            consumer.accept(api.post(ServerAddress.CHANGE_PASSWORD, json, player))
+        }
     }
 
-    override fun codeTwoFa(player: Player, code: String): ServerAnswer {
-        val json = JSONObject()
-        json.put("code", code)
-        json.put("ip", getPlayerIp(player))
-        return api.post(ServerAddress.TWO_FA_CODE, json, player)
+    override fun authPlayerByIp(player: Player, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async {
+            val json = JSONObject()
+            json.put("ip", getPlayerIp(player))
+            consumer.accept(api.post(ServerAddress.LOGIN_PLAYER_BY_IP, json, player))
+        }
+    }
+
+    override fun registerPlayer(player: Player, password: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post(ServerAddress.REGISTER_PLAYER, getPlayerInfo(player, password), player)) }
+    }
+
+    override fun enableTwoFa(player: Player, email: String, password: String, consumer: Consumer<ServerAnswer>) = runBlocking {
+        return@runBlocking async {
+            val json = JSONObject()
+            json.put("password", password)
+            json.put("email", email)
+            json.put("ip", getPlayerIp(player))
+            consumer.accept(api.post(ServerAddress.TWO_FA_ENABLE, json, player))
+        }
+    }
+
+    override fun disableTwoFa(player: Player, password: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post(ServerAddress.TWO_FA_DISABLE, getPlayerInfo(player, password), player)) }
+    }
+
+    override fun codeTwoFa(player: Player, code: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async {
+            val json = JSONObject()
+            json.put("code", code)
+            json.put("ip", getPlayerIp(player))
+            consumer.accept(api.post(ServerAddress.TWO_FA_CODE, json, player))
+        }
     }
 
     private fun getPlayerInfo(player: Player, password: String): JSONObject {

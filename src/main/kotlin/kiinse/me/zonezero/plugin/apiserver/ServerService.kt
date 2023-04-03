@@ -9,7 +9,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Server
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.logging.Level
 
 class ServerService(private val api: ApiService) : ServerData {
 

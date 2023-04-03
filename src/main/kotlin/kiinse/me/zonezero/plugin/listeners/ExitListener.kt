@@ -14,6 +14,8 @@ class ExitListener(private val playersData: PlayersData) : Listener {
     }
 
     private fun onThisEvent(event: PlayerQuitEvent) {
+        val player = event.player
         playersData.setPlayerStatus(event.player, PlayerStatus.NOT_AUTHORIZED)
+        playersData.removeJoinMessage(player)
     }
 }
