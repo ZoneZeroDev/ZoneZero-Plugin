@@ -4,7 +4,6 @@ import kiinse.me.zonezero.plugin.exceptions.SchedulerException
 import kiinse.me.zonezero.plugin.schedulers.abstacts.Scheduler
 
 
-@Suppress("unused")
 interface MineSchedulersManager {
     @Throws(SchedulerException::class) fun register(scheduler: Scheduler): MineSchedulersManager
     @Throws(SchedulerException::class) fun startScheduler(scheduler: Scheduler): MineSchedulersManager

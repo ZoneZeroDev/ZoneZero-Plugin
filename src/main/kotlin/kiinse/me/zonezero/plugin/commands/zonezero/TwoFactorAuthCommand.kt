@@ -14,6 +14,7 @@ import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
 import java.util.regex.Pattern
 
+@Suppress("unused")
 class TwoFactorAuthCommand(plugin: ZoneZero, private val playersData: PlayersData) : MineCommand(plugin) {
 
     private val messageUtils: MessageUtils = plugin.messageUtils

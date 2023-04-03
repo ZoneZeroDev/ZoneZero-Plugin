@@ -1,12 +1,12 @@
 package kiinse.me.zonezero.plugin.schedulers.core
 
 import kiinse.me.zonezero.plugin.ZoneZero
+import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.exceptions.SchedulerException
 import kiinse.me.zonezero.plugin.schedulers.abstacts.Scheduler
 import kiinse.me.zonezero.plugin.schedulers.annotations.SchedulerData
 import kiinse.me.zonezero.plugin.schedulers.interfaces.MineSchedulersManager
-import kiinse.me.zonezero.plugin.service.enums.Replace
 import java.util.logging.Level
 
 class SchedulersManager : MineSchedulersManager {

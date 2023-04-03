@@ -10,6 +10,7 @@ import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.command.CommandSender
 
+@Suppress("unused")
 class ZoneZeroCommand(plugin: ZoneZero) : MineCommand(plugin) {
 
     private val messageUtils: MessageUtils = plugin.messageUtils

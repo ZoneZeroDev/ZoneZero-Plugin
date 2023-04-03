@@ -8,7 +8,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.tomlj.TomlTable
 
-class ChatListener(private val playersData: PlayersData, private val config: TomlTable): Listener {
+class ChatListener(private val playersData: PlayersData, config: TomlTable): Listener {
 
     private val allowChat = config.getBoolean(Config.SETTINGS_ALLOW_CHAT.value) { false }
 

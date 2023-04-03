@@ -6,6 +6,7 @@ enum class Strings(val value: String) {
     PLUGIN_PREFIX("&6&l[&bZoneZero&6&l]&f:"),
     MESSAGES_FILE("messages.toml"),
     DATA_FILE("data.zz"),
+    CONFIG_FILE("config.toml"),
     VERSION_FILE("version-message.txt"),
     TMP_TOML_SUFFIX("_tmp.toml"),
     OLD_TOML_SUFFIX("_old.toml"),

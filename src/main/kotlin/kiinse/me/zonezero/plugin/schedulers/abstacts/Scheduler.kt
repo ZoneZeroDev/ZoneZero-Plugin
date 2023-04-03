@@ -1,8 +1,8 @@
 package kiinse.me.zonezero.plugin.schedulers.abstacts
 
 import kiinse.me.zonezero.plugin.ZoneZero
+import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.enums.Strings
-import kiinse.me.zonezero.plugin.service.enums.Replace
 import org.apache.commons.lang3.RandomStringUtils
 import java.util.logging.Level
 

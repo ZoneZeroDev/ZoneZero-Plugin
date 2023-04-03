@@ -12,6 +12,7 @@ import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
 import org.tomlj.TomlTable
 
+@Suppress("unused")
 class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, config: TomlTable) : MineCommand(plugin) {
 
     private val kickOnWrongPassword = config.getBoolean(Config.KICK_WRONG_PASSWORD.value) { false }

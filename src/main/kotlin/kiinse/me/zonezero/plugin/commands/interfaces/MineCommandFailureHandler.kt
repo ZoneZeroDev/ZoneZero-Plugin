@@ -5,5 +5,5 @@ import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import org.bukkit.command.CommandSender
 
 interface MineCommandFailureHandler {
-    fun handleFailure(reason: CommandFailReason, sender: CommandSender, command: RegisteredCommand?)
+    fun handleFailure(reason: CommandFailReason, sender: CommandSender)
 }

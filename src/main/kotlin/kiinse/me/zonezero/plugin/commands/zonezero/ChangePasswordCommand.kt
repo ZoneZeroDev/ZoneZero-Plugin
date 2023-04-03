@@ -10,6 +10,7 @@ import kiinse.me.zonezero.plugin.enums.Message
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
 
+@Suppress("unused")
 class ChangePasswordCommand(plugin: ZoneZero, private val playersData: PlayersData) : MineCommand(plugin) {
 
     private val messageUtils: MessageUtils = plugin.messageUtils

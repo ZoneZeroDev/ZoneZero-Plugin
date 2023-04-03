@@ -18,7 +18,6 @@ repositories {
     mavenCentral()
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
-    maven { url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/") }
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
 }
 
@@ -27,7 +26,7 @@ dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
     implementation("org.json:json:20230227")
     implementation("org.tomlj:tomlj:1.1.0")
-    implementation("org.springframework:spring-core:6.0.6")
+    implementation("org.springframework:spring-core:6.0.7")
     implementation("commons-codec:commons-codec:1.15")
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")

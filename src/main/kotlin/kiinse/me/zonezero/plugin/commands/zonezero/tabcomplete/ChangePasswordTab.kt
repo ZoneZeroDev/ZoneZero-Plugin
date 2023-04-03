@@ -11,12 +11,10 @@ class ChangePasswordTab : TabCompleter {
         val list = ArrayList<String>()
         if (sender is Player && cmd.name.equals("changepassword", ignoreCase = true)) {
             if (sender.hasPermission("zonezero.player.changepassword")) {
-                if (args.size == 1) {
-                    list.add("<OLD_PASSWORD>")
-                } else if (args.size == 2) {
-                    list.add("<NEW_PASSWORD>")
-                } else if (args.size == 3) {
-                    list.add("<NEW_PASSWORD>")
+                when (args.size) {
+                    1 -> list.add("<OLD_PASSWORD>")
+                    2 -> list.add("<NEW_PASSWORD>")
+                    3 -> list.add("<NEW_PASSWORD>")
                 }
             }
             list.sort()

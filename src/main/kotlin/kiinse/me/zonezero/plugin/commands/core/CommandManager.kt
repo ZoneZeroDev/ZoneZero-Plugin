@@ -13,7 +13,6 @@ import org.bukkit.command.CommandSender
 import java.util.*
 import java.util.logging.Level
 
-@Suppress("unused")
 open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
 
     @Throws(CommandException::class)
@@ -25,12 +24,12 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
         return this
     }
 
-    override fun onExecute(sender: CommandSender, command: org.bukkit.command.Command, label: String, args: Array<String>): Boolean {
+    override fun onExecute(sender: CommandSender, command: org.bukkit.command.Command, args: Array<String>): Boolean {
         return if (isMainCommand(command, args)) execute(sender, executeMainCommand(sender, command, args)) else execute(sender, executeSubCommand(sender, command, args))
     }
 
     private fun execute(sender: CommandSender, value: Boolean): Boolean {
-        if (!value) failureHandler.handleFailure(CommandFailReason.COMMAND_NOT_FOUND, sender, null)
+        if (!value) failureHandler.handleFailure(CommandFailReason.COMMAND_NOT_FOUND, sender)
         return true
     }
 
@@ -56,13 +55,13 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
             if (registeredCommand.method == null) continue
             val annotation: Command = registeredCommand.annotation as Command? ?: continue
             if (annotation.command.equals(command.name, ignoreCase = true)) {
-                if (isDisAllowNonPlayer(registeredCommand, sender, annotation.disallowNonPlayer)
-                    || hasNotPermissions(registeredCommand, sender, annotation.permission)) return true
+                if (isDisAllowNonPlayer(sender, annotation.disallowNonPlayer)
+                    || hasNotPermissions(sender, annotation.permission)) return true
                 if (args.size != annotation.parameters && !annotation.overrideParameterLimit) {
                     if (args.size > annotation.parameters)
-                        failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, registeredCommand)
+                        failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender)
                     else
-                        failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, registeredCommand)
+                        failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender)
                     return true
                 }
                 invokeWrapper(registeredCommand, sender, args)
@@ -81,13 +80,13 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
                 val registeredCommand = commands.value
                 val annotation: SubCommand = registeredCommand.annotation as SubCommand? ?: continue
                 val actualParams = args.copyOfRange(annotation.command.split(" ").size, args.size)
-                if (isDisAllowNonPlayer(registeredCommand, sender, annotation.disallowNonPlayer)
-                    || hasNotPermissions(registeredCommand, sender, annotation.permission)) return true
+                if (isDisAllowNonPlayer(sender, annotation.disallowNonPlayer)
+                    || hasNotPermissions(sender, annotation.permission)) return true
                 if (actualParams.size != annotation.parameters && !annotation.overrideParameterLimit) {
                     if (actualParams.size > annotation.parameters)
-                        failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, registeredCommand)
+                        failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender)
                     else
-                        failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, registeredCommand)
+                        failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender)
                     return true
                 }
                 invokeWrapper(registeredCommand, sender, actualParams)
@@ -101,7 +100,7 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
         try {
             wrapper.method?.invoke(wrapper.instance, CommandContext(sender, args))
         } catch (e: Exception) {
-            failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper)
+            failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender)
             ZoneZero.sendLog(Level.WARNING, Strings.COMMAND_USAGE_ERROR.value, e)
         }
     }

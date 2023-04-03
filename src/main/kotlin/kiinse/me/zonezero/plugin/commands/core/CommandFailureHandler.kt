@@ -11,7 +11,7 @@ class CommandFailureHandler(plugin: ZoneZero) : MineCommandFailureHandler {
 
     private val messagesUtils: MessageUtils = plugin.messageUtils
 
-    override fun handleFailure(reason: CommandFailReason, sender: CommandSender, command: RegisteredCommand?) {
+    override fun handleFailure(reason: CommandFailReason, sender: CommandSender) {
         messagesUtils.sendMessageWithPrefix(sender, reason)
     }
 }

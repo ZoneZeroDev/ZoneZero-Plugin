@@ -4,10 +4,11 @@ import io.sentry.Sentry;
 import kiinse.me.zonezero.plugin.apiserver.PlayersService;
 import kiinse.me.zonezero.plugin.apiserver.ServerService;
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData;
-import kiinse.me.zonezero.plugin.commands.zonezero.*;
 import kiinse.me.zonezero.plugin.commands.core.CommandManager;
+import kiinse.me.zonezero.plugin.commands.zonezero.*;
 import kiinse.me.zonezero.plugin.commands.zonezero.tabcomplete.*;
 import kiinse.me.zonezero.plugin.enums.Config;
+import kiinse.me.zonezero.plugin.enums.Replace;
 import kiinse.me.zonezero.plugin.enums.Strings;
 import kiinse.me.zonezero.plugin.listeners.*;
 import kiinse.me.zonezero.plugin.schedulers.core.SchedulersManager;
@@ -15,7 +16,6 @@ import kiinse.me.zonezero.plugin.schedulers.zonezero.PublicKeyScheduler;
 import kiinse.me.zonezero.plugin.service.ApiConnection;
 import kiinse.me.zonezero.plugin.service.LogFilter;
 import kiinse.me.zonezero.plugin.service.data.ServerAnswer;
-import kiinse.me.zonezero.plugin.service.enums.Replace;
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService;
 import kiinse.me.zonezero.plugin.utils.FilesUtils;
 import kiinse.me.zonezero.plugin.utils.MessageUtils;
@@ -39,7 +39,7 @@ import java.util.logging.Level;
 public class ZoneZero extends JavaPlugin {
 
     private final FilesUtils filesUtils = new FilesUtils(this);
-    private TomlParseResult configuration = filesUtils.getTomlFile("config.toml");
+    private TomlParseResult configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.getValue());
     private final MessageUtils messageUtils = new MessageUtils(filesUtils);
     private TomlTable toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue());
     private String token = configuration.getTableOrEmpty(Config.TABLE_CREDENTIALS.getValue()).getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
@@ -57,7 +57,7 @@ public class ZoneZero extends JavaPlugin {
                 add("&dReloading &f" + getName() + "&a...");
             }});
             playersData.savePlayersStatuses();
-            configuration = filesUtils.getTomlFile("config.toml");
+            configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.getValue());
             apiConnection = new ApiConnection(this, toolsTable);
             serverService = new ServerService(apiConnection);
             playersData = new PlayersService(this, apiConnection, settingsTable);
@@ -102,7 +102,7 @@ public class ZoneZero extends JavaPlugin {
             pluginManager.registerEvents(new MoveListener(playersData), this);
             pluginManager.registerEvents(new InteractListener(playersData), this);
             pluginManager.registerEvents(new DamageListener(playersData), this);
-            pluginManager.registerEvents(new MoveListener(playersData), this);
+            pluginManager.registerEvents(new MiningListener(playersData), this);
             pluginManager.registerEvents(new JoinListener(playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new QuitListener(playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new ExitListener(playersData), this);
@@ -236,10 +236,6 @@ public class ZoneZero extends JavaPlugin {
 
     private void loadVariables() {
         isDebug = toolsTable.getBoolean(Config.TOOLS_IS_DEBUG.getValue(), () -> false );
-    }
-
-    public static void sendLog(String msg) {
-        sendLog(Level.INFO, msg);
     }
 
     public static void sendLog(Level level, String message, Throwable throwable) {

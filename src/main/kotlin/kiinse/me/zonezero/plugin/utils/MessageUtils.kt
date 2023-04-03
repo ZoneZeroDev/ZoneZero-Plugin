@@ -3,6 +3,7 @@ package kiinse.me.zonezero.plugin.utils
 import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.enums.Strings
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
@@ -38,28 +39,12 @@ class MessageUtils(private val fileUtils: FilesUtils) {
         sender.sendMessage("${translateColors(before)}${getOrString(message.key)}")
     }
 
-    fun sendMessage(sender: CommandSender, message: Message) {
-        sender.sendMessage(getOrString(message.key))
-    }
-
-    fun sendMessage(player: Player, message: Message) {
-        player.sendMessage(getOrString(message.key))
-    }
-
     fun sendMessageWithPrefix(sender: CommandSender, message: Message, map: HashMap<String, String>) {
         sender.sendMessage("$prefix ${replace(message, map)}")
     }
 
     fun sendMessageWithPrefix(player: Player, message: Message, map: HashMap<String, String>) {
         player.sendMessage("$prefix ${replace(message, map)}")
-    }
-
-    fun sendMessage(sender: CommandSender, message: Message, map: HashMap<String, String>) {
-        sender.sendMessage(replace(message, map))
-    }
-
-    fun sendMessage(player: Player, message: Message, map: HashMap<String, String>) {
-        player.sendMessage(replace(message, map))
     }
 
     fun replace(string: String, map: HashMap<String, String>): String {
@@ -70,11 +55,15 @@ class MessageUtils(private val fileUtils: FilesUtils) {
         return translateColors(msg)
     }
 
+    fun replaceEnums(string: String, map: HashMap<Replace, String>): String {
+        var msg = string
+        map.forEach { (key, value) -> msg = msg.replace(key.value, value, ignoreCase = true) }
+        return translateColors(msg)
+    }
+
     private fun replace(message: Message, map: HashMap<String, String>): String {
         var msg = getOrString(message.key)
-        map.forEach { (key, value) ->
-            msg = msg.replace("<$key>", value, ignoreCase = true)
-        }
+        map.forEach { (key, value) -> msg = msg.replace("<$key>", value, ignoreCase = true) }
         return msg
     }
 
@@ -82,7 +71,7 @@ class MessageUtils(private val fileUtils: FilesUtils) {
         return getOrString(message.key)
     }
 
-    fun translateColors(str: String): String {
+    private fun translateColors(str: String): String {
         return ChatColor.translateAlternateColorCodes('&', str)
     }
 

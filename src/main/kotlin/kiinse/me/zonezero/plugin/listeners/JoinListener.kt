@@ -4,6 +4,7 @@ import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -64,9 +65,9 @@ class JoinListener(private val playersData: PlayersData,
 
     private fun getJoinMessage(player: Player, event: PlayerJoinEvent): String {
         if (customJoinMessage.isNotEmpty()) {
-            return messageUtils.replace(customJoinMessage, hashMapOf(Pair("player_name", player.name),
-                Pair("display_name", player.displayName),
-                Pair("display_name_no_color", "&f${player.displayName}")))
+            return messageUtils.replaceEnums(customJoinMessage, hashMapOf(Pair(Replace.PLAYER_NAME, player.name),
+                Pair(Replace.DISPLAY_NAME, player.displayName),
+                Pair(Replace.DISPLAY_NAME_NO_COLOR, "&f${player.displayName}")))
         }
         return event.joinMessage ?: ""
     }

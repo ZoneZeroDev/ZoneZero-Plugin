@@ -2,8 +2,8 @@ package kiinse.me.zonezero.plugin.utils
 
 import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.enums.Strings
-import kiinse.me.zonezero.plugin.service.enums.Replace
 import org.apache.commons.io.FileUtils
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -29,7 +29,7 @@ class FilesUtils(private val plugin: ZoneZero) {
 
     private fun checkTomlFileVersion(configFile: File) {
         val cfgVersion = getConfigVersion(configFile)
-        if (cfgVersion == 0.0) return;
+        if (cfgVersion == 0.0) return
         val fileName = configFile.name
         val tmpCfg = getFile("${fileName}${Strings.TMP_TOML_SUFFIX.value}")
         deleteFile(tmpCfg)
@@ -74,11 +74,11 @@ class FilesUtils(private val plugin: ZoneZero) {
             .replace(Replace.DIRECTORY.value, file.name, ignoreCase = true))
     }
 
-    fun copyFile(file: String) {
+    private fun copyFile(file: String) {
         copyFileMethod(file, getFile(file))
     }
 
-    fun copyFile(oldFile: String, newFile: File) {
+    private fun copyFile(oldFile: String, newFile: File) {
         copyFileMethod(oldFile, newFile)
     }
 
@@ -102,24 +102,6 @@ class FilesUtils(private val plugin: ZoneZero) {
             } catch (e: IOException) {
                 ZoneZero.sendLog(Level.WARNING, Strings.FILE_CREATE_ERROR.value
                     .replace(Replace.FILE.value, destFile.name, ignoreCase = true), e)
-            }
-        }
-    }
-
-    fun copyFile(destFile: File) {
-        if (!destFile.exists() || listFilesInDirectory(destFile).isEmpty()) {
-            val directoryName = destFile.name
-            try {
-                createDirectory(destFile)
-                for (file in getFilesInDirectoryInJar(directoryName)) {
-                    FileUtils.copyInputStreamToFile(Objects.requireNonNull(accessFile("$directoryName/$file")),
-                                                    getFile(directoryName, file)
-                    )
-                }
-            } catch (e: Exception) {
-                ZoneZero.sendLog(Level.WARNING, Strings.DIRECTORY_COPY_ERROR.value
-                    .replace(Replace.DIRECTORY.value, directoryName, ignoreCase = true), e)
-                deleteFile(destFile)
             }
         }
     }
@@ -170,19 +152,11 @@ class FilesUtils(private val plugin: ZoneZero) {
         } catch (e: IOException) { null }
     }
 
-    fun isDirectoryEmpty(file: File): Boolean {
-        return listFilesInDirectory(file).isEmpty()
-    }
-
     private val dataFolder: String
         get() = plugin.dataFolder.absolutePath + File.separator
 
     fun getFile(file: String): File {
         return File(dataFolder + file)
-    }
-
-    fun getFile(folder: String, file: String): File {
-        return File(dataFolder + folder + File.separator + file)
     }
 
     fun deleteFile(file: File) {

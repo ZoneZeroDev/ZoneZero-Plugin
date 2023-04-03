@@ -2,12 +2,12 @@ package kiinse.me.zonezero.plugin.commands.abstracts
 
 import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.commands.annotations.Command
-import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.commands.annotations.SubCommand
 import kiinse.me.zonezero.plugin.commands.core.CommandFailureHandler
+import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandFailureHandler
+import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.enums.Strings
-import kiinse.me.zonezero.plugin.service.enums.Replace
 import org.bukkit.command.CommandException
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -85,21 +85,21 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
             .replace(Replace.CLASS.value, name[name.size - 1], ignoreCase = true))
     }
 
-    protected fun isDisAllowNonPlayer(wrapper: RegisteredCommand, sender: CommandSender, disAllowNonPlayer: Boolean): Boolean {
+    protected fun isDisAllowNonPlayer(sender: CommandSender, disAllowNonPlayer: Boolean): Boolean {
         val result = sender !is Player && disAllowNonPlayer
-        if (result) { failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender, wrapper) }
+        if (result) { failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender) }
         return result
     }
 
-    protected fun hasNotPermissions(wrapper: RegisteredCommand, sender: CommandSender, permission: String): Boolean {
+    protected fun hasNotPermissions(sender: CommandSender, permission: String): Boolean {
         val result = permission != "" && !sender.hasPermission(permission)
-        if (result) { failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender, wrapper) }
+        if (result) { failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender) }
         return result
     }
 
     override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, label: String, args: Array<String>): Boolean {
-        return onExecute(sender, command, label, args)
+        return onExecute(sender, command, args)
     }
 
-    protected abstract fun onExecute(sender: CommandSender, command: org.bukkit.command.Command, label: String, args: Array<String>): Boolean
+    protected abstract fun onExecute(sender: CommandSender, command: org.bukkit.command.Command, args: Array<String>): Boolean
 }

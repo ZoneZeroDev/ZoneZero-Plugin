@@ -11,6 +11,8 @@ import java.util.function.Consumer
 
 object VersionUtils {
 
+    private const val timeout = 3000
+
     @Throws(VersioningException::class)
     fun getLatestSpigotVersion(consumer: Consumer<Semver>) {
         consumer.accept(Semver(getLatestSpigotVersionAsString()))
@@ -19,13 +21,11 @@ object VersionUtils {
     @Throws(VersioningException::class)
     private fun getLatestSpigotVersionAsString(): String {
         try {
-            return Request.Get(Strings.SPIGOT_URL.value)
-                .connectTimeout(3000)
-                .socketTimeout(3000)
-                .execute()
-                .returnContent()
-                .asString()
-                .replace("×", "")
+            val request = Request.Get(Strings.SPIGOT_URL.value)
+            request.connectTimeout(timeout)
+            request.socketTimeout(timeout)
+            request.execute().returnContent()
+            return request.execute().returnContent().asString().replace("×", "")
         } catch (e: IOException) {
             throw VersioningException(Strings.VERSION_ERROR.value, e)
         }

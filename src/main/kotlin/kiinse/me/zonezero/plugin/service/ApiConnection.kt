@@ -35,11 +35,12 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
-class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable) : ApiService {
+
+class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : ApiService {
 
     private val keys: MutableMap<KeyType, Key> = EnumMap(KeyType::class.java)
-    private val timeout = 5000
     private var publicKeyString: String = String()
+    private val timeout = 3000
     private var serverKey: PublicKey
     private val serviceServer = configuration.getString(Config.TOOLS_CUSTOM_IP.value) { Strings.DEFAULT_API.value }
     private val token: String
@@ -69,8 +70,6 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
             ZoneZero.sendLog(Level.CONFIG, "-----------------------")
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestGet("$serviceServer/${address.string}", hashMapOf(
-                Pair(Strings.HEADER_CONTENT_KEY, Strings.HEADER_CONTENT_VALUE.value),
-                Pair(Strings.HEADER_PUBLIC_KEY, publicKeyString),
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
                 Pair(Strings.HEADER_ON_PL, getOnpl(serverKey))
             )).execute()
@@ -83,82 +82,80 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
     }
 
     override fun get(address: ServerAddress, player: Player): ServerAnswer {
-        try {
+        return try {
             ZoneZero.sendLog(Level.CONFIG, "-----------------------")
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestGet("$serviceServer/${address.string}", hashMapOf(
-                Pair(Strings.HEADER_CONTENT_KEY, Strings.HEADER_CONTENT_VALUE.value),
-                Pair(Strings.HEADER_PUBLIC_KEY, publicKeyString),
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
                 Pair(Strings.HEADER_PLAYER, getEncryptedPlayer(player, serverKey)),
                 Pair(Strings.HEADER_ON_PL, getOnpl(serverKey))
             )).execute()
-            return getServerAnswer(request.returnResponse())
+            getServerAnswer(request.returnResponse())
         } catch (e: Exception) {
             Sentry.captureException(e)
             ZoneZero.sendLog(Level.CONFIG, e)
-            return ServerAnswer(500, JSONObject())
+            ServerAnswer(500, JSONObject())
         }
     }
 
     @Throws(SecureException::class)
     override fun post(address: ServerAddress, data: JSONObject): ServerAnswer {
-        try {
+        return try {
             val encrypted = encrypt(data, serverKey)
             ZoneZero.sendLog(Level.CONFIG, "-----------------------")
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestPost("$serviceServer/${address.string}", encrypted.message, hashMapOf(
-                Pair(Strings.HEADER_CONTENT_KEY, Strings.HEADER_CONTENT_VALUE.value),
-                Pair(Strings.HEADER_PUBLIC_KEY, publicKeyString),
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
                 Pair(Strings.HEADER_SECURITY, encrypted.aes ?: ""),
                 Pair(Strings.HEADER_ON_PL, getOnpl(serverKey))
             )).execute()
-            return getServerAnswer(request.returnResponse())
+            getServerAnswer(request.returnResponse())
         } catch (e: Exception) {
             Sentry.captureException(e)
             ZoneZero.sendLog(Level.CONFIG, e)
-            return ServerAnswer(500, JSONObject())
+            ServerAnswer(500, JSONObject())
         }
     }
 
     override fun post(address: ServerAddress, data: JSONObject, player: Player): ServerAnswer {
-        try {
+        return try {
             val encrypted = encrypt(data, serverKey)
             ZoneZero.sendLog(Level.CONFIG, "-----------------------")
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestPost("$serviceServer/${address.string}", encrypted.message, hashMapOf(
-                Pair(Strings.HEADER_CONTENT_KEY, Strings.HEADER_CONTENT_VALUE.value),
-                Pair(Strings.HEADER_PUBLIC_KEY, publicKeyString),
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
                 Pair(Strings.HEADER_SECURITY, encrypted.aes ?: ""),
                 Pair(Strings.HEADER_PLAYER, getEncryptedPlayer(player, serverKey)),
                 Pair(Strings.HEADER_ON_PL, getOnpl(serverKey))
             )).execute()
-            return getServerAnswer(request.returnResponse())
+            getServerAnswer(request.returnResponse())
         } catch (e: Exception) {
             Sentry.captureException(e)
             ZoneZero.sendLog(Level.CONFIG, e)
-            return ServerAnswer(500, JSONObject())
+            ServerAnswer(500, JSONObject())
         }
     }
 
     private fun getRequestGet(address: String, headers: Map<Strings, String>): Request  {
         val request = Request.Get(address)
-            .connectTimeout(timeout)
-            .socketTimeout(timeout)
-        headers.forEach { (key, value) -> request.addHeader(key.value, value) }
+        request.connectTimeout(timeout)
+        request.socketTimeout(timeout)
+        request.setHeader(Strings.HEADER_CONTENT_KEY.value, Strings.HEADER_CONTENT_VALUE.value)
+        request.setHeader(Strings.HEADER_PUBLIC_KEY.value, publicKeyString)
+        headers.forEach { (key, value) -> request.setHeader(key.value, value) }
         return request
     }
 
     private fun getRequestPost(address: String, body: String, headers: Map<Strings, String>): Request {
         val request = Request.Post(address)
-            .connectTimeout(timeout)
-            .socketTimeout(timeout)
-            .useExpectContinue()
-            .version(HttpVersion.HTTP_1_1)
-            .bodyString(body, ContentType.APPLICATION_JSON)
-        headers.forEach { (key, value) -> request.addHeader(key.value, value) }
+        request.connectTimeout(timeout)
+        request.socketTimeout(timeout)
+        request.useExpectContinue()
+        request.setHeader(Strings.HEADER_CONTENT_KEY.value, Strings.HEADER_CONTENT_VALUE.value)
+        request.setHeader(Strings.HEADER_PUBLIC_KEY.value, publicKeyString)
+        request.version(HttpVersion.HTTP_1_1)
+        request.bodyString(body, ContentType.APPLICATION_JSON)
+        headers.forEach { (key, value) -> request.setHeader(key.value, value) }
         return request
     }
 
@@ -174,9 +171,7 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
         val content = if (response.entity != null) {
             try {
                 IOUtils.toString(response.entity.content, StandardCharsets.UTF_8)
-            } catch (e: Exception) {
-                ""
-            }
+            } catch (e: Exception) { "" }
         } else { "" }
         val responseCode = response.statusLine.statusCode
         val body = getBody(getEncryptedMessage(response, content))
@@ -265,10 +260,7 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
         try {
             ZoneZero.sendLog(Level.CONFIG, "-----------------------")
             ZoneZero.sendLog(Level.CONFIG, "Address: server")
-            val request = getRequestGet("$serviceServer/server", hashMapOf(
-                Pair(Strings.HEADER_CONTENT_KEY, Strings.HEADER_CONTENT_VALUE.value),
-                Pair(Strings.HEADER_PUBLIC_KEY, publicKeyString),
-            )).execute()
+            val request = getRequestGet("$serviceServer/server", EnumMap(Strings::class.java)).execute()
             val answer = getServerAnswer(request.returnResponse())
             if (answer.status != 200) { throw SecureException(Strings.API_KEY_ERROR.value) }
             serverKey = KeyFactory.getInstance(Strings.RSA_INSTANCE_SECOND.value).generatePublic(
