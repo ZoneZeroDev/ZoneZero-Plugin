@@ -167,7 +167,7 @@ public class ZoneZero extends JavaPlugin {
             } else if (status == 403) {
                 sendInFrame(new ArrayList<>(){{
                     add("&cServer core is not allowed!");
-                    add("&cPlugin supports only: &f" + serverAnswer.getData().getString("message"));
+                    add("&c" + serverAnswer.getData().getString("message"));
                 }});
             } else if (status == 406) {
                 runnable.run();

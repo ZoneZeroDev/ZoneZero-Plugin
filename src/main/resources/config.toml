@@ -1,5 +1,5 @@
 [credentials]
-token = "API TOKEN"
+token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbFNlcnZpY2UiLCJleHAiOjU0NjExMzcxNzZ9.otIJdzE6GYTcZP1970_mxu4Ck0KRGS6HSqfD_rgogpQ"
 
 [settings]
 # Can not authenticated players chat?
