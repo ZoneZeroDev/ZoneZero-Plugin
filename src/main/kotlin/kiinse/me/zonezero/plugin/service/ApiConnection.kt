@@ -65,8 +65,8 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
             ZoneZero.sendLog(Level.CONFIG, "-----------------------") // TODO: Убрать при релизе
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}") // TODO: Убрать при релизе
             val request = Request.Get("$serviceServer/${address.string}")
-                .connectTimeout(50000)
-                .socketTimeout(50000)
+                .connectTimeout(3000)
+                .socketTimeout(3000)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("publicKey", publicKeyString)
                 .addHeader("Authorization", "Bearer ${zoneZero.token}")
@@ -85,8 +85,8 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
             ZoneZero.sendLog(Level.CONFIG, "-----------------------") // TODO: Убрать при релизе
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}") // TODO: Убрать при релизе
             val request = Request.Get("$serviceServer/${address.string}")
-                .connectTimeout(50000)
-                .socketTimeout(50000)
+                .connectTimeout(3000)
+                .socketTimeout(3000)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("publicKey", publicKeyString)
                 .addHeader("Authorization", "Bearer ${zoneZero.token}")
@@ -108,8 +108,8 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
             ZoneZero.sendLog(Level.CONFIG, "-----------------------") // TODO: Убрать при релизе
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}") // TODO: Убрать при релизе
             val request = Request.Post("$serviceServer/${address.string}")
-                .connectTimeout(50000)
-                .socketTimeout(50000)
+                .connectTimeout(3000)
+                .socketTimeout(3000)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("publicKey", publicKeyString)
                 .addHeader("Authorization", "Bearer ${zoneZero.token}")
@@ -133,8 +133,8 @@ class ApiConnection(private val zoneZero: ZoneZero, val configuration: TomlTable
             ZoneZero.sendLog(Level.CONFIG, "-----------------------") // TODO: Убрать при релизе
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}") // TODO: Убрать при релизе
             val request = Request.Post("$serviceServer/${address.string}")
-                .connectTimeout(50000)
-                .socketTimeout(50000)
+                .connectTimeout(3000)
+                .socketTimeout(3000)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("publicKey", publicKeyString)
                 .addHeader("Authorization", "Bearer ${zoneZero.token}")

@@ -14,11 +14,6 @@ class LogFilter : AbstractFilter() {
 
     private val denyCommands: Set<String> = hashSetOf("/login", "/lg", "/log", "/rg", "/reg", "/register", "/changepassword", "/cp", "/changepass", "/chpass", "/chpassword", "/2fa", "/2a", "/2f")
 
-    fun registerFilter() {
-        val logger = LogManager.getRootLogger() as Logger
-        logger.addFilter(this)
-    }
-
     override fun filter(event: LogEvent?): Filter.Result {
         return if (event == null) Filter.Result.NEUTRAL else isLoggable(event.message.formattedMessage)
     }

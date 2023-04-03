@@ -19,8 +19,8 @@ object VersionUtils {
     private fun getLatestSpigotVersionAsString(): String {
         try {
             return Request.Get("https://api.spigotmc.org/legacy/update.php?resource=108992")
-                .connectTimeout(50000)
-                .socketTimeout(50000)
+                .connectTimeout(3000)
+                .socketTimeout(3000)
                 .execute()
                 .returnContent()
                 .asString()

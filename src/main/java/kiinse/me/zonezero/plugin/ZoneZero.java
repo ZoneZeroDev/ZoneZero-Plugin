@@ -8,7 +8,6 @@ import kiinse.me.zonezero.plugin.commands.zonezero.*;
 import kiinse.me.zonezero.plugin.commands.core.CommandManager;
 import kiinse.me.zonezero.plugin.commands.zonezero.tabcomplete.*;
 import kiinse.me.zonezero.plugin.enums.Config;
-import kiinse.me.zonezero.plugin.exceptions.VersioningException;
 import kiinse.me.zonezero.plugin.listeners.*;
 import kiinse.me.zonezero.plugin.schedulers.core.SchedulersManager;
 import kiinse.me.zonezero.plugin.schedulers.zonezero.PublicKeyScheduler;
@@ -19,6 +18,8 @@ import kiinse.me.zonezero.plugin.service.interfaces.ApiService;
 import kiinse.me.zonezero.plugin.utils.FilesUtils;
 import kiinse.me.zonezero.plugin.utils.MessageUtils;
 import kiinse.me.zonezero.plugin.utils.VersionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Utility;
@@ -59,7 +60,7 @@ public class ZoneZero extends JavaPlugin {
             serverService = new ServerService(apiConnection);
             playersData = new PlayersService(this, apiConnection, settingsTable);
             settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.getValue());
-            new MessageUtils(filesUtils).reload();
+            messageUtils.reload();
             toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue());
             token = toolsTable.getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
             loadVariables();
@@ -78,7 +79,7 @@ public class ZoneZero extends JavaPlugin {
     public void onLoad() {
         try {
             getLogger().setLevel(Level.CONFIG);
-            new LogFilter().registerFilter();
+            ((Logger) LogManager.getRootLogger()).addFilter(new LogFilter());
             loadVariables();
             setupSentry();
         } catch (Exception e) {
@@ -93,7 +94,6 @@ public class ZoneZero extends JavaPlugin {
             sendInFrame(new ArrayList<>(){{
                 add("&aLoading &f" + getName() + "&a...");
             }});
-
             schedulersManager = new SchedulersManager();
             schedulersManager.register(new PublicKeyScheduler(this, apiConnection));
             var pluginManager = getServer().getPluginManager();
