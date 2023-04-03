@@ -2,6 +2,8 @@ package kiinse.me.zonezero.plugin.utils
 
 import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.enums.Strings
+import kiinse.me.zonezero.plugin.service.enums.Replace
 import org.apache.commons.io.FileUtils
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -29,20 +31,23 @@ class FilesUtils(private val plugin: ZoneZero) {
         val cfgVersion = getConfigVersion(configFile)
         if (cfgVersion == 0.0) return;
         val fileName = configFile.name
-        val tmpCfg = getFile("${fileName}_tmp.toml")
+        val tmpCfg = getFile("${fileName}${Strings.TMP_TOML_SUFFIX.value}")
         deleteFile(tmpCfg)
         copyFile(fileName, tmpCfg)
-        val newVersion: Double = getConfigVersion(getFile("${fileName}_tmp.toml"))
+        val newVersion: Double = getConfigVersion(getFile("${fileName}${Strings.TMP_TOML_SUFFIX.value}"))
         if (newVersion > cfgVersion || newVersion < cfgVersion) {
             try {
-                val oldCfg = getFile("${fileName}_old.toml")
+                val oldCfg = getFile("${fileName}${Strings.OLD_TOML_SUFFIX.value}")
                 deleteFile(oldCfg)
                 copyFileInFolder(configFile, oldCfg)
                 deleteFile(configFile)
                 copyFile(fileName)
-                ZoneZero.sendLog(Level.WARNING, "Version mismatch found for file '&c${fileName}&6'. This file has been renamed to '&c${oldCfg.name}&6' and a new file '&c${fileName}&6' has been created")
+                ZoneZero.sendLog(Level.WARNING, Strings.TOML_MISMATCH_MESSAGE.value
+                    .replace(Replace.FILE.value, fileName, ignoreCase = true)
+                    .replace(Replace.OLD_FILE.value, oldCfg.name, ignoreCase = true))
             } catch (e: Exception) {
-                ZoneZero.sendLog(Level.WARNING, "An error occurred while copying the new version of the file '&c${fileName}&6'! Message:", e)
+                ZoneZero.sendLog(Level.WARNING, Strings.NEW_TML_VERSION_COPY_ERROR.value
+                    .replace(Replace.FILE.value, fileName, ignoreCase = true), e)
             }
         }
         deleteFile(tmpCfg)
@@ -58,13 +63,15 @@ class FilesUtils(private val plugin: ZoneZero) {
 
     @Throws(IOException::class)
     fun createFile(file: File) {
-        if (file.createNewFile()) ZoneZero.sendLog(Level.CONFIG, "File '&d" + file.name + "&6' created")
+        if (file.createNewFile()) ZoneZero.sendLog(Level.CONFIG, Strings.FILE_CREATED.value
+            .replace(Replace.FILE.value, file.name, ignoreCase = true))
     }
 
     @Throws(SecurityException::class)
     fun createDirectory(file: File) {
         if (file.exists()) deleteFile(file)
-        if (file.mkdirs()) ZoneZero.sendLog(Level.CONFIG, "Directory '&d" + file.name + "&6' created")
+        if (file.mkdirs()) ZoneZero.sendLog(Level.CONFIG, Strings.DIRECTORY_CREATED.value
+            .replace(Replace.DIRECTORY.value, file.name, ignoreCase = true))
     }
 
     fun copyFile(file: String) {
@@ -81,16 +88,20 @@ class FilesUtils(private val plugin: ZoneZero) {
         if (inputStream != null) {
             try {
                 FileUtils.copyInputStreamToFile(inputStream, destFile)
-                ZoneZero.sendLog(Level.CONFIG, "File '&d" + destFile.name + "&6' created")
+                ZoneZero.sendLog(Level.CONFIG, Strings.FILE_CREATED.value
+                    .replace(Replace.FILE.value, destFile.name, ignoreCase = true))
             } catch (e: IOException) {
-                ZoneZero.sendLog(Level.WARNING, "Error on copying file '&c" + destFile.name + "&6'! Message:", e)
+                ZoneZero.sendLog(Level.WARNING, Strings.FILE_COPY_ERROR.value
+                    .replace(Replace.FILE.value, destFile.name, ignoreCase = true), e)
             }
         } else {
-            ZoneZero.sendLog(Level.WARNING, "File '&c$oldFile&6' not found inside plugin jar. Creating a new file...")
+            ZoneZero.sendLog(Level.WARNING, Strings.FILE_NOT_FOUND_INSIDE_JAR.value
+                .replace(Replace.FILE.value, oldFile, ignoreCase = true))
             try {
                 createFile(destFile)
             } catch (e: IOException) {
-                ZoneZero.sendLog(Level.WARNING, "Error on creating file '" + destFile.name + "'! Message:", e)
+                ZoneZero.sendLog(Level.WARNING, Strings.FILE_CREATE_ERROR.value
+                    .replace(Replace.FILE.value, destFile.name, ignoreCase = true), e)
             }
         }
     }
@@ -106,7 +117,8 @@ class FilesUtils(private val plugin: ZoneZero) {
                     )
                 }
             } catch (e: Exception) {
-                ZoneZero.sendLog(Level.WARNING, "Error on copying directory '&c$directoryName&6'! Message:", e)
+                ZoneZero.sendLog(Level.WARNING, Strings.DIRECTORY_COPY_ERROR.value
+                    .replace(Replace.DIRECTORY.value, directoryName, ignoreCase = true), e)
                 deleteFile(destFile)
             }
         }
@@ -122,7 +134,9 @@ class FilesUtils(private val plugin: ZoneZero) {
     fun copyFileInFolder(file1: File, file2: File) {
         if (!file2.exists()) {
             FileUtils.copyFile(file1, file2)
-            ZoneZero.sendLog(Level.CONFIG, "File '&d" + file1.name + "&6' copied to file '&d" + file2.name + "&6'")
+            ZoneZero.sendLog(Level.CONFIG, Strings.FILE_COPIED.value
+                .replace(Replace.OLD_FILE.value, file1.name, ignoreCase = true)
+                .replace(Replace.FILE.value, file2.name, ignoreCase = true))
         }
     }
 
@@ -172,6 +186,7 @@ class FilesUtils(private val plugin: ZoneZero) {
     }
 
     fun deleteFile(file: File) {
-        if (file.delete()) ZoneZero.sendLog(Level.CONFIG, "File '&d" + file.name + "&6' deleted")
+        if (file.delete()) ZoneZero.sendLog(Level.CONFIG, Strings.FILE_DELETED.value
+            .replace(Replace.FILE.value, file.name, ignoreCase = true))
     }
 }

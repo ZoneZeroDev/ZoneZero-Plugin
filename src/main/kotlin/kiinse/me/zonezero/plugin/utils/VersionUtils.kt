@@ -2,6 +2,7 @@ package kiinse.me.zonezero.plugin.utils
 
 import com.vdurmont.semver4j.Semver
 import kiinse.me.zonezero.plugin.ZoneZero
+import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.exceptions.VersioningException
 import org.apache.http.client.fluent.Request
 import java.io.IOException
@@ -18,7 +19,7 @@ object VersionUtils {
     @Throws(VersioningException::class)
     private fun getLatestSpigotVersionAsString(): String {
         try {
-            return Request.Get("https://api.spigotmc.org/legacy/update.php?resource=108992")
+            return Request.Get(Strings.SPIGOT_URL.value)
                 .connectTimeout(3000)
                 .socketTimeout(3000)
                 .execute()
@@ -26,7 +27,7 @@ object VersionUtils {
                 .asString()
                 .replace("×", "")
         } catch (e: IOException) {
-            throw VersioningException("Failed to get the latest version SpigotMC", e)
+            throw VersioningException(Strings.VERSION_ERROR.value, e)
         }
     }
 

@@ -1,6 +1,6 @@
 package kiinse.me.zonezero.plugin.service.interfaces
 
-import kiinse.me.zonezero.plugin.service.ServerAnswer
+import kiinse.me.zonezero.plugin.service.data.ServerAnswer
 import kiinse.me.zonezero.plugin.service.enums.ServerAddress
 import org.bukkit.entity.Player
 import org.json.JSONObject

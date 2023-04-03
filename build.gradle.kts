@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "kiinse.me.zonezero.plugin"
-version = "1.0.0-alpha.58"
+version = "1.0.0-alpha.59"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {

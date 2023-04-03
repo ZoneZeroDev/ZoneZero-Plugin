@@ -8,6 +8,7 @@ import kiinse.me.zonezero.plugin.commands.annotations.Command
 import kiinse.me.zonezero.plugin.commands.annotations.SubCommand
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandContext
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.service.enums.QueryType
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
@@ -49,7 +50,7 @@ class TwoFactorAuthCommand(plugin: ZoneZero, private val playersData: PlayersDat
 
     @SubCommand(command = "help", permission = "zonezero.player.2fa", disallowNonPlayer = true)
     fun help(context: MineCommandContext) {
-        messageUtils.sendMessage(context.sender, "&d=========== &6&l[&bZoneZero&6&l] &d===========\n", Message.TWO_FACTOR_HELP)
+        messageUtils.sendMessage(context.sender, Strings.ZONE_ZERO_TOP.value, Message.TWO_FACTOR_HELP)
     }
 
     @SubCommand(command = "enable", permission = "zonezero.player.2fa", parameters = 3, disallowNonPlayer = true)

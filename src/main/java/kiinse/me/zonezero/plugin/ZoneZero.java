@@ -8,12 +8,14 @@ import kiinse.me.zonezero.plugin.commands.zonezero.*;
 import kiinse.me.zonezero.plugin.commands.core.CommandManager;
 import kiinse.me.zonezero.plugin.commands.zonezero.tabcomplete.*;
 import kiinse.me.zonezero.plugin.enums.Config;
+import kiinse.me.zonezero.plugin.enums.Strings;
 import kiinse.me.zonezero.plugin.listeners.*;
 import kiinse.me.zonezero.plugin.schedulers.core.SchedulersManager;
 import kiinse.me.zonezero.plugin.schedulers.zonezero.PublicKeyScheduler;
 import kiinse.me.zonezero.plugin.service.ApiConnection;
 import kiinse.me.zonezero.plugin.service.LogFilter;
-import kiinse.me.zonezero.plugin.service.ServerAnswer;
+import kiinse.me.zonezero.plugin.service.data.ServerAnswer;
+import kiinse.me.zonezero.plugin.service.enums.Replace;
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService;
 import kiinse.me.zonezero.plugin.utils.FilesUtils;
 import kiinse.me.zonezero.plugin.utils.MessageUtils;
@@ -162,23 +164,23 @@ public class ZoneZero extends JavaPlugin {
             var status = serverAnswer.getStatus();
             if (status == 200) {
                 sendInFrame(new ArrayList<>(){{
-                    add("&aRegister your server on &bhttps://t.me/kiinse_bot");
+                    add("&aRegister your server on &bhttps://zonezero.dev/");
                     add("");
-                    add("&aYour server code is '&b" + serverAnswer.getData().getString("message") + "&a'");
+                    add("&aYour server code is '&b" + serverAnswer.getData().getString(Strings.STRING_MESSAGE.getValue()) + "&a'");
                     add("");
-                    add("&aEnter this code on &bhttps://t.me/kiinse_bot with command /register <CODE>");
+                    add("&aEnter this code on &bhttps://zonezero.dev/servers/register");
                 }});
             } else if (status == 403) {
                 sendInFrame(new ArrayList<>(){{
-                    add("&cServer core is not allowed!");
-                    add("&c" + serverAnswer.getData().getString("message"));
+                    add(Strings.SERVER_CORE_NOT_ALLOWED.getValue());
+                    add("&c" + serverAnswer.getData().getString(Strings.STRING_MESSAGE.getValue()));
                 }});
             } else if (status == 406) {
                 runAsync(this::checkVersion);
                 runAsync(runnable);
             } else {
                 sendInFrame(new ArrayList<>(){{
-                    add("&cError on getting server code (Serverside)!");
+                    add(Strings.ERROR_ON_GETTING_CODE.getValue());
                 }});
             }
         } catch (Exception e) {
@@ -189,7 +191,7 @@ public class ZoneZero extends JavaPlugin {
 
     private void setupSentry() {
         Sentry.init(options -> {
-            options.setDsn("https://a95dac05fc644cc1b2bd70f05e0fc5b9@o1138855.ingest.sentry.io/4504871295582208");
+            options.setDsn(Strings.SENTRY_TOKEN.getValue());
             options.setTracesSampleRate(1.0);
             options.setDebug(false);
             options.setRelease(getDescription().getVersion());
@@ -204,30 +206,30 @@ public class ZoneZero extends JavaPlugin {
                         var reader = new BufferedReader(new InputStreamReader(
                                 Objects.requireNonNull(this.getClass()
                                         .getClassLoader()
-                                        .getResourceAsStream("version-message.txt"))));
+                                        .getResourceAsStream(Strings.VERSION_FILE.getValue()))));
                         var builder = new StringBuilder("\n");
                         while (reader.ready()) {
                             builder.append(reader.readLine()).append("\n");
                         }
                         sendConsole(builder.toString()
-                                .replace("{NEW_VERSION}", latest.getOriginalValue())
-                                .replace("{CURRENT_VERSION}", getDescription().getVersion()));
+                                .replace(Replace.VERSION_NEW.getValue(), latest.getOriginalValue())
+                                .replace(Replace.VERSION_CURRENT.getValue(), getDescription().getVersion()));
                     } else {
                         sendInFrame(new ArrayList<>(){{
-                            add("&aYou have the latest version of the plugin installed, well done!");
+                            add(Strings.LATEST_VERSION.getValue());
                         }});
                     }
                 } catch (Exception e) {
                     sendInFrame(new ArrayList<>(){{
-                        add("&cError on checking plugin version!");
-                        add("&cMessage: " + e.getMessage());
+                        add(Strings.PLUGIN_VERSION_CHECK_ERROR.getValue());
+                        add(Strings.PREFIX_MESSAGE.getValue() + e.getMessage());
                     }});
                 }
             });
         } catch (Exception e) {
             sendInFrame(new ArrayList<>(){{
-                add("&cError on checking plugin version!");
-                add("&cMessage: " + e.getMessage());
+                add(Strings.PLUGIN_VERSION_CHECK_ERROR.getValue());
+                add(Strings.PREFIX_MESSAGE.getValue() + e.getMessage());
             }});
         }
     }
@@ -265,7 +267,7 @@ public class ZoneZero extends JavaPlugin {
     public static void sendInFrame(List<String> list) {
         runAsync(() -> {
             sendConsole(" &6|==============================");
-            for (var it : list) { sendConsole(" &6|  " + it); }
+            for (var it : list) sendConsole(" &6|  " + it);
             sendConsole(" &6|==============================");
         });
     }

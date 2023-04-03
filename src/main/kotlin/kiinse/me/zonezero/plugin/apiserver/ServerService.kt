@@ -2,7 +2,7 @@ package kiinse.me.zonezero.plugin.apiserver
 
 import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.interfaces.ServerData
-import kiinse.me.zonezero.plugin.service.ServerAnswer
+import kiinse.me.zonezero.plugin.service.data.ServerAnswer
 import kiinse.me.zonezero.plugin.service.enums.ServerAddress
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService
 import org.bukkit.Bukkit

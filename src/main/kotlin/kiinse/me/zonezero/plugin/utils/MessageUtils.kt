@@ -1,7 +1,9 @@
 package kiinse.me.zonezero.plugin.utils
 
 import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
+import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.Strings
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -9,15 +11,15 @@ import org.tomlj.TomlTable
 
 class MessageUtils(private val fileUtils: FilesUtils) {
 
-    private val prefix = translateColors("&6&l[&bZoneZero&6&l]&f:")
+    private val prefix = translateColors(Strings.PLUGIN_PREFIX.value)
     private var messages: TomlTable
 
     init {
-        messages = fileUtils.getTomlFile("messages.toml").getTableOrEmpty("messages")
+        messages = fileUtils.getTomlFile(Strings.MESSAGES_FILE.value).getTableOrEmpty(Config.TABLE_MESSAGES.value)
     }
 
     fun reload() {
-        messages = fileUtils.getTomlFile("messages.toml").getTableOrEmpty("messages")
+        messages = fileUtils.getTomlFile(Strings.MESSAGES_FILE.value).getTableOrEmpty(Config.TABLE_MESSAGES.value)
     }
 
     fun sendMessageWithPrefix(sender: CommandSender, message: CommandFailReason) {

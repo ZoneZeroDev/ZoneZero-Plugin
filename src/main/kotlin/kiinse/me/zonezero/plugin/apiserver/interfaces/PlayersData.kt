@@ -1,7 +1,7 @@
 package kiinse.me.zonezero.plugin.apiserver.interfaces
 
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
-import kiinse.me.zonezero.plugin.service.ServerAnswer
+import kiinse.me.zonezero.plugin.service.data.ServerAnswer
 import kotlinx.coroutines.Deferred
 import org.bukkit.entity.Player
 import java.util.function.Consumer

@@ -4,7 +4,8 @@ import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.enums.Config
-import kiinse.me.zonezero.plugin.service.ServerAnswer
+import kiinse.me.zonezero.plugin.enums.Strings
+import kiinse.me.zonezero.plugin.service.data.ServerAnswer
 import kiinse.me.zonezero.plugin.service.enums.ServerAddress
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService
 import kotlinx.coroutines.Deferred
@@ -29,9 +30,9 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
     private val filesUtils = plugin.filesUtils
 
     init {
-        val file = filesUtils.getFile("data.zz")
+        val file = filesUtils.getFile(Strings.DATA_FILE.value)
         if (file.exists()) {
-            ZoneZero.sendLog(Level.CONFIG, "Loading player statuses...")
+            ZoneZero.sendLog(Level.CONFIG, Strings.STATUSES_LOADING.value)
             playersStatus.clear()
             file.forEachLine {
                 if (it.isNotEmpty()) {
@@ -40,16 +41,12 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
                     ZoneZero.sendLog(Level.CONFIG, "Player: ${raw[0]} | Value: ${raw[1]}")
                 }
             }
-            ZoneZero.sendLog(Level.CONFIG, "Player statuses has been loaded!")
+            ZoneZero.sendLog(Level.CONFIG, Strings.STATUSES_LOADED.value)
         }
     }
 
     override fun getPlayerStatus(player: Player): PlayerStatus {
-        val uuid = player.uniqueId
-        if (!playersStatus.containsKey(uuid)) {
-            return PlayerStatus.NOT_AUTHORIZED
-        }
-        return playersStatus[uuid]!!
+        return playersStatus[player.uniqueId] ?: PlayerStatus.NOT_AUTHORIZED
     }
 
     @Suppress("result_unused")
@@ -65,10 +62,6 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
                     async { removeJoinMessage(player) }.start()
                 }
             }
-        }
-        if (playersStatus.containsKey(uuid)) {
-            playersStatus.replace(uuid, status)
-            return
         }
         playersStatus[uuid] = status
     }
@@ -154,11 +147,11 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
     }
 
     private fun getPlayerIp(player: Player): String {
-        return player.address?.address?.hostAddress ?: "null"
+        return player.address?.address?.hostAddress ?: Strings.STRING_NULL.value
     }
 
     override fun savePlayersStatuses() {
-        val file = filesUtils.getFile("data.zz")
+        val file = filesUtils.getFile(Strings.DATA_FILE.value)
         val builder = StringBuilder()
         playersStatus.forEach { (key, value) ->
             builder.append(key.toString()).append(":").append(value.toString()).append("\n")

@@ -7,6 +7,7 @@ import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.commands.abstracts.MineCommand
 import kiinse.me.zonezero.plugin.commands.abstracts.MineCommandManager
 import kiinse.me.zonezero.plugin.commands.abstracts.RegisteredCommand
+import kiinse.me.zonezero.plugin.enums.Strings
 import org.bukkit.command.CommandException
 import org.bukkit.command.CommandSender
 import java.util.*
@@ -34,13 +35,12 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
     }
 
     private fun isMainCommand(command: org.bukkit.command.Command, args: Array<String>): Boolean {
-        registeredMainCommandTable.forEach { (_, registeredCommand) ->
-            if (registeredCommand.method != null) {
-                val annotation: Command? = registeredCommand.annotation as Command?
-                if (annotation != null && annotation.command.equals(command.name, ignoreCase = true)) {
-                    if (args.isNotEmpty() && isSubCommand(command, args)) {
-                        return false
-                    }
+        for (registeredCommand in registeredMainCommandTable.values) {
+            if (registeredCommand.method == null) continue
+            val annotation: Command? = registeredCommand.annotation as Command?
+            if (annotation != null && annotation.command.equals(command.name, ignoreCase = true)) {
+                if (args.isNotEmpty() && isSubCommand(command, args)) {
+                    return false
                 }
             }
         }
@@ -52,22 +52,21 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
     }
 
     private fun executeMainCommand(sender: CommandSender, command: org.bukkit.command.Command, args: Array<String>): Boolean {
-        registeredMainCommandTable.forEach { (_, registeredCommand) ->
-            if (registeredCommand.method != null) {
-                val annotation: Command? = registeredCommand.annotation as Command?
-                if (annotation != null && annotation.command.equals(command.name, ignoreCase = true)) {
-                    if (isDisAllowNonPlayer(registeredCommand, sender, annotation.disallowNonPlayer)
-                        || hasNotPermissions(registeredCommand, sender, annotation.permission)) return true
-                    if (args.size != annotation.parameters && !annotation.overrideParameterLimit) {
-                        if (args.size > annotation.parameters)
-                            failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, registeredCommand)
-                        else
-                            failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, registeredCommand)
-                        return true
-                    }
-                    invokeWrapper(registeredCommand, sender, args)
+        for (registeredCommand in registeredMainCommandTable.values) {
+            if (registeredCommand.method == null) continue
+            val annotation: Command = registeredCommand.annotation as Command? ?: continue
+            if (annotation.command.equals(command.name, ignoreCase = true)) {
+                if (isDisAllowNonPlayer(registeredCommand, sender, annotation.disallowNonPlayer)
+                    || hasNotPermissions(registeredCommand, sender, annotation.permission)) return true
+                if (args.size != annotation.parameters && !annotation.overrideParameterLimit) {
+                    if (args.size > annotation.parameters)
+                        failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, registeredCommand)
+                    else
+                        failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, registeredCommand)
                     return true
                 }
+                invokeWrapper(registeredCommand, sender, args)
+                return true
             }
         }
         return false
@@ -77,24 +76,22 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
         val sb = StringBuilder(command.name.lowercase(Locale.getDefault()))
         args.forEach {
             sb.append(" ").append(it.lowercase(Locale.getDefault()))
-            registeredSubCommandTable.forEach { (str, registeredCommand) ->
-                if (str == sb.toString()) {
-                    val annotation: SubCommand? = registeredCommand.annotation as SubCommand?
-                    if (annotation != null) {
-                        val actualParams = args.copyOfRange(annotation.command.split(" ").size, args.size)
-                        if (isDisAllowNonPlayer(registeredCommand, sender, annotation.disallowNonPlayer)
-                            || hasNotPermissions(registeredCommand, sender, annotation.permission)) return true
-                        if (actualParams.size != annotation.parameters && !annotation.overrideParameterLimit) {
-                            if (actualParams.size > annotation.parameters)
-                                failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, registeredCommand)
-                            else
-                                failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, registeredCommand)
-                            return true
-                        }
-                        invokeWrapper(registeredCommand, sender, actualParams)
-                        return true
-                    }
+            for (commands in registeredSubCommandTable) {
+                if (commands.key != sb.toString()) continue
+                val registeredCommand = commands.value
+                val annotation: SubCommand = registeredCommand.annotation as SubCommand? ?: continue
+                val actualParams = args.copyOfRange(annotation.command.split(" ").size, args.size)
+                if (isDisAllowNonPlayer(registeredCommand, sender, annotation.disallowNonPlayer)
+                    || hasNotPermissions(registeredCommand, sender, annotation.permission)) return true
+                if (actualParams.size != annotation.parameters && !annotation.overrideParameterLimit) {
+                    if (actualParams.size > annotation.parameters)
+                        failureHandler.handleFailure(CommandFailReason.REDUNDANT_PARAMETER, sender, registeredCommand)
+                    else
+                        failureHandler.handleFailure(CommandFailReason.INSUFFICIENT_PARAMETER, sender, registeredCommand)
+                    return true
                 }
+                invokeWrapper(registeredCommand, sender, actualParams)
+                return true
             }
         }
         return false
@@ -105,7 +102,7 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
             wrapper.method?.invoke(wrapper.instance, CommandContext(sender, args))
         } catch (e: Exception) {
             failureHandler.handleFailure(CommandFailReason.REFLECTION_ERROR, sender, wrapper)
-            ZoneZero.sendLog(Level.WARNING, "Error on command usage! Message:", e)
+            ZoneZero.sendLog(Level.WARNING, Strings.COMMAND_USAGE_ERROR.value, e)
         }
     }
 }

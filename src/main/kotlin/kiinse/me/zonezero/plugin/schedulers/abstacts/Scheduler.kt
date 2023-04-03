@@ -1,6 +1,8 @@
 package kiinse.me.zonezero.plugin.schedulers.abstacts
 
 import kiinse.me.zonezero.plugin.ZoneZero
+import kiinse.me.zonezero.plugin.enums.Strings
+import kiinse.me.zonezero.plugin.service.enums.Replace
 import org.apache.commons.lang3.RandomStringUtils
 import java.util.logging.Level
 
@@ -25,16 +27,19 @@ abstract class Scheduler protected constructor(val plugin: ZoneZero) {
     fun start() {
         if (canStart()) {
             schedulerID = plugin.server.scheduler.scheduleSyncRepeatingTask(plugin, { this.run() }, delay, period)
-            ZoneZero.sendLog(Level.CONFIG, "Scheduler '&d$name&6' started!")
+            ZoneZero.sendLog(Level.CONFIG, Strings.SCHEDULER_STARTED.value
+                .replace(Replace.SCHEDULER.value, name.toString(), ignoreCase = true))
             return
         }
-        ZoneZero.sendLog(Level.CONFIG, "Scheduler '&d$name&6' cannot be started because the '&dcanStart()&6' method returns &cfalse")
+        ZoneZero.sendLog(Level.CONFIG, Strings.SCHEDULER_CANT_START.value
+            .replace(Replace.SCHEDULER.value, name.toString(), ignoreCase = true))
     }
 
     fun stop() {
         if (isStarted) {
             plugin.server.scheduler.cancelTask(schedulerID)
-            ZoneZero.sendLog(Level.CONFIG, "Scheduler '&d$name&6' stopped!")
+            ZoneZero.sendLog(Level.CONFIG, Strings.SCHEDULER_STOPPED.value
+                .replace(Replace.SCHEDULER.value, name.toString(), ignoreCase = true))
         }
     }
 

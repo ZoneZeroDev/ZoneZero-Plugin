@@ -1,10 +1,12 @@
 package kiinse.me.zonezero.plugin.schedulers.core
 
 import kiinse.me.zonezero.plugin.ZoneZero
+import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.exceptions.SchedulerException
 import kiinse.me.zonezero.plugin.schedulers.abstacts.Scheduler
 import kiinse.me.zonezero.plugin.schedulers.annotations.SchedulerData
 import kiinse.me.zonezero.plugin.schedulers.interfaces.MineSchedulersManager
+import kiinse.me.zonezero.plugin.service.enums.Replace
 import java.util.logging.Level
 
 class SchedulersManager : MineSchedulersManager {
@@ -13,9 +15,12 @@ class SchedulersManager : MineSchedulersManager {
 
     override fun register(scheduler: Scheduler): MineSchedulersManager {
         val schedule: Scheduler = checkSchedulerData(scheduler)
-        if (hasScheduler(schedule)) throw SchedulerException("Scheduler with same name '${scheduler.name}' already exist!")
+        if (hasScheduler(schedule)) throw SchedulerException(Strings.SCHEDULER_ALREADY_EXISTS.value
+            .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
         schedulers.add(scheduler)
-        ZoneZero.sendLog(Level.CONFIG, "Scheduler '&d${scheduler.name}&6' by plugin '&d${scheduler.plugin.name}&6' has been registered!")
+        ZoneZero.sendLog(Level.CONFIG, Strings.SCHEDULER_REGISTERED.value
+            .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true)
+            .replace(Replace.PLUGIN.value, scheduler.plugin.name, ignoreCase = true))
         scheduler.start()
         return this
     }
@@ -24,7 +29,8 @@ class SchedulersManager : MineSchedulersManager {
     override fun startScheduler(scheduler: Scheduler): MineSchedulersManager {
         schedulers.forEach {
             if (it.name == scheduler.name) {
-                if (it.isStarted) throw SchedulerException("This scheduler '${scheduler.name}' already started!")
+                if (it.isStarted) throw SchedulerException(Strings.SCHEDULER_ALREADY_STARTED.value
+                    .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
                 it.start()
             }
         }
@@ -35,7 +41,8 @@ class SchedulersManager : MineSchedulersManager {
     override fun stopScheduler(scheduler: Scheduler): MineSchedulersManager {
         schedulers.forEach {
             if (it.name == scheduler.name) {
-                if (!it.isStarted) throw SchedulerException("This scheduler '${scheduler.name}' already stopped!")
+                if (!it.isStarted) throw SchedulerException(Strings.SCHEDULER_ALREADY_STOPPED.value
+                    .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
                 it.stop()
             }
         }
@@ -66,14 +73,17 @@ class SchedulersManager : MineSchedulersManager {
 
     @Throws(SchedulerException::class)
     override fun unregister(scheduler: Scheduler): MineSchedulersManager {
-        if (!hasScheduler(scheduler)) throw SchedulerException("This scheduler '${scheduler.name}' not found!")
+        if (!hasScheduler(scheduler)) throw SchedulerException(Strings.SCHEDULER_NOT_FOUND.value
+            .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
         schedulers.forEach {
             if (it.name == scheduler.name) {
                 if (it.isStarted) it.stop()
                 schedulers.remove(scheduler)
             }
         }
-        ZoneZero.sendLog(Level.CONFIG, "Scheduler '&d${scheduler.name}&6' by plugin '&d${scheduler.plugin.name}&6' has been unregistered!")
+        ZoneZero.sendLog(Level.CONFIG, Strings.SCHEDULER_UNREGISTERED.value
+            .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true)
+            .replace(Replace.PLUGIN.value, scheduler.plugin.name, ignoreCase = true))
         return this
     }
 

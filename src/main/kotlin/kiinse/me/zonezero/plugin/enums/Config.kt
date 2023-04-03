@@ -5,6 +5,7 @@ enum class Config(val value: String) {
     TABLE_TOOLS("tools"),
     TABLE_CONFIG("config"),
     TABLE_SETTINGS("settings"),
+    TABLE_MESSAGES("messages"),
     CREDENTIALS_TOKEN("token"),
     TOOLS_IS_DEBUG("debug"),
     TOOLS_CUSTOM_IP("customIp"),

@@ -6,6 +6,8 @@ import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.commands.annotations.SubCommand
 import kiinse.me.zonezero.plugin.commands.core.CommandFailureHandler
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandFailureHandler
+import kiinse.me.zonezero.plugin.enums.Strings
+import kiinse.me.zonezero.plugin.service.enums.Replace
 import org.bukkit.command.CommandException
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -55,7 +57,8 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
                            command: String, annotation: Any, isMainCommand: Boolean) {
         register(pluginCommand, command)
         (if (isMainCommand) registeredMainCommandTable else registeredSubCommandTable)[command] = object : RegisteredCommand(method, commandClass, annotation) {}
-        ZoneZero.sendLog(Level.CONFIG, "Command '&d$command&6' registered!")
+        ZoneZero.sendLog(Level.CONFIG, Strings.COMMAND_REGISTERED.value
+            .replace(Replace.COMMAND.value, command, ignoreCase = true))
     }
 
     @Throws(CommandException::class)
@@ -67,34 +70,31 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
 
     @Throws(CommandException::class)
     protected fun register(pluginCommand: PluginCommand?, command: String) {
-        if (registeredSubCommandTable.containsKey(command) || registeredMainCommandTable.containsKey(command)) throw CommandException("Command '$command' already registered!")
-        if (pluginCommand == null) throw CommandException("Unable to register command command '$command'. Did you put it in plugin.yml?")
+        if (registeredSubCommandTable.containsKey(command) || registeredMainCommandTable.containsKey(command))
+            throw CommandException(Strings.COMMAND_ALREADY_REGISTERED.value.replace(Replace.COMMAND.value, command, ignoreCase = true))
+        if (pluginCommand == null) throw CommandException(Strings.COMMAND_UNABLE_REGISTER.value
+            .replace(Replace.SCHEDULER.value, command, ignoreCase = true))
         pluginCommand.setExecutor(this)
     }
 
     @Throws(CommandException::class)
     protected fun getMainCommandMethod(mineCommand: Class<out MineCommand?>): Method {
-        mineCommand.methods.forEach {
-            if (it.getAnnotation(Command::class.java) != null) return it
-        }
+        mineCommand.methods.forEach { if (it.getAnnotation(Command::class.java) != null) return it }
         val name = mineCommand.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        throw CommandException("Main command in class '${name[name.size - 1]}' not found!")
+        throw CommandException(Strings.COMMAND_MAIN_CLASS_NOT_FOUND.value
+            .replace(Replace.CLASS.value, name[name.size - 1], ignoreCase = true))
     }
 
     protected fun isDisAllowNonPlayer(wrapper: RegisteredCommand, sender: CommandSender, disAllowNonPlayer: Boolean): Boolean {
-        if (sender !is Player && disAllowNonPlayer) {
-            failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender, wrapper)
-            return true
-        }
-        return false
+        val result = sender !is Player && disAllowNonPlayer
+        if (result) { failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender, wrapper) }
+        return result
     }
 
     protected fun hasNotPermissions(wrapper: RegisteredCommand, sender: CommandSender, permission: String): Boolean {
-        if (permission != "" && !sender.hasPermission(permission)) {
-            failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender, wrapper)
-            return true
-        }
-        return false
+        val result = permission != "" && !sender.hasPermission(permission)
+        if (result) { failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender, wrapper) }
+        return result
     }
 
     override fun onCommand(sender: CommandSender, command: org.bukkit.command.Command, label: String, args: Array<String>): Boolean {

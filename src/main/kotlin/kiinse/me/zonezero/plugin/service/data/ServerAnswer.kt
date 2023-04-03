@@ -1,4 +1,4 @@
-package kiinse.me.zonezero.plugin.service
+package kiinse.me.zonezero.plugin.service.data
 
 import org.json.JSONObject
 
