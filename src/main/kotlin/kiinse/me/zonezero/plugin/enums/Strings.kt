@@ -62,5 +62,9 @@ enum class Strings(val value: String) {
     PREFIX_MESSAGE("&cMessage: "),
     ERROR_ON_GETTING_CODE("&cError on getting server code (Serverside)!"),
     SERVER_CORE_NOT_ALLOWED("&cServer core is not allowed!"),
-    SENTRY_TOKEN("https://a95dac05fc644cc1b2bd70f05e0fc5b9@o1138855.ingest.sentry.io/4504871295582208")
+    SENTRY_TOKEN("https://a95dac05fc644cc1b2bd70f05e0fc5b9@o1138855.ingest.sentry.io/4504871295582208"),
+    DISCORD_MESSAGE_1("&aThe plugin is currently in testing,"),
+    DISCORD_MESSAGE_2("&aplease let us know on discord"),
+    DISCORD_MESSAGE_3("&aif you encounter any bugs."),
+    DISCORD_MESSAGE_4("&a---> &bhttps://discord.gg/kqyknYPV &a<---")
 }

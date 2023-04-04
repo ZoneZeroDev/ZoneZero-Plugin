@@ -176,6 +176,12 @@ public class ZoneZero extends JavaPlugin {
                     add("&c" + serverAnswer.getData().getString(Strings.STRING_MESSAGE.getValue()));
                 }});
             } else if (status == 406) {
+                sendInFrame(new ArrayList<>(){{
+                    add(Strings.DISCORD_MESSAGE_1.getValue());
+                    add(Strings.DISCORD_MESSAGE_2.getValue());
+                    add(Strings.DISCORD_MESSAGE_3.getValue());
+                    add(Strings.DISCORD_MESSAGE_4.getValue());
+                }}); // TODO: Убрать
                 runAsync(this::checkVersion);
                 runAsync(runnable);
             } else {

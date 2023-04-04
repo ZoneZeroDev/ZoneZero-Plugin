@@ -8,37 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/abstracts/MineCommandManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/abstracts/MineCommandManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandFailureHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandFailureHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/interfaces/MineCommandFailureHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/interfaces/MineCommandFailureHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ChangePasswordCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ChangePasswordCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RegisterCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RegisterCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/TwoFactorAuthCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/TwoFactorAuthCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ZoneZeroCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ZoneZeroCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/ChangePasswordTab.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/ChangePasswordTab.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/CommandExceptions.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/SchedulerException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/SchedulerException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/SecureException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/SecureException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/VersioningException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/exceptions/VersioningException.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/ChatListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/ChatListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/DamageListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/DamageListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/InteractListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/InteractListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/JoinListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/JoinListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/MiningListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/MiningListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/QuitListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/QuitListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/abstacts/Scheduler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/abstacts/Scheduler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/annotations/SchedulerData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/annotations/SchedulerData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/core/SchedulersManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/core/SchedulersManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/interfaces/MineSchedulersManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/schedulers/interfaces/MineSchedulersManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/ApiConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/ApiConnection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/enums/Replace.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Replace.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/utils/FilesUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/utils/FilesUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/utils/MessageUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/utils/MessageUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/utils/VersionUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/utils/VersionUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/update-message.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/update-message.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,23 +65,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Desktop/MC plugins/ZoneZero-Plugin",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode",
-    "spring.configuration.checksum": "0851bbd41eeec864c5c1e9bc44b78cda",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Desktop/MC plugins/ZoneZero-Plugin&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;0851bbd41eeec864c5c1e9bc44b78cda&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="kiinse.me.zonezero.plugin.enums" />
@@ -163,7 +133,9 @@
       <workItem from="1680429295451" duration="494000" />
       <workItem from="1680525362828" duration="625000" />
       <workItem from="1680529000345" duration="7338000" />
-      <workItem from="1680538006914" duration="13421000" />
+      <workItem from="1680538006914" duration="13455000" />
+      <workItem from="1680552649582" duration="69000" />
+      <workItem from="1680581825153" duration="520000" />
     </task>
     <servers />
   </component>
