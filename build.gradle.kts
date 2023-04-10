@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "kiinse.me.zonezero.plugin"
-version = "1.0.0-alpha.60"
+version = "1.0.0-alpha.61"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -21,7 +21,7 @@ repositories {
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
 }
 
-@Suppress("vulnability")
+@Suppress("vulnerability")
 dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
     implementation("org.json:json:20230227")

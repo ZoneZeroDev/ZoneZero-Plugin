@@ -1,6 +1,5 @@
 package kiinse.me.zonezero.plugin.commands.interfaces
 
-import kiinse.me.zonezero.plugin.commands.abstracts.RegisteredCommand
 import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import org.bukkit.command.CommandSender
 

@@ -17,7 +17,6 @@ enum class Strings(val value: String) {
     FILE_COPY_ERROR("Error on copying file '&c<FILE>&6'! Message:"),
     FILE_CREATE_ERROR("Error on creating file '<FILE>'! Message:"),
     FILE_NOT_FOUND_INSIDE_JAR("File '&c<FILE>&6' not found inside plugin jar. Creating a new file..."),
-    DIRECTORY_COPY_ERROR("Error on copying directory '&c<DIRECTORY>&6'! Message:"),
     FILE_COPIED("File '&d<OLD_FILE>&6' copied to file '&d<FILE>&6'"),
     FILE_DELETED("File '&d<FILE>&6' deleted"),
     RSA_INSTANCE("RSA/ECB/OAEPWithSHA-256AndMGF1Padding"),

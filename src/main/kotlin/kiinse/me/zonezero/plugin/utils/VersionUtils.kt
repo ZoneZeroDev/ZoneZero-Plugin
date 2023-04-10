@@ -11,7 +11,7 @@ import java.util.function.Consumer
 
 object VersionUtils {
 
-    private const val timeout = 3000
+    private const val timeout = 5000
 
     @Throws(VersioningException::class)
     fun getLatestSpigotVersion(consumer: Consumer<Semver>) {

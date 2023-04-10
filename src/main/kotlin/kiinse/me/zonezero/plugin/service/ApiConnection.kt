@@ -38,9 +38,10 @@ import javax.crypto.spec.SecretKeySpec
 
 class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : ApiService {
 
+    private val line = "-----------------------"
     private val keys: MutableMap<KeyType, Key> = EnumMap(KeyType::class.java)
     private var publicKeyString: String = String()
-    private val timeout = 3000
+    private val timeout = 10000
     private var serverKey: PublicKey
     private val serviceServer = configuration.getString(Config.TOOLS_CUSTOM_IP.value) { Strings.DEFAULT_API.value }
     private val token: String
@@ -67,7 +68,7 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
 
     override fun get(address: ServerAddress): ServerAnswer {
         return try {
-            ZoneZero.sendLog(Level.CONFIG, "-----------------------")
+            ZoneZero.sendLog(Level.CONFIG, line)
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestGet("$serviceServer/${address.string}", hashMapOf(
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
@@ -83,7 +84,7 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
 
     override fun get(address: ServerAddress, player: Player): ServerAnswer {
         return try {
-            ZoneZero.sendLog(Level.CONFIG, "-----------------------")
+            ZoneZero.sendLog(Level.CONFIG, line)
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestGet("$serviceServer/${address.string}", hashMapOf(
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
@@ -102,7 +103,7 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
     override fun post(address: ServerAddress, data: JSONObject): ServerAnswer {
         return try {
             val encrypted = encrypt(data, serverKey)
-            ZoneZero.sendLog(Level.CONFIG, "-----------------------")
+            ZoneZero.sendLog(Level.CONFIG, line)
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestPost("$serviceServer/${address.string}", encrypted.message, hashMapOf(
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
@@ -120,7 +121,7 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
     override fun post(address: ServerAddress, data: JSONObject, player: Player): ServerAnswer {
         return try {
             val encrypted = encrypt(data, serverKey)
-            ZoneZero.sendLog(Level.CONFIG, "-----------------------")
+            ZoneZero.sendLog(Level.CONFIG, line)
             ZoneZero.sendLog(Level.CONFIG, "Address: ${address.string}")
             val request = getRequestPost("$serviceServer/${address.string}", encrypted.message, hashMapOf(
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
@@ -178,7 +179,7 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
         val answer = ServerAnswer(responseCode, body)
         ZoneZero.sendLog(Level.CONFIG, "Status: ${answer.status}")
         ZoneZero.sendLog(Level.CONFIG, "Body: ${answer.data}")
-        ZoneZero.sendLog(Level.CONFIG, "-----------------------")
+        ZoneZero.sendLog(Level.CONFIG, line)
         return answer
     }
 
@@ -258,7 +259,7 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
     @Throws(SecureException::class)
     override fun updateServerKey() {
         try {
-            ZoneZero.sendLog(Level.CONFIG, "-----------------------")
+            ZoneZero.sendLog(Level.CONFIG, line)
             ZoneZero.sendLog(Level.CONFIG, "Address: server")
             val request = getRequestGet("$serviceServer/server", EnumMap(Strings::class.java)).execute()
             val answer = getServerAnswer(request.returnResponse())

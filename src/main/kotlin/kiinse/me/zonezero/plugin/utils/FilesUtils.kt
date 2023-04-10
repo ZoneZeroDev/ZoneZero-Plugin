@@ -159,7 +159,7 @@ class FilesUtils(private val plugin: ZoneZero) {
         return File(dataFolder + file)
     }
 
-    fun deleteFile(file: File) {
+    private fun deleteFile(file: File) {
         if (file.delete()) ZoneZero.sendLog(Level.CONFIG, Strings.FILE_DELETED.value
             .replace(Replace.FILE.value, file.name, ignoreCase = true))
     }
