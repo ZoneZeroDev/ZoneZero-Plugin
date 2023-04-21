@@ -10,7 +10,7 @@ import org.bukkit.Server
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ServerService(private val api: ApiService) : ServerData {
+class ServerService(private val api: ApiService, private val serverName: String) : ServerData {
 
     override fun getPluginCode(zoneZero: ZoneZero): ServerAnswer {
         return api.post(ServerAddress.GET_CODE, getServerInfo(zoneZero))
@@ -25,7 +25,7 @@ class ServerService(private val api: ApiService) : ServerData {
     private fun getServerInfo(zoneZero: ZoneZero): JSONObject {
         val json = JSONObject()
         val server = zoneZero.server
-        json.put("name", server.name)
+        json.put("name", serverName.ifEmpty { server.name })
         json.put("maxPlayers", server.maxPlayers)
         json.put("pluginVersion", zoneZero.description.version)
         json.put("allowEnd", server.allowEnd)

@@ -26,7 +26,6 @@ enum class Strings(val value: String) {
     STRING_DATA("data"),
     STRING_MESSAGE("message"),
     NULL_CREDENTIALS("Credentials is null!"),
-    NULL_SERVICE_TOKEN("Service token is null!"),
     DEFAULT_API("https://api.zonezero.dev"),
     HEADER_CONTENT_KEY("Content-Type"),
     HEADER_CONTENT_VALUE("application/json"),

@@ -1,69 +1,17 @@
 
 f
-java:S1192L"KDefine a constant instead of duplicating this literal "! Message:" 4 times.(«ì·Ÿøÿÿÿÿ
+java:S1192N"KDefine a constant instead of duplicating this literal "! Message:" 4 times.(«ì·Ÿøÿÿÿÿ
 \
-java:S11929"FDefine a constant instead of duplicating this literal "&a..." 3 times.(‘›Í°
+java:S1192:"FDefine a constant instead of duplicating this literal "&a..." 3 times.(‘›Í°
 m
-java:S1192L"RDefine a constant instead of duplicating this literal "Error on loading " 3 times.(«ì·Ÿøÿÿÿÿ
+java:S1192N"RDefine a constant instead of duplicating this literal "Error on loading " 3 times.(«ì·Ÿøÿÿÿÿ
 D
-java:S5411ù"(Use a primitive boolean expression here.(ƒó°úÿÿÿÿ
+java:S5411û"(Use a primitive boolean expression here.(ƒó°úÿÿÿÿ
 D
-java:S5411ş"(Use a primitive boolean expression here.(ƒó°úÿÿÿÿ
+java:S5411€"(Use a primitive boolean expression here.(ƒó°úÿÿÿÿ
 ?
-java:S5411ˆ"(Use a primitive boolean expression here.(­‘÷Ñ
-B
-java:S35998",Use another way to initialize this instance.(³Şï¡
-o
-java:S11718"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-B
-java:S3599G",Use another way to initialize this instance.(³Şï¡
-o
-java:S1171G"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-B
-java:S3599`",Use another way to initialize this instance.(³Şï¡
-o
-java:S1171`"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-B
-java:S3599|",Use another way to initialize this instance.(³Şï¡
-o
-java:S1171|"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599ˆ",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171ˆ"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599¦",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171¦"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599®",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171®"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599³",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171³"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
+java:S5411Š"(Use a primitive boolean expression here.(­‘÷Ñ
 N
-java:S1135¸"2Complete the task associated to this TODO comment.(µ¤£—ûÿÿÿÿ
-C
-java:S3599¼",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171¼"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599à",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171à"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599å",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171å"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
-C
-java:S3599ì",Use another way to initialize this instance.(³Şï¡
-p
-java:S1171ì"YMove the contents of this initializer to a standard constructor or to field initializers.(³Şï¡
+java:S1135º"2Complete the task associated to this TODO comment.(µ¤£—ûÿÿÿÿ
 R
-java:S2696ô"6Make the enclosing method "static" or remove this set.(Ô»êÅøÿÿÿÿ
+java:S2696ö"6Make the enclosing method "static" or remove this set.(Ô»êÅøÿÿÿÿ

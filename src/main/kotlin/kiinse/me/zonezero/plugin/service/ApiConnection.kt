@@ -43,13 +43,10 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
     private var publicKeyString: String = String()
     private val timeout = 10000
     private var serverKey: PublicKey
-    private val serviceServer = configuration.getString(Config.TOOLS_CUSTOM_IP.value) { Strings.DEFAULT_API.value }
-    private val token: String
+    private val toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.value)
+    private val serviceServer = toolsTable.getString(Config.TOOLS_CUSTOM_IP.value) { Strings.DEFAULT_API.value }
 
     init {
-        val config = zoneZero.configuration
-        val credentials = config.getTable(Config.TABLE_CREDENTIALS.value) ?: throw APIException(Strings.NULL_CREDENTIALS.value)
-        token = credentials.getString(Config.CREDENTIALS_TOKEN.value) ?: throw APIException(Strings.NULL_SERVICE_TOKEN.value)
         try {
             val keyPairGenerator = KeyPairGenerator.getInstance(Strings.RSA_INSTANCE_SECOND.value)
             keyPairGenerator.initialize(2048)
@@ -199,8 +196,15 @@ class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : 
 
     private fun getBody(encrypted: EncryptedMessage): JSONObject {
         if (encrypted.message.isEmpty()) return JSONObject()
-        if (encrypted.aes.isNullOrEmpty()) return JSONObject(encrypted.message)
-        return decrypt(encrypted)
+        if (encrypted.aes.isNullOrEmpty()) return getBody(JSONObject(encrypted.message))
+        return getBody(decrypt(encrypted))
+    }
+
+    private fun getBody(json: JSONObject): JSONObject {
+        if (json.has("data")) {
+            return json.getJSONObject("data")
+        }
+        return json
     }
 
     @Throws(APIException::class)
