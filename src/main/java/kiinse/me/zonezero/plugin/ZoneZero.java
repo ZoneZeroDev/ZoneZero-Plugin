@@ -40,11 +40,11 @@ public class ZoneZero extends JavaPlugin {
 
     private final FilesUtils filesUtils = new FilesUtils(this);
     private TomlParseResult configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.getValue());
-    private final MessageUtils messageUtils = new MessageUtils(filesUtils);
     private TomlTable toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue());
     private TomlTable credentialsTable = configuration.getTableOrEmpty(Config.TABLE_CREDENTIALS.getValue());
     private String token = credentialsTable.getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
     private TomlTable settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.getValue());
+    private MessageUtils messageUtils = new MessageUtils(filesUtils, settingsTable);
     private ApiService apiConnection = new ApiConnection(this, toolsTable);
     private PlayersData playersData = new PlayersService(this, apiConnection, settingsTable);
     private ServerService serverService = new ServerService(apiConnection, credentialsTable.getString(Config.CREDENTIALS_SERVER_NAME.getValue(), () -> ""));
@@ -63,6 +63,7 @@ public class ZoneZero extends JavaPlugin {
             credentialsTable = configuration.getTableOrEmpty(Config.TABLE_CREDENTIALS.getValue());
             toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.getValue());
             token = toolsTable.getString(Config.CREDENTIALS_TOKEN.getValue(), () -> "");
+            messageUtils = new MessageUtils(filesUtils, settingsTable);
             apiConnection = new ApiConnection(this, toolsTable);
             serverService = new ServerService(apiConnection, credentialsTable.getString(Config.CREDENTIALS_SERVER_NAME.getValue(), () -> ""));
             playersData = new PlayersService(this, apiConnection, settingsTable);
@@ -105,7 +106,7 @@ public class ZoneZero extends JavaPlugin {
             pluginManager.registerEvents(new InteractListener(playersData), this);
             pluginManager.registerEvents(new DamageListener(playersData), this);
             pluginManager.registerEvents(new MiningListener(playersData), this);
-            pluginManager.registerEvents(new JoinListener(playersData, settingsTable, messageUtils), this);
+            pluginManager.registerEvents(new JoinListener(this, playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new QuitListener(playersData, settingsTable, messageUtils), this);
             pluginManager.registerEvents(new ExitListener(playersData), this);
             pluginManager.registerEvents(new ChatListener(playersData, settingsTable), this);
@@ -155,10 +156,6 @@ public class ZoneZero extends JavaPlugin {
     public MessageUtils getMessageUtils() {return messageUtils;}
     public FilesUtils getFilesUtils() {return filesUtils;}
 
-    public TomlParseResult getConfiguration() {
-        return configuration;
-    }
-
     private void checks(Runnable runnable, String onError) {
         try {
             apiConnection.updateServerKey();
@@ -183,7 +180,7 @@ public class ZoneZero extends JavaPlugin {
                     add(Strings.DISCORD_MESSAGE_2.getValue());
                     add(Strings.DISCORD_MESSAGE_3.getValue());
                     add(Strings.DISCORD_MESSAGE_4.getValue());
-                }}); // TODO: Убрать
+                }});
                 runAsync(this::checkVersion);
                 runAsync(runnable);
             } else {
@@ -248,12 +245,12 @@ public class ZoneZero extends JavaPlugin {
 
     public static void sendLog(Level level, String message, Throwable throwable) {
         sendLog(level, message + " " + throwable.getMessage());
-        if (isDebug) throwable.printStackTrace();
+        if (Boolean.TRUE.equals(isDebug)) throwable.printStackTrace();
     }
 
     public static void sendLog(Level level, Throwable throwable) {
         sendLog(level, throwable.getMessage());
-        if (isDebug) throwable.printStackTrace();
+        if (Boolean.TRUE.equals(isDebug)) throwable.printStackTrace();
     }
 
     public static void sendLog(Level level, String msg) {
@@ -263,7 +260,7 @@ public class ZoneZero extends JavaPlugin {
             } else if (level.equals(Level.WARNING) || level.equals(Level.SEVERE)) {
                 sendConsole("&6[&bZoneZero&f/&c" + level + "&6] " + msg);
             } else {
-                if (isDebug) sendConsole("&6[&bZoneZero&f/&dDEBUG&6] " + msg);
+                if (Boolean.TRUE.equals(isDebug)) sendConsole("&6[&bZoneZero&f/&dDEBUG&6] " + msg);
             }
         });
     }

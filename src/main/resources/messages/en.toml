@@ -39,6 +39,3 @@ two_factor_help = "HELP ABOUT 2FA"
 not_email = "&cThis '<VALUE>' value is not an email!"
 wrong_password_size = "&cPassword size cannot be less than <SIZE>!"
 code_outdated = "&cYour code is outdated!"
-
-[config]
-version = 1.0

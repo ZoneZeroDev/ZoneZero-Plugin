@@ -5,6 +5,8 @@ token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbFNlcnZpY2UiLCJleH
 serverName = "Server"
 
 [settings]
+# Default plugin locale if players locale not found in messages
+defaultLocale = "en"
 # Can not authenticated players chat?
 # Keep in mind that this feature also blocks all commands not
 # listed in the list below.
@@ -41,4 +43,4 @@ removeLeaveMessage = false
 applyBlindEffect = false
 
 [config]
-version = 1.2
+version = 1.3

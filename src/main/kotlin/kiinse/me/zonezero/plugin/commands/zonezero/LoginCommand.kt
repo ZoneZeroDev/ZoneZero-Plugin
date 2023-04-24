@@ -36,7 +36,7 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
                     202  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
                     401  -> {
                         if (kickOnWrongPassword) {
-                            player.kickPlayer(messageUtils.getOrString(Message.WRONG_PASSWORD))
+                            player.kickPlayer(messageUtils.getOrString(player, Message.WRONG_PASSWORD))
                         } else {
                             messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
                         }

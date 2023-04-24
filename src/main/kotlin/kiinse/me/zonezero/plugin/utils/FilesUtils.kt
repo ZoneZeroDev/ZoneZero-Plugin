@@ -69,7 +69,6 @@ class FilesUtils(private val plugin: ZoneZero) {
 
     @Throws(SecurityException::class)
     fun createDirectory(file: File) {
-        if (file.exists()) deleteFile(file)
         if (file.mkdirs()) ZoneZero.sendLog(Level.CONFIG, Strings.DIRECTORY_CREATED.value
             .replace(Replace.DIRECTORY.value, file.name, ignoreCase = true))
     }
@@ -122,7 +121,7 @@ class FilesUtils(private val plugin: ZoneZero) {
         }
     }
 
-    private fun accessFile(file: String): InputStream? {
+    fun accessFile(file: String): InputStream? {
         var input = ZoneZero::class.java.getResourceAsStream(file)
         if (input == null) input = ZoneZero::class.java.classLoader.getResourceAsStream(file)
         return input
@@ -157,6 +156,10 @@ class FilesUtils(private val plugin: ZoneZero) {
 
     fun getFile(file: String): File {
         return File(dataFolder + file)
+    }
+
+    fun getFile(directory: String, file: String): File {
+        return File(dataFolder + directory + File.separator + file)
     }
 
     private fun deleteFile(file: File) {

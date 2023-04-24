@@ -37,10 +37,11 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
         for (registeredCommand in registeredMainCommandTable.values) {
             if (registeredCommand.method == null) continue
             val annotation: Command? = registeredCommand.annotation as Command?
-            if (annotation != null && annotation.command.equals(command.name, ignoreCase = true)) {
-                if (args.isNotEmpty() && isSubCommand(command, args)) {
-                    return false
-                }
+            if (annotation != null &&
+                annotation.command.equals(command.name, ignoreCase = true) &&
+                args.isNotEmpty() &&
+                isSubCommand(command, args)) {
+                return false
             }
         }
         return true

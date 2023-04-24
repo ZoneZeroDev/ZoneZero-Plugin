@@ -17,11 +17,9 @@ class CommandsListener(private val playersData: PlayersData, private val message
     @EventHandler
     fun onPlayerChat(event: PlayerCommandPreprocessEvent) {
         val player = event.player
-        if (playersData.getPlayerStatus(player) != PlayerStatus.AUTHORIZED) {
-            if (!canUseCommand(event)) {
-                messageUtils.sendMessageWithPrefix(player, Message.AUTHORIZE_ON_SERVER)
-                event.isCancelled = true
-            }
+        if (playersData.getPlayerStatus(player) != PlayerStatus.AUTHORIZED && !canUseCommand(event)) {
+            messageUtils.sendMessageWithPrefix(player, Message.AUTHORIZE_ON_SERVER)
+            event.isCancelled = true
         }
     }
 

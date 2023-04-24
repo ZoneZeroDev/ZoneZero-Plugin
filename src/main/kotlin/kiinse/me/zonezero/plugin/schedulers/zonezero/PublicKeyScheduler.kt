@@ -10,12 +10,9 @@ import java.util.logging.Level
 @SchedulerData(name = "PublicKeyScheduler", period = 100L)
 class PublicKeyScheduler(plugin: ZoneZero, private val api: ApiService) : Scheduler(plugin) {
 
-    private val successMsg = Strings.SERVER_KEY_UPDATED_MESSAGE.value
-
     override fun run() {
         try {
             api.updateServerKey()
-            ZoneZero.sendLog(Level.CONFIG, successMsg)
         } catch (e: Exception) {
             ZoneZero.sendLog(Level.SEVERE, Strings.SERVER_KEY_UPDATE_ERROR.value, e)
         }

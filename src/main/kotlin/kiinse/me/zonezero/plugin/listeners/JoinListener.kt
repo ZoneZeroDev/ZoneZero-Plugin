@@ -1,18 +1,21 @@
 package kiinse.me.zonezero.plugin.listeners
 
+import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.enums.Message
 import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.utils.MessageUtils
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.tomlj.TomlTable
 
-class JoinListener(private val playersData: PlayersData,
+class JoinListener(private val zoneZero: ZoneZero,
+                   private val playersData: PlayersData,
                    config: TomlTable,
                    private val messageUtils: MessageUtils) : Listener {
 
@@ -23,7 +26,7 @@ class JoinListener(private val playersData: PlayersData,
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        onThisEvent(event)
+        Bukkit.getScheduler().runTaskLater(zoneZero, Runnable { onThisEvent(event) }, 200)
     }
 
     private fun onThisEvent(event: PlayerJoinEvent) {
@@ -53,7 +56,7 @@ class JoinListener(private val playersData: PlayersData,
                     403 -> messageUtils.sendMessageWithPrefix(player, Message.PLEASE_LOGIN)
                     404 -> {
                         if (kickNonRegistered) {
-                            player.kickPlayer(messageUtils.getOrString(Message.KICK_UNREGISTERED))
+                            player.kickPlayer(messageUtils.getOrString(player, Message.KICK_UNREGISTERED))
                         } else {
                             messageUtils.sendMessageWithPrefix(player, Message.PLEASE_REGISTER)
                         }

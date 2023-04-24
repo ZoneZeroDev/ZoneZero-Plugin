@@ -8,6 +8,7 @@ enum class Config(val value: String) {
     TABLE_MESSAGES("messages"),
     CREDENTIALS_TOKEN("token"),
     CREDENTIALS_SERVER_NAME("serverName"),
+    DEFAULT_LOCALE("defaultLocale"),
     TOOLS_IS_DEBUG("debug"),
     TOOLS_CUSTOM_IP("customIp"),
     CONFIG_VERSION("version"),
