@@ -41,6 +41,6 @@ jobs:
           title: New activity in `ZoneZero Auth`!
           description: |
             Commit: `${{ github.event.head_commit.message }}`
-          color: 0x0000ff
+          color: 0xA0EE00
           username: ZoneZero Build
           avatar_url: ${{ secrets.AVATAR_URL }}
