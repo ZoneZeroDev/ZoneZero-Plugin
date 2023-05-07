@@ -91,6 +91,5 @@ jobs:
           color: 0xFFD500
           username: ZoneZero Build
           avatar_url: ${{ secrets.AVATAR_URL }}
-ff
           username: ZoneZero Build
           avatar_url: ${{ secrets.AVATAR_URL }}
