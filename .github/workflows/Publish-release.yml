@@ -42,7 +42,8 @@ jobs:
           description: |
             Version: `${{ github.event.head_commit.message }}`
             Click [here](https://www.spigotmc.org/resources/●-zonezero-unified-auth-system-alpha.108992/updates) to download!
-          color: 0x0000name: Build code
+          color: 0x0000
+          name: Build code
 on:
   push:
     branches:
