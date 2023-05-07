@@ -1,7 +1,6 @@
 name: Build code
 on:
   push:
-    types: [ published ]
     branches:
       - master
   workflow_dispatch:
@@ -39,8 +38,10 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
-          title: "deploy"
-          description: "Build ZoneZero Auth Plugin"
+          title: New version of `ZoneZero Auth` is ready!
+          description: |
+            Commit message: `${{ github.event.head_commit.message }}`
+            Click [here](https://www.spigotmc.org/resources/●-zonezero-unified-auth-system-alpha.108992/updates) to download!
           color: 0x0000ff
           username: ZoneZero Build
           avatar_url: ${{ secrets.AVATAR_URL }}
