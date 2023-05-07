@@ -16,6 +16,7 @@ enum class Message(val key: String) {
     SUCCESSFULLY_PASSWORD_CHANGED("successfully_password_changed"),
     SUCCESSFULLY_TWO_FACTOR_ENABLED("successfully_two_factor_enabled"),
     SUCCESSFULLY_TWO_FACTOR_DISABLED("successfully_two_factor_disabled"),
+    SUCCESSFULLY_ACCOUNT_REMOVED("successfully_account_removed"),
     TWO_FACTOR_ALREADY_ENABLED("two_factor_already_enabled"),
     TWO_FACTOR_ALREADY_DISABLED("two_factor_already_disabled"),
     TWO_FACTOR_INCORRECT("two_factor_incorrect"),

@@ -8,6 +8,7 @@ import kiinse.me.zonezero.plugin.commands.annotations.Command
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandContext
 import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.service.body.PlayerLoginBody
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
 import org.tomlj.TomlTable
@@ -26,7 +27,7 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
             messageUtils.sendMessageWithPrefix(player, Message.ALREADY_LOGGED_IN)
             return
         }
-        playersData.authPlayer(player, context.args[0]) { answer ->
+        playersData.authPlayer(player, PlayerLoginBody(context.args[0], playersData.getPlayerIp(player))) { answer ->
             run {
                 when (answer.status) {
                     200  -> {
@@ -42,7 +43,8 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
                         }
                     }
                     404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
-                    429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS, hashMapOf(Pair("seconds", answer.data.getString("message")!!.split("'")[1])))
+                    429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS,
+                                                               hashMapOf(Pair("seconds", answer.getMessageAnswer().message.split("'")[1])))
                     else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_LOGIN)
                 }
             }

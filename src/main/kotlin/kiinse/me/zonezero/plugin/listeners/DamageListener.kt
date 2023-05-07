@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent
 class DamageListener(private val playersData: PlayersData) : Listener {
 
     @EventHandler
-    fun onPlayerInteract(event: EntityDamageEvent) {
+    fun onPlayerDamage(event: EntityDamageEvent) {
         val player = event.entity
         if (player is Player && !isPlayerAllowDamage(player)) {
             event.isCancelled = true

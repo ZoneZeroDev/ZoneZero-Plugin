@@ -25,11 +25,14 @@ import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Utility;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.tomlj.TomlParseResult;
 import org.tomlj.TomlTable;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,14 @@ import java.util.Objects;
 import java.util.logging.Level;
 
 public class ZoneZero extends JavaPlugin {
+
+    public ZoneZero() {
+        super();
+    }
+
+    protected ZoneZero(JavaPluginLoader loader, PluginDescriptionFile descriptionFile, File dataFolder, File file) {
+        super(loader, descriptionFile, dataFolder, file);
+    }
 
     private final FilesUtils filesUtils = new FilesUtils(this);
     private TomlParseResult configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.getValue());
@@ -93,50 +104,18 @@ public class ZoneZero extends JavaPlugin {
         }
     }
 
-    @Override
-    public void onEnable() {
-        checks(() -> {
-            sendInFrame(new ArrayList<>(){{
-                add("&aLoading &f" + getName() + "&a...");
-            }});
-            schedulersManager = new SchedulersManager();
-            schedulersManager.register(new PublicKeyScheduler(this, apiConnection));
-            var pluginManager = getServer().getPluginManager();
-            pluginManager.registerEvents(new MoveListener(playersData), this);
-            pluginManager.registerEvents(new InteractListener(playersData), this);
-            pluginManager.registerEvents(new DamageListener(playersData), this);
-            pluginManager.registerEvents(new MiningListener(playersData), this);
-            pluginManager.registerEvents(new JoinListener(this, playersData, settingsTable, messageUtils), this);
-            pluginManager.registerEvents(new QuitListener(playersData, settingsTable, messageUtils), this);
-            pluginManager.registerEvents(new ExitListener(playersData), this);
-            pluginManager.registerEvents(new ChatListener(playersData, settingsTable), this);
-            pluginManager.registerEvents(new CommandsListener(playersData, messageUtils, settingsTable), this);
-            new CommandManager(this)
-                    .registerCommand(new LoginCommand(this, playersData, settingsTable))
-                    .registerCommand(new RegisterCommand(this, playersData))
-                    .registerCommand(new ZoneZeroCommand(this))
-                    .registerCommand(new ChangePasswordCommand(this, playersData))
-                    .registerCommand(new TwoFactorAuthCommand(this, playersData));
-            Objects.requireNonNull(getCommand("login")).setTabCompleter(new LoginTab());
-            Objects.requireNonNull(getCommand("register")).setTabCompleter(new RegisterTab());
-            Objects.requireNonNull(getCommand("zonezero")).setTabCompleter(new ZoneZeroTab());
-            Objects.requireNonNull(getCommand("changepassword")).setTabCompleter(new ChangePasswordTab());
-            Objects.requireNonNull(getCommand("2fa")).setTabCompleter(new TwoFactorTab());
-
-            var description = getDescription();
-            sendInFrame(new ArrayList<>(){{
-                add("&f" + getName() + " &aloaded!");
-                add("&bAuthors: &f" + description.getAuthors());
-                add("&bWebsite: &f" + description.getWebsite());
-                add("&bPlugin version: &f" + description.getVersion());
-            }});
-        }, "Error on loading " + getName() + "! Message:");
+    @Utility
+    public static void sendConsole(String message) {
+        try {
+            Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
     public void onDisable() {
         checks(() -> {
-            sendInFrame(new ArrayList<>(){{
+            sendInFrame(new ArrayList<>() {{
                 add("&cDisabling &f" + getName() + "&a...");
             }});
 
@@ -165,14 +144,14 @@ public class ZoneZero extends JavaPlugin {
                 sendInFrame(new ArrayList<>(){{
                     add("&aRegister your server on &bhttps://zonezero.dev/");
                     add("");
-                    add("&aYour server code is '&b" + serverAnswer.getData().getString(Strings.STRING_MESSAGE.getValue()) + "&a'");
+                    add("&aYour server code is '&b" + serverAnswer.getMessageAnswer().getMessage() + "&a'");
                     add("");
                     add("&aEnter this code on &bhttps://zonezero.dev/servers/register");
                 }});
             } else if (status == 403) {
                 sendInFrame(new ArrayList<>(){{
                     add(Strings.SERVER_CORE_NOT_ALLOWED.getValue());
-                    add("&c" + serverAnswer.getData().getString(Strings.STRING_MESSAGE.getValue()));
+                    add("&c" + serverAnswer.getMessageAnswer().getMessage());
                 }});
             } else if (status == 406) {
                 sendInFrame(new ArrayList<>(){{
@@ -277,8 +256,47 @@ public class ZoneZero extends JavaPlugin {
         new Thread(runnable).start();
     }
 
-    @Utility
-    public static void sendConsole(String message) {
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    @Override
+    public void onEnable() {
+        checks(() -> {
+            sendInFrame(new ArrayList<>() {{
+                add("&aLoading &f" + getName() + "&a...");
+            }});
+            schedulersManager = new SchedulersManager();
+            schedulersManager.register(new PublicKeyScheduler(this, apiConnection));
+            var pluginManager = getServer().getPluginManager();
+            pluginManager.registerEvents(new MoveListener(playersData), this);
+            pluginManager.registerEvents(new InteractListener(playersData), this);
+            pluginManager.registerEvents(new DamageListener(playersData), this);
+            pluginManager.registerEvents(new MiningListener(playersData), this);
+            pluginManager.registerEvents(new BlockPlaceListener(playersData), this);
+            pluginManager.registerEvents(new InventoryListener(playersData), this);
+            pluginManager.registerEvents(new JoinListener(this, playersData, settingsTable, messageUtils), this);
+            pluginManager.registerEvents(new QuitListener(playersData, settingsTable, messageUtils), this);
+            pluginManager.registerEvents(new ExitListener(playersData), this);
+            pluginManager.registerEvents(new ChatListener(playersData, settingsTable), this);
+            pluginManager.registerEvents(new CommandsListener(playersData, messageUtils, settingsTable), this);
+            new CommandManager(this)
+                    .registerCommand(new LoginCommand(this, playersData, settingsTable))
+                    .registerCommand(new RegisterCommand(this, playersData))
+                    .registerCommand(new ZoneZeroCommand(this))
+                    .registerCommand(new ChangePasswordCommand(this, playersData))
+                    .registerCommand(new TwoFactorAuthCommand(this, playersData))
+                    .registerCommand(new RemoveAccountCommand(this, playersData));
+            Objects.requireNonNull(getCommand("login")).setTabCompleter(new LoginTab());
+            Objects.requireNonNull(getCommand("register")).setTabCompleter(new RegisterTab());
+            Objects.requireNonNull(getCommand("zonezero")).setTabCompleter(new ZoneZeroTab());
+            Objects.requireNonNull(getCommand("zzremove")).setTabCompleter(new RemoveAccountTab());
+            Objects.requireNonNull(getCommand("changepassword")).setTabCompleter(new ChangePasswordTab());
+            Objects.requireNonNull(getCommand("2fa")).setTabCompleter(new TwoFactorTab());
+
+            var description = getDescription();
+            sendInFrame(new ArrayList<>() {{
+                add("&f" + getName() + " &aloaded!");
+                add("&bAuthors: &f" + description.getAuthors());
+                add("&bWebsite: &f" + description.getWebsite());
+                add("&bPlugin version: &f" + description.getVersion());
+            }});
+        }, "Error on loading " + getName() + "! Message:");
     }
 }

@@ -25,7 +25,8 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
     }
 
     override fun onExecute(sender: CommandSender, command: org.bukkit.command.Command, args: Array<String>): Boolean {
-        return if (isMainCommand(command, args)) execute(sender, executeMainCommand(sender, command, args)) else execute(sender, executeSubCommand(sender, command, args))
+        return if (isMainCommand(command, args)) execute(sender, executeMainCommand(sender, command, args))
+        else execute(sender, executeSubCommand(sender, command, args))
     }
 
     private fun execute(sender: CommandSender, value: Boolean): Boolean {
@@ -48,7 +49,9 @@ open class CommandManager(plugin: ZoneZero) : MineCommandManager(plugin) {
     }
 
     private fun isSubCommand(command: org.bukkit.command.Command, args: Array<String>): Boolean {
-        return registeredSubCommandTable.containsKey(StringBuilder(command.name.lowercase(Locale.getDefault())).append(" ").append(args[0].lowercase(Locale.getDefault())).toString())
+        return registeredSubCommandTable.containsKey(StringBuilder(command.name.lowercase(Locale.getDefault()))
+                                                         .append(" ")
+                                                         .append(args[0].lowercase(Locale.getDefault())).toString())
     }
 
     private fun executeMainCommand(sender: CommandSender, command: org.bukkit.command.Command, args: Array<String>): Boolean {

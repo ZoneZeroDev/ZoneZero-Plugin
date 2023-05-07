@@ -22,8 +22,6 @@ enum class Strings(val value: String) {
     RSA_INSTANCE_SECOND("RSA"),
     AES_INSTANCE("AES"),
     API_KEY_ERROR("Something gone wrong with api server"),
-    STRING_DATA("data"),
-    STRING_MESSAGE("message"),
     DEFAULT_API("https://api.zonezero.dev"),
     HEADER_CONTENT_KEY("Content-Type"),
     HEADER_CONTENT_VALUE("application/json"),

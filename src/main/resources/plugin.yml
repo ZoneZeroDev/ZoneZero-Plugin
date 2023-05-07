@@ -11,17 +11,22 @@ commands:
     description: Login command
     permission: zonezero.player.login
     usage: /<command> <password>
-    aliases: [lg, log, l]
+    aliases: [ lg, log, l ]
   register:
     description: Register command
     permission: zonezero.player.register
     usage: /<command> <password> <password>
-    aliases: [reg]
+    aliases: [ reg ]
+  zzremove:
+    description: Register command
+    permission: zonezero.player.remove
+    usage: /<command> <password>
+    aliases: [ zzrem ]
   2fa:
     description: 2 factor authentication command
     permission: zonezero.player.2fa
     usage: /<command> <code>
-    aliases: [2a, 2f]
+    aliases: [ 2a, 2f ]
   2fa help:
     description: 2 factor authentication help command
     permission: zonezero.player.2fa
@@ -59,6 +64,9 @@ permissions:
   zonezero.player.register:
     description: Allows '/register <password> <password>' command
     default: op
+  zonezero.player.remove:
+    description: Allows '/zzremove <password>' command
+    default: op
   zonezero.player.2fa:
     description: Allows 2fa commands
     default: op
@@ -80,6 +88,7 @@ permissions:
       zonezero.player.register: true
       zonezero.player.changepassword: true
       zonezero.player.help: true
+      zonezero.player.remove: true
   zonezero.admin.*:
     description: All perms
     default: op

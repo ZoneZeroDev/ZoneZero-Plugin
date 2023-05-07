@@ -11,12 +11,13 @@ plugins {
 }
 
 group = "kiinse.me.zonezero.plugin"
-version = "1.0.0-alpha.63"
+version = "1.0.0-alpha.64"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
     maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
     maven { url = uri("https://repo.maven.apache.org/maven2/") }
 }
@@ -24,7 +25,6 @@ repositories {
 @Suppress("vulnerability")
 dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
-    implementation("org.json:json:20230227")
     implementation("org.tomlj:tomlj:1.1.0")
     implementation("org.springframework:spring-core:6.0.7")
     implementation("commons-codec:commons-codec:1.15")
@@ -36,7 +36,11 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation(kotlin("stdlib-jdk8"))
+
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.29.0")
+    testImplementation(kotlin("test"))
 }
 
 kapt {
@@ -54,6 +58,10 @@ tasks {
             jvmTarget = "17"
         }
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 tasks.withType<Jar> {

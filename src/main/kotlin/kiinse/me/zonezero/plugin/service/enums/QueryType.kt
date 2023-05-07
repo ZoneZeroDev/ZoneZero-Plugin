@@ -4,5 +4,6 @@ enum class QueryType {
     ENABLE_TFA,
     DISABLE_TFA,
     CHANGE_PASSWORD,
-    AUTH
+    AUTH,
+    ACCOUNT_REMOVE
 }

@@ -5,9 +5,11 @@ import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.enums.Config
 import kiinse.me.zonezero.plugin.enums.Strings
+import kiinse.me.zonezero.plugin.service.body.*
 import kiinse.me.zonezero.plugin.service.data.ServerAnswer
 import kiinse.me.zonezero.plugin.service.enums.ServerAddress
 import kiinse.me.zonezero.plugin.service.interfaces.ApiService
+import kiinse.me.zonezero.plugin.service.interfaces.post
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -15,13 +17,11 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.json.JSONObject
 import org.tomlj.TomlTable
 import java.util.*
 import java.util.function.Consumer
 import java.util.logging.Level
-
-class PlayersService(plugin: ZoneZero, private val api: ApiService, config: TomlTable) : PlayersData {
+ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: TomlTable) : PlayersData {
 
     private val joinMessageOnAuth = config.getBoolean(Config.JOIN_MESSAGE_ON_AUTH.value) { false }
     private val applyBlindEffect = config.getBoolean(Config.APPLY_BLIND_EFFECT.value) { false }
@@ -85,68 +85,43 @@ class PlayersService(plugin: ZoneZero, private val api: ApiService, config: Toml
         joinMessages.remove(player.uniqueId)
     }
 
-    override fun authPlayer(player: Player, password: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
-        return@runBlocking async { consumer.accept(api.post(ServerAddress.LOGIN_PLAYER, getPlayerInfo(player, password), player)) }
+    override fun authPlayer(player: Player, body: PlayerLoginBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async {
+            consumer.accept(api.post<PlayerLoginBody>(ServerAddress.LOGIN_PLAYER, body, player))
+        }
     }
 
-    override fun changePassword(
-        player: Player,
-        oldPassword: String,
-        newPassword: String,
-        consumer: Consumer<ServerAnswer>
-    ): Deferred<Unit> = runBlocking {
-        return@runBlocking async {
-            val json = JSONObject()
-            json.put("oldPassword", oldPassword)
-            json.put("newPassword", newPassword)
-            json.put("ip", getPlayerIp(player))
-            consumer.accept(api.post(ServerAddress.CHANGE_PASSWORD, json, player))
-        }
+    override fun removePlayer(player: Player, body: PlayerRemoveBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post<PlayerRemoveBody>(ServerAddress.REMOVE_PLAYER, body, player)) }
+    }
+
+    override fun changePassword(player: Player, body: PlayerPasswordChangeBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post<PlayerPasswordChangeBody>(ServerAddress.CHANGE_PASSWORD, body, player)) }
     }
 
     override fun authPlayerByIp(player: Player, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
-        return@runBlocking async {
-            val json = JSONObject()
-            json.put("ip", getPlayerIp(player))
-            consumer.accept(api.post(ServerAddress.LOGIN_PLAYER_BY_IP, json, player))
-        }
+        return@runBlocking async { consumer.accept(api.post<PlayerLoginBody>(ServerAddress.LOGIN_PLAYER_BY_IP,
+                                                                             PlayerLoginBody(ip = getPlayerIp(player)),
+                                                                             player)) }
     }
 
-    override fun registerPlayer(player: Player, password: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
-        return@runBlocking async { consumer.accept(api.post(ServerAddress.REGISTER_PLAYER, getPlayerInfo(player, password), player)) }
+    override fun registerPlayer(player: Player, body: PlayerRegisterBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post<PlayerRegisterBody>(ServerAddress.REGISTER_PLAYER, body, player)) }
     }
 
-    override fun enableTwoFa(player: Player, email: String, password: String, consumer: Consumer<ServerAnswer>) = runBlocking {
-        return@runBlocking async {
-            val json = JSONObject()
-            json.put("password", password)
-            json.put("email", email)
-            json.put("ip", getPlayerIp(player))
-            consumer.accept(api.post(ServerAddress.TWO_FA_ENABLE, json, player))
-        }
+    override fun enableTwoFa(player: Player, body: PlayerTwoFaEnableBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post<PlayerTwoFaEnableBody>(ServerAddress.TWO_FA_ENABLE, body, player)) }
     }
 
-    override fun disableTwoFa(player: Player, password: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
-        return@runBlocking async { consumer.accept(api.post(ServerAddress.TWO_FA_DISABLE, getPlayerInfo(player, password), player)) }
+    override fun disableTwoFa(player: Player, body: PlayerTwoFaDisableBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post<PlayerTwoFaDisableBody>(ServerAddress.TWO_FA_DISABLE, body, player)) }
     }
 
-    override fun codeTwoFa(player: Player, code: String, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
-        return@runBlocking async {
-            val json = JSONObject()
-            json.put("code", code)
-            json.put("ip", getPlayerIp(player))
-            consumer.accept(api.post(ServerAddress.TWO_FA_CODE, json, player))
-        }
+    override fun codeTwoFa(player: Player, body: PlayerTwoFaCodeBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
+        return@runBlocking async { consumer.accept(api.post<PlayerTwoFaCodeBody>(ServerAddress.TWO_FA_CODE, body, player)) }
     }
 
-    private fun getPlayerInfo(player: Player, password: String): JSONObject {
-        val json = JSONObject()
-        json.put("password", password)
-        json.put("ip", getPlayerIp(player))
-        return json
-    }
-
-    private fun getPlayerIp(player: Player): String {
+    override fun getPlayerIp(player: Player): String {
         return player.address?.address?.hostAddress ?: Strings.STRING_NULL.value
     }
 

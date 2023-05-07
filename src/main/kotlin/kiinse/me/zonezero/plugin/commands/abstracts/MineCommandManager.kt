@@ -57,8 +57,7 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
                            command: String, annotation: Any, isMainCommand: Boolean) {
         register(pluginCommand, command)
         (if (isMainCommand) registeredMainCommandTable else registeredSubCommandTable)[command] = object : RegisteredCommand(method, commandClass, annotation) {}
-        ZoneZero.sendLog(Level.CONFIG, Strings.COMMAND_REGISTERED.value
-            .replace(Replace.COMMAND.value, command, ignoreCase = true))
+        ZoneZero.sendLog(Level.CONFIG, Strings.COMMAND_REGISTERED.value.replace(Replace.COMMAND.value, command, ignoreCase = true))
     }
 
     @Throws(CommandException::class)
@@ -72,8 +71,7 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
     protected fun register(pluginCommand: PluginCommand?, command: String) {
         if (registeredSubCommandTable.containsKey(command) || registeredMainCommandTable.containsKey(command))
             throw CommandException(Strings.COMMAND_ALREADY_REGISTERED.value.replace(Replace.COMMAND.value, command, ignoreCase = true))
-        if (pluginCommand == null) throw CommandException(Strings.COMMAND_UNABLE_REGISTER.value
-            .replace(Replace.SCHEDULER.value, command, ignoreCase = true))
+        if (pluginCommand == null) throw CommandException(Strings.COMMAND_UNABLE_REGISTER.value.replace(Replace.SCHEDULER.value, command, ignoreCase = true))
         pluginCommand.setExecutor(this)
     }
 
@@ -81,8 +79,7 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
     protected fun getMainCommandMethod(mineCommand: Class<out MineCommand?>): Method {
         mineCommand.methods.forEach { if (it.getAnnotation(Command::class.java) != null) return it }
         val name = mineCommand.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        throw CommandException(Strings.COMMAND_MAIN_CLASS_NOT_FOUND.value
-            .replace(Replace.CLASS.value, name[name.size - 1], ignoreCase = true))
+        throw CommandException(Strings.COMMAND_MAIN_CLASS_NOT_FOUND.value.replace(Replace.CLASS.value, name[name.size - 1], ignoreCase = true))
     }
 
     protected fun isDisAllowNonPlayer(sender: CommandSender, disAllowNonPlayer: Boolean): Boolean {

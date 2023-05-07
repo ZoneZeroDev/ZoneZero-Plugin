@@ -11,7 +11,8 @@ import org.apache.logging.log4j.message.Message
 
 class LogFilter : AbstractFilter() {
 
-    private val denyCommands: Set<String> = hashSetOf("/login", "/lg", "/log", "/rg", "/reg", "/register", "/changepassword", "/cp", "/changepass", "/chpass", "/chpassword", "/2fa", "/2a", "/2f")
+    private val denyCommands: Set<String> = hashSetOf("/login", "/lg", "/log", "/rg", "/reg", "/register", "/changepassword", "/cp",
+                                                      "/changepass", "/chpass", "/chpassword", "/2fa", "/2a", "/2f", "zzremove", "zzrem")
 
     override fun filter(event: LogEvent?): Filter.Result {
         return if (event == null) Filter.Result.NEUTRAL else isLoggable(event.message.formattedMessage)
