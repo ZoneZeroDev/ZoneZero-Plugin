@@ -113,8 +113,6 @@ Psrc/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerTwoFaDisableBody.k
 y
 Isrc/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerLoginBody.kt,0\5\0513af8a332c7b2253042e60bfb3a8d12fc0bf75
 s
-Csrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/JoinListener.kt,6\f\6f9c19e45faf9d816d6c7f10b1e49e4b67dfd9cd
-s
 Csrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/QuitListener.kt,9\e\9ec8a6238063607cf819883136c8142965d32e82
 ~
 Nsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ZoneZeroCommand.kt,c\c\ccfd40c9728ed0093e91f941b3e3ffa33b58f658
@@ -156,8 +154,6 @@ z
 Jsrc/main/kotlin/kiinse/me/zonezero/plugin/service/data/EncryptedMessage.kt,1\f\1f20d88e67ec84da835957c9fe41eac8afb20d0f
 v
 Fsrc/main/kotlin/kiinse/me/zonezero/plugin/service/data/ServerAnswer.kt,e\6\e6d554bb4dc74797724d3df53608c96e5219b497
-e
-5src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java,7\0\70b5b2b12dcada0bf5b8b3cc1e0dca4986fccb49
 u
 Esrc/main/kotlin/kiinse/me/zonezero/plugin/apiserver/PlayersService.kt,2\f\2ff8545c6d893a0fcafe7cb8324253f257c159a3
 t

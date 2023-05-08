@@ -268,6 +268,7 @@ public class ZoneZero extends JavaPlugin {
             pluginManager.registerEvents(new MoveListener(playersData), this);
             pluginManager.registerEvents(new InteractListener(playersData), this);
             pluginManager.registerEvents(new DamageListener(playersData), this);
+            pluginManager.registerEvents(new FoodListener(playersData), this);
             pluginManager.registerEvents(new MiningListener(playersData), this);
             pluginManager.registerEvents(new BlockPlaceListener(playersData), this);
             pluginManager.registerEvents(new InventoryListener(playersData), this);
