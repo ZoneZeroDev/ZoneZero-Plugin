@@ -26,13 +26,7 @@ class JoinListener(private val zoneZero: ZoneZero,
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        Bukkit.getScheduler().runTaskLater(zoneZero, Runnable { onThisEvent(event) }, 200)
-    }
-
-    private fun onThisEvent(event: PlayerJoinEvent) {
         val player = event.player
-        playersData.setPlayerStatus(player, PlayerStatus.NOT_AUTHORIZED)
-        if (!player.hasPlayedBefore()) { messageUtils.sendMessageWithPrefix(player, Message.WELCOME_MESSAGE) }
         if (removeJoinMessage) {
             event.joinMessage = ""
         } else {
@@ -44,6 +38,12 @@ class JoinListener(private val zoneZero: ZoneZero,
                 event.joinMessage = joinMessage
             }
         }
+        Bukkit.getScheduler().runTaskLater(zoneZero, Runnable { onThisEvent(player) }, 100)
+    }
+
+    private fun onThisEvent(player: Player) {
+        playersData.setPlayerStatus(player, PlayerStatus.NOT_AUTHORIZED)
+        if (!player.hasPlayedBefore()) { messageUtils.sendMessageWithPrefix(player, Message.WELCOME_MESSAGE) }
         playersData.authPlayerByIp(player) { answer ->
             run {
                 when (answer.status) {

@@ -9,8 +9,8 @@ class RemoveAccountTab : TabCompleter {
 
     override fun onTabComplete(sender: CommandSender, cmd: Command, commandLabel: String, args: Array<String>): List<String> {
         val list = ArrayList<String>()
-        if (sender is Player && cmd.name.equals("login", ignoreCase = true)) {
-            if (args.size == 1 && sender.hasPermission("zonezero.player.login")) {
+        if (sender is Player && cmd.name.equals("zzremove", ignoreCase = true)) {
+            if (args.size == 1 && sender.hasPermission("zonezero.player.remove")) {
                 list.add("<PASSWORD>")
             }
             list.sort()

@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.20-RC"
-    kotlin("plugin.serialization") version "1.8.20-RC"
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.serialization") version "1.8.21"
     id("signing")
     id("maven-publish")
-    id("org.jetbrains.kotlin.kapt") version "1.8.20-RC"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20-RC"
+    id("org.jetbrains.kotlin.kapt") version "1.8.21"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.21"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -26,21 +26,21 @@ repositories {
 dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
     implementation("org.tomlj:tomlj:1.1.0")
-    implementation("org.springframework:spring-core:6.0.7")
+    implementation("org.springframework:spring-core:6.0.8")
     implementation("commons-codec:commons-codec:1.15")
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("io.sentry:sentry:6.17.0")
+    implementation("io.sentry:sentry:6.18.1")
     implementation("org.apache.httpcomponents:fluent-hc:4.5.14")
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 
     compileOnly("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21")
 
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:2.29.0")
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.21")
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.19:3.1.0")
 }
 
 kapt {

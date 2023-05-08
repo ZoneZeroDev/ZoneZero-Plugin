@@ -58,8 +58,10 @@ import java.util.logging.Level
             player.removePotionEffect(PotionEffectType.BLINDNESS)
             if (joinMessageOnAuth) {
                 runBlocking {
-                    async { sendAllJoinMessage(getJoinMessage(player)) }.start()
-                    async { removeJoinMessage(player) }.start()
+                    async {
+                        sendAllJoinMessage(getJoinMessage(player))
+                        removeJoinMessage(player)
+                    }.start()
                 }
             }
         }

@@ -27,6 +27,7 @@ enum class Message(val key: String) {
     ERROR_ON_LOGIN("error_on_login"),
     ERROR_ON_PASSWORD_CHANGE("error_on_password_change"),
     ERROR_ON_TWO_FACTOR("error_on_two_factor"),
+    ERROR_ON_REMOVE("error_on_remove"),
     PLEASE_WAIT("please_wait"),
     TOO_MANY_ATTEMPTS("too_many_attempts"),
     AUTHORIZE_ON_SERVER("authorize_on_server"),
