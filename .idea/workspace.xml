@@ -5,59 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8017909-009a-499f-b70b-8303e7ffdbb1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RemoveAccountCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/RemoveAccountTab.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/BlockPlaceListener.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/InventoryListener.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerLoginBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerPasswordChangeBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerRegisterBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerRemoveBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerTwoFaCodeBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerTwoFaDisableBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/PlayerTwoFaEnableBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/ServerInfoBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/body/TestPostBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/data/DataAnswer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/data/MessageAnswer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/kiinse/me/zonezero/plugin/tests/apiserver/PlayersServiceTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/kiinse/me/zonezero/plugin/tests/listeners/ListenersTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/kiinse/me/zonezero/plugin/tests/service/ApiConnectionTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/kiinse/me/zonezero/plugin/tests/utils/VersionUtilsTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/ZoneZero.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/ZoneZero.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/6/1692996684871d9341f679dbd736b6048ed80704" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/6/1692996684871d9341f679dbd736b6048ed80704" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/7/27b4ce21d6a374ee8bd8da89fa2794f393d9a896" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/7/27b4ce21d6a374ee8bd8da89fa2794f393d9a896" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/c/5c67fba17803194fd749899e78358191a0015299" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/c/5c67fba17803194fd749899e78358191a0015299" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/0/70b5b2b12dcada0bf5b8b3cc1e0dca4986fccb49" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/0/70b5b2b12dcada0bf5b8b3cc1e0dca4986fccb49" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/3/1392fbd0a3899c4501b58aedb0d11f79fca3858b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/7/177544378b578cbde0a7c187bf935d78af7da383" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/e/2e9cd56de241458559ca6a732d9e70b256f7c448" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/9/a9a869ac9681351cff824f320ebaeb3848db6710" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/1/3/1392fbd0a3899c4501b58aedb0d11f79fca3858b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/1/7/177544378b578cbde0a7c187bf935d78af7da383" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/e/2e9cd56de241458559ca6a732d9e70b256f7c448" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/9/a9a869ac9681351cff824f320ebaeb3848db6710" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/PlayersService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/PlayersService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/ServerService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/ServerService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/interfaces/PlayersData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/interfaces/PlayersData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/interfaces/ServerData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/apiserver/interfaces/ServerData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/abstracts/MineCommandManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/abstracts/MineCommandManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ChangePasswordCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ChangePasswordCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RegisterCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RegisterCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/TwoFactorAuthCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/TwoFactorAuthCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RemoveAccountCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RemoveAccountCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/RemoveAccountTab.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/RemoveAccountTab.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Message.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Message.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/DamageListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/listeners/DamageListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/ApiConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/ApiConnection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/LogFilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/LogFilter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/data/ServerAnswer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/data/ServerAnswer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/enums/QueryType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/enums/QueryType.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/enums/ServerAddress.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/enums/ServerAddress.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/interfaces/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/service/interfaces/ApiService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messages/en.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages/en.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messages/ru.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages/ru.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +51,12 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="ZoneZero" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ZoneZero" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -127,24 +98,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Desktop/MC plugins/GunGaleAPI",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode.Kotlin",
-    "spring.configuration.checksum": "0851bbd41eeec864c5c1e9bc44b78cda",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Desktop/MC plugins/GunGaleAPI&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;0851bbd41eeec864c5c1e9bc44b78cda&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Desktop\MC plugins\ZoneZero-Plugin\src\main\resources\messages" />
@@ -161,7 +132,7 @@
       <recent name="kiinse.me.zonezero.plugin.commands.zonezero" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ZoneZero-Plugin [test]">
+  <component name="RunManager" selected="Gradle.ZoneZero-Plugin [build]">
     <configuration name="ApiConnectionTest.postTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -176,30 +147,6 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;kiinse.me.zonezero.plugin.tests.service.ApiConnectionTest.postTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>true</ForceTestExec>
-      <method v="2" />
-    </configuration>
-    <configuration name="ListenersTest.chatTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;kiinse.me.zonezero.plugin.tests.listeners.ListenersTest.chatTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -281,6 +228,28 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
+    <configuration name="ZoneZero-Plugin [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
     <configuration name="ZoneZero-Plugin [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -305,19 +274,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.ZoneZero-Plugin [:clean build]" />
+      <item itemvalue="Gradle.ZoneZero-Plugin [build]" />
       <item itemvalue="Gradle.ApiConnectionTest.postTest" />
       <item itemvalue="Gradle.ListenersTest.commandTest" />
       <item itemvalue="Gradle.PlayersServiceTest.registerWrongSizeTest" />
-      <item itemvalue="Gradle.ListenersTest.chatTest" />
       <item itemvalue="Gradle.ZoneZero-Plugin [test]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ZoneZero-Plugin [build]" />
         <item itemvalue="Gradle.ZoneZero-Plugin [test]" />
         <item itemvalue="Gradle.ApiConnectionTest.postTest" />
         <item itemvalue="Gradle.ListenersTest.commandTest" />
         <item itemvalue="Gradle.PlayersServiceTest.registerWrongSizeTest" />
-        <item itemvalue="Gradle.ListenersTest.chatTest" />
       </list>
     </recent_temporary>
   </component>
@@ -359,6 +328,10 @@
       <workItem from="1683287128604" duration="4451000" />
       <workItem from="1683416611933" duration="2349000" />
       <workItem from="1683497554868" duration="24000" />
+      <workItem from="1683501502053" duration="615000" />
+      <workItem from="1683577371012" duration="2438000" />
+      <workItem from="1683580542848" duration="609000" />
+      <workItem from="1683583405811" duration="141000" />
     </task>
     <servers />
   </component>

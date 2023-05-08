@@ -44,8 +44,6 @@ Ksrc/main/kotlin/kiinse/me/zonezero/plugin/exceptions/VersioningException.kt,5\
 Ssrc/main/kotlin/kiinse/me/zonezero/plugin/schedulers/zonezero/PublicKeyScheduler.kt,5\7\5768262cfc604e5ea40550b7f00922a4131b5dab
 N
 src/main/resources/config.toml,3\3\33073836d8afa691cb37f92e78a47b8be390ccb0
-i
-9src/main/kotlin/kiinse/me/zonezero/plugin/enums/Config.kt,1\3\1392fbd0a3899c4501b58aedb0d11f79fca3858b
 x
 Hsrc/main/kotlin/kiinse/me/zonezero/plugin/service/enums/ServerAddress.kt,2\6\266162cd4922b6234563b0634fca4d0ea6c1c9d4
 o
@@ -96,10 +94,6 @@ y
 Isrc/main/kotlin/kiinse/me/zonezero/plugin/commands/core/CommandContext.kt,6\d\6de360ab9bac8602e4c229e77f3fb4ba0fbbd22d
 y
 Isrc/main/kotlin/kiinse/me/zonezero/plugin/apiserver/enums/PlayerStatus.kt,b\2\b222152cf86b020ac3acdced132d385c9e7a4be1
-‹
-[src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/RemoveAccountTab.kt,1\7\177544378b578cbde0a7c187bf935d78af7da383
-j
-:src/main/kotlin/kiinse/me/zonezero/plugin/enums/Message.kt,2\e\2e9cd56de241458559ca6a732d9e70b256f7c448
 t
 Dsrc/main/kotlin/kiinse/me/zonezero/plugin/service/enums/QueryType.kt,3\c\3cd035e50bc9eb5b6660678d4f995f5fdc15d9ed
 n
@@ -135,8 +129,6 @@ j
 ~
 Nsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RegisterCommand.kt,7\b\7b114519a02afb105a67dedbfb62530690c5f151
 ƒ
-Ssrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RemoveAccountCommand.kt,a\9\a9a869ac9681351cff824f320ebaeb3848db6710
-ƒ
 Ssrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/TwoFactorAuthCommand.kt,1\6\1692996684871d9341f679dbd736b6048ed80704
 v
 Fsrc/main/kotlin/kiinse/me/zonezero/plugin/service/body/TestPostBody.kt,0\0\00054bcf3f3664bc3a29ac19c1dc25eebee44a56
@@ -144,8 +136,6 @@ t
 Dsrc/main/kotlin/kiinse/me/zonezero/plugin/service/data/DataAnswer.kt,e\2\e295a691324cf14b9435985141fd6de9ee3d4112
 w
 Gsrc/main/kotlin/kiinse/me/zonezero/plugin/service/data/MessageAnswer.kt,e\e\eedcf89aaf28bd465f018cea053fde3f7544e0e6
-@
-build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
 r
 Bsrc/main/kotlin/kiinse/me/zonezero/plugin/service/enums/KeyType.kt,6\7\67daa41d43b5c9fe7efd2e7c864c981fecbe9f50
 |
@@ -182,3 +172,5 @@ Zsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/interfaces/MineCommandFailur
 Ssrc/main/kotlin/kiinse/me/zonezero/plugin/commands/interfaces/MineCommandContext.kt,3\2\3263af7e18f17bd42b378e42402a10069d3e353a
 „
 Tsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ChangePasswordCommand.kt,9\e\9e37f2f166101210aa2af0be8e09dd659840b5a3
+@
+build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
