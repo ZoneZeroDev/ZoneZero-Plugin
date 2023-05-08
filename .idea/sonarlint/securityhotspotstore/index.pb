@@ -60,8 +60,6 @@ s
 Csrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/ChatListener.kt,4\f\4f61789c3492d642d38251b312b85384d15fe2d7
 u
 Esrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/DamageListener.kt,a\e\aeb9a4b6b3ec8719f9085a6afe68e185ac262e15
-x
-Hsrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/InventoryListener.kt,8\6\863a097efe8559b857b82c14e48c3e7575cfb2b2
 u
 Esrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/MiningListener.kt,5\d\5d5073062f25d7badfca3d56f2acdc4374dceb5c
 y
@@ -168,3 +166,17 @@ Ssrc/main/kotlin/kiinse/me/zonezero/plugin/commands/interfaces/MineCommandContex
 Tsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ChangePasswordCommand.kt,9\e\9e37f2f166101210aa2af0be8e09dd659840b5a3
 @
 build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
+i
+9src/main/kotlin/kiinse/me/zonezero/plugin/enums/Config.kt,1\3\1392fbd0a3899c4501b58aedb0d11f79fca3858b
+j
+:src/main/kotlin/kiinse/me/zonezero/plugin/enums/Message.kt,2\e\2e9cd56de241458559ca6a732d9e70b256f7c448
+ƒ
+Ssrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/RemoveAccountCommand.kt,a\9\a9a869ac9681351cff824f320ebaeb3848db6710
+‹
+[src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/tabcomplete/RemoveAccountTab.kt,1\7\177544378b578cbde0a7c187bf935d78af7da383
+s
+Csrc/main/kotlin/kiinse/me/zonezero/plugin/listeners/FoodListener.kt,6\3\637ccdeab3c89bc7757a935a500e75609f50c6c7
+e
+5src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java,7\0\70b5b2b12dcada0bf5b8b3cc1e0dca4986fccb49
+u
+Esrc/main/kotlin/kiinse/me/zonezero/plugin/apiserver/PlayersService.kt,2\f\2ff8545c6d893a0fcafe7cb8324253f257c159a3
