@@ -6,7 +6,7 @@ import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.PlayersService
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.enums.ConfigTable
 import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.service.ApiConnection
 import kiinse.me.zonezero.plugin.service.body.*
@@ -16,21 +16,17 @@ import kotlin.test.*
 class PlayersServiceTest {
 
     private var server: ServerMock? = null
-    private var zonezero: ZoneZero? = null
-    private var apiService: ApiConnection? = null
     private var playersData: PlayersData? = null
 
     @BeforeTest
     fun setUp() {
         server = MockBukkit.mock()
-        zonezero = MockBukkit.load(ZoneZero::class.java)
-        val filesUtils = FilesUtils(zonezero!!)
-        val configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.value)
-        val toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.value)
-        val settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.value)
-        apiService = ApiConnection(zonezero!!, toolsTable)
-        apiService!!.updateServerKey()
-        playersData = PlayersService(zonezero!!, apiService!!, settingsTable)
+        val zonezero = MockBukkit.load(ZoneZero::class.java)
+        val filesUtils = FilesUtils(zonezero)
+        val tomlFile = filesUtils.getTomlFile(Strings.CONFIG_FILE.value)
+        val apiService = ApiConnection(zonezero, tomlFile.getTable(ConfigTable.TOOLS))
+        apiService.updateServerKey()
+        playersData = PlayersService(zonezero, apiService, tomlFile.getTable(ConfigTable.SETTINGS))
     }
 
     @Test

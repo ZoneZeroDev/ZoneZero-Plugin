@@ -28,14 +28,19 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
+      - name: Obfuscation with ProGuard
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: proguard
       - name: Publish Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Builded jars
-          path: 'build/libs/*.jar'
+          path: 'build/proguard/*.jar'
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
+          nodetail: true
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           title: New version of `ZoneZero Auth`!

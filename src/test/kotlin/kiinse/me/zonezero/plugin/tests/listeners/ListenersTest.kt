@@ -6,39 +6,33 @@ import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.PlayersService
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
-import kiinse.me.zonezero.plugin.commands.core.CommandManager
-import kiinse.me.zonezero.plugin.commands.zonezero.LoginCommand
-import kiinse.me.zonezero.plugin.commands.zonezero.RegisterCommand
-import kiinse.me.zonezero.plugin.commands.zonezero.ZoneZeroCommand
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.enums.ConfigTable
 import kiinse.me.zonezero.plugin.enums.Strings
-import kiinse.me.zonezero.plugin.listeners.*
+import kiinse.me.zonezero.plugin.listeners.BlockPlaceListener
+import kiinse.me.zonezero.plugin.listeners.DamageListener
+import kiinse.me.zonezero.plugin.listeners.MiningListener
+import kiinse.me.zonezero.plugin.listeners.MoveListener
 import kiinse.me.zonezero.plugin.service.ApiConnection
 import kiinse.me.zonezero.plugin.utils.FilesUtils
 import org.bukkit.Location
 import org.bukkit.Material
-import org.tomlj.TomlTable
 import kotlin.test.*
 
 class ListenersTest {
 
     private var server: ServerMock? = null
     private var zonezero: ZoneZero? = null
-    private var apiService: ApiConnection? = null
     private var playersData: PlayersData? = null
-    private var settingsTable: TomlTable? = null
 
     @BeforeTest
     fun setUp() {
         server = MockBukkit.mock()
         zonezero = MockBukkit.load(ZoneZero::class.java)
         val filesUtils = FilesUtils(zonezero!!)
-        val configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.value)
-        val toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.value)
-        settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.value)
-        apiService = ApiConnection(zonezero!!, toolsTable)
-        apiService!!.updateServerKey()
-        playersData = PlayersService(zonezero!!, apiService!!, settingsTable!!);
+        val tomlFile = filesUtils.getTomlFile(Strings.CONFIG_FILE.value)
+        val apiService = ApiConnection(zonezero!!, tomlFile.getTable(ConfigTable.TOOLS))
+        apiService.updateServerKey()
+        playersData = PlayersService(zonezero!!, apiService, tomlFile.getTable(ConfigTable.SETTINGS))
     }
 
     @Test

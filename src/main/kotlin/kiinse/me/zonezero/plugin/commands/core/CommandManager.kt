@@ -1,12 +1,12 @@
 package kiinse.me.zonezero.plugin.commands.core
 
 import kiinse.me.zonezero.plugin.ZoneZero
-import kiinse.me.zonezero.plugin.commands.annotations.Command
-import kiinse.me.zonezero.plugin.commands.annotations.SubCommand
-import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.commands.abstracts.MineCommand
 import kiinse.me.zonezero.plugin.commands.abstracts.MineCommandManager
 import kiinse.me.zonezero.plugin.commands.abstracts.RegisteredCommand
+import kiinse.me.zonezero.plugin.commands.annotations.Command
+import kiinse.me.zonezero.plugin.commands.annotations.SubCommand
+import kiinse.me.zonezero.plugin.commands.enums.CommandFailReason
 import kiinse.me.zonezero.plugin.enums.Strings
 import org.bukkit.command.CommandException
 import org.bukkit.command.CommandSender

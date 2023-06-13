@@ -13,7 +13,7 @@ commands:
     usage: /<command> <password>
     aliases: [ lg, log, l ]
   register:
-    description: Register command
+    description: Remove account command
     permission: zonezero.player.register
     usage: /<command> <password> <password>
     aliases: [ reg ]
@@ -48,7 +48,7 @@ commands:
     description: Plugin tools
     permission: zonezero.player.help
     usage: /<command>
-    aliases: [zz]
+    aliases: [ zz ]
   zonezero help:
     description: Help command
     permission: zonezero.player.help

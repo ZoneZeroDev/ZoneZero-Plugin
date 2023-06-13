@@ -7,9 +7,13 @@ import kiinse.me.zonezero.plugin.commands.abstracts.MineCommand
 import kiinse.me.zonezero.plugin.commands.annotations.Command
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandContext
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.SubTitle
+import kiinse.me.zonezero.plugin.enums.Title
+import kiinse.me.zonezero.plugin.messages.MessageBuilder
 import kiinse.me.zonezero.plugin.service.body.PlayerRemoveBody
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 class RemoveAccountCommand(plugin: ZoneZero, private val playersData: PlayersData) : MineCommand(plugin) {
@@ -29,14 +33,47 @@ class RemoveAccountCommand(plugin: ZoneZero, private val playersData: PlayersDat
                 when (answer.status) {
                     200  -> {
                         playersData.setPlayerStatus(player, PlayerStatus.NOT_AUTHORIZED)
-                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_ACCOUNT_REMOVED)
-                        messageUtils.sendMessageWithPrefix(player, Message.PLEASE_REGISTER)
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.SUCCESSFULLY_ACCOUNT_REMOVED)
+                            .setTitle(Title.REGISTER)
+                            .setSubTitle(SubTitle.REGISTER)
+                            .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                            .send()
                     }
-                    202  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
-                    404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
-                    429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS,
-                                                               hashMapOf(Pair("seconds", answer.getMessageAnswer().message.split("'")[1])))
-                    else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_REMOVE)
+
+                    202  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.TWO_FACTOR_SENT)
+                            .setTitle(Title.TWO_FA_SEND)
+                            .setSubTitle(SubTitle.TWO_FA_SEND)
+                            .send()
+                    }
+
+                    404  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.NOT_REGISTERED)
+                            .setTitle(Title.REGISTER)
+                            .setSubTitle(SubTitle.REGISTER)
+                            .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                            .send()
+                    }
+
+                    429  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.TOO_MANY_ATTEMPTS)
+                            .setReplaceMap(hashMapOf(Pair("seconds", answer.getMessage().split("'")[1])))
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
+
+                    else -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.ERROR_ON_REMOVE)
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
                 }
             }
         }.start()

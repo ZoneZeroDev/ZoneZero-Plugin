@@ -16,7 +16,7 @@ class SchedulersManager : MineSchedulersManager {
     override fun register(scheduler: Scheduler): MineSchedulersManager {
         val schedule: Scheduler = checkSchedulerData(scheduler)
         if (hasScheduler(schedule)) throw SchedulerException(Strings.SCHEDULER_ALREADY_EXISTS.value
-            .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
+                                                                 .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
         schedulers.add(scheduler)
         ZoneZero.sendLog(Level.CONFIG, Strings.SCHEDULER_REGISTERED.value
             .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true)
@@ -30,7 +30,7 @@ class SchedulersManager : MineSchedulersManager {
         schedulers.forEach {
             if (it.name == scheduler.name) {
                 if (it.isStarted) throw SchedulerException(Strings.SCHEDULER_ALREADY_STARTED.value
-                    .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
+                                                               .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
                 it.start()
             }
         }
@@ -42,7 +42,7 @@ class SchedulersManager : MineSchedulersManager {
         schedulers.forEach {
             if (it.name == scheduler.name) {
                 if (!it.isStarted) throw SchedulerException(Strings.SCHEDULER_ALREADY_STOPPED.value
-                    .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
+                                                                .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
                 it.stop()
             }
         }
@@ -74,7 +74,7 @@ class SchedulersManager : MineSchedulersManager {
     @Throws(SchedulerException::class)
     override fun unregister(scheduler: Scheduler): MineSchedulersManager {
         if (!hasScheduler(scheduler)) throw SchedulerException(Strings.SCHEDULER_NOT_FOUND.value
-            .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
+                                                                   .replace(Replace.SCHEDULER.value, scheduler.name.toString(), ignoreCase = true))
         schedulers.forEach {
             if (it.name == scheduler.name) {
                 if (it.isStarted) it.stop()

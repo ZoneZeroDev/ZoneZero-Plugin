@@ -1,8 +1,0 @@
- &c|====================================UPDATE====================================
- &c|
- &c| &6New version of &bZoneZero &6found: '&a<NEW_VERSION>&6'! Your version is '&c<CURRENT_VERSION>&6'
- &c|
- &c| &6You can download this version from the link below:
- &c| &fhttps://www.spigotmc.org/resources/%E2%97%8F-zonezero-unified-auth-system-alpha.108992/
- &c|
- &c|==============================================================================

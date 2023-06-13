@@ -9,7 +9,8 @@ import kiinse.me.zonezero.plugin.service.interfaces.ApiService
 import kiinse.me.zonezero.plugin.service.interfaces.post
 import org.bukkit.Bukkit
 import org.bukkit.Server
- class ServerService(private val api: ApiService, private val serverName: String) : ServerData {
+
+class ServerService(private val api: ApiService, private val serverName: String) : ServerData {
 
     override fun getPluginCode(zoneZero: ZoneZero): ServerAnswer {
         return api.post<ServerInfoBody>(ServerAddress.GET_CODE, getServerInfo(zoneZero))
