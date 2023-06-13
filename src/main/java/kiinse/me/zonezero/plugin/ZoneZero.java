@@ -121,7 +121,7 @@ public class ZoneZero extends JavaPlugin {
             serverService = new ServerService(apiConnection, credentialsTable.getString(ConfigKey.CREDENTIALS_SERVER_NAME));
             messageUtils.reload();
             isDebug = toolsTable.getBoolean(ConfigKey.TOOLS_IS_DEBUG);
-            getServer().getPluginManager().disablePlugin(this);
+            schedulersManager.stopSchedulers();
             getServer().getPluginManager().enablePlugin(this);
             sendInFrame(new ArrayList<>() {{
                 add("&f" + getName() + " &areloaded!");
