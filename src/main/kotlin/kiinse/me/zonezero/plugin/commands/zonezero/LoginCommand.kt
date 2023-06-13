@@ -36,7 +36,6 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
             run {
                 when (answer.status) {
                     200  -> {
-                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_LOGGED_IN)
                         playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
                         MessageBuilder(messageUtils, player)
                             .setMessage(Message.SUCCESSFULLY_LOGGED_IN)

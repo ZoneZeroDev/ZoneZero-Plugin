@@ -20,8 +20,6 @@ A
 gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
 M
 src/main/resources/plugin.yml,4\8\481d8823f4e04298852018f4b015e571263a31a8
-U
-%src/main/resources/update-message.txt,3\1\31ee0494fdd0318c825d1fb89a05a9cd702e37e8
 }
 Msrc/main/kotlin/kiinse/me/zonezero/plugin/commands/enums/CommandFailReason.kt,5\2\52ce9fa09f8506e627a63bf0b5aaaf74b659e69e
 z
@@ -178,10 +176,6 @@ t
 Dsrc/main/kotlin/kiinse/me/zonezero/plugin/messages/MessageBuilder.kt,c/0/c016be4e039cea5dbfbecbfe9dfaeafb69d27c5c
 
 Osrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/TwoFactorCommand.kt,4/0/40b0e20f810f10b6ec88ee47304225cb3c8a63ea
-{
-Ksrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt,4/2/42a65753efbcb2112b094a93755e84b6028a3851
-e
-5src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java,7/0/70b5b2b12dcada0bf5b8b3cc1e0dca4986fccb49
 s
 Csrc/main/kotlin/kiinse/me/zonezero/plugin/config/enums/ConfigKey.kt,7/5/75bf93a639dc4114a99b098607bdec38694e0134
 o
@@ -190,7 +184,3 @@ o
 build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
 j
 :src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt,8/8/88b67a28f422ab269eb7bde9f9a1205ab30db29a
-m
-=src/main/kotlin/kiinse/me/zonezero/plugin/utils/FilesUtils.kt,6/b/6be114301be621520a870905f47480c8fbb5f7fb
-B
-proguard-rules.pro,8/f/8fb93e6a4b5f305875d392d25a97c87aa0ec6286

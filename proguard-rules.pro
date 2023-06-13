@@ -15,7 +15,7 @@
 -keep class io.sentry.** { *; }
 -keep enum * { public *; }
 
--keep public class kiinse.me.zonezero.plugin.ZoneZero { public *; }
+-keep public class kiinse.me.zonezero.plugin.ZoneZero { *; }
 -keep class kiinse.me.zonezero.plugin.commands.** { public *; }
 -keep class kiinse.me.zonezero.plugin.listeners.BlockPlaceListener { public *; }
 -keep class kiinse.me.zonezero.plugin.listeners.ChatListener { public *; }
