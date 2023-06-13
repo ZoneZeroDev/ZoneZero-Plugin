@@ -3,7 +3,7 @@ package kiinse.me.zonezero.plugin.enums
 enum class Strings(val value: String) {
     SPIGOT_URL("https://api.spigotmc.org/legacy/update.php?resource=108992"),
     VERSION_ERROR("Failed to get the latest version SpigotMC"),
-    PLUGIN_PREFIX("&6&l[&bZoneZero&6&l]&f:"),
+    PLUGIN_PREFIX("&c&l[&6Auth&c&l]&f:"),
     DATA_FILE("data.zz"),
     CONFIG_FILE("config.toml"),
     LANG_EN_FILE("messages/en.toml"),
