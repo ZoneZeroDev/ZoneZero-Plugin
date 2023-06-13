@@ -225,10 +225,7 @@ public class ZoneZero extends JavaPlugin {
             VersionUtils.INSTANCE.getLatestSpigotVersion(latest -> {
                 try {
                     if (latest.isGreaterThan(VersionUtils.INSTANCE.getPluginVersion(this))) {
-                        var reader = new BufferedReader(new InputStreamReader(
-                                Objects.requireNonNull(this.getClass()
-                                        .getClassLoader()
-                                        .getResourceAsStream(Strings.VERSION_FILE.getValue()))));
+                        var reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(filesUtils.accessFile(Strings.VERSION_FILE.getValue()))));
                         var builder = new StringBuilder("\n");
                         while (reader.ready()) {
                             builder.append(reader.readLine()).append("\n");

@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8017909-009a-499f-b70b-8303e7ffdbb1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -367,7 +365,7 @@
       <workItem from="1686603821947" duration="2182000" />
       <workItem from="1686606039326" duration="4269000" />
       <workItem from="1686653846940" duration="13366000" />
-      <workItem from="1686671892842" duration="139000" />
+      <workItem from="1686671892842" duration="196000" />
     </task>
     <servers />
   </component>

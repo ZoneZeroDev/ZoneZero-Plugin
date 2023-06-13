@@ -8,7 +8,7 @@ enum class Strings(val value: String) {
     CONFIG_FILE("config.toml"),
     LANG_EN_FILE("messages/en.toml"),
     LANG_RU_FILE("messages/ru.toml"),
-    VERSION_FILE("version-message.txt"),
+    VERSION_FILE("messages/version-message.txt"),
     TMP_TOML_SUFFIX("_tmp.toml"),
     OLD_TOML_SUFFIX("_old.toml"),
     TOML_MISMATCH_MESSAGE("Version mismatch found for file '&c<FILE>&6'. This file has been renamed to '&c<OLD_FILE>&6' and a new file '&c<FILE>&6' has been created"),
