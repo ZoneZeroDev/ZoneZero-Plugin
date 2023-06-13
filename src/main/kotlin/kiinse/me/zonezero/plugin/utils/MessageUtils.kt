@@ -13,7 +13,6 @@ import org.tomlj.Toml
 
 class MessageUtils(private val fileUtils: FilesUtils, settings: TomlTable) {
 
-    private val defaultFiles = listOf(Strings.LANG_EN_FILE, Strings.LANG_RU_FILE)
     private val prefix = translateColors(Strings.PLUGIN_PREFIX.value)
     private val messages = HashMap<String, org.tomlj.TomlTable>()
     private val titles = HashMap<String, org.tomlj.TomlTable>()
@@ -32,10 +31,10 @@ class MessageUtils(private val fileUtils: FilesUtils, settings: TomlTable) {
 
     private fun loadVariables() {
         messages.clear()
-        val directory = fileUtils.getFile("messages")
+        val directory = fileUtils.getFile(Strings.MESSAGES_DIR.value)
         fileUtils.createDirectory(directory)
         if (fileUtils.listFilesInDirectory(directory).isEmpty()) {
-            defaultFiles.forEach {
+            fileUtils.defaultMessagesFiles.forEach {
                 fileUtils.copyFileFromDir(it)
             }
         }
@@ -80,9 +79,7 @@ class MessageUtils(private val fileUtils: FilesUtils, settings: TomlTable) {
         if (sendTitle) {
             player.sendTitle(getOrStringTitle(player, title),
                              getOrStringSubtitle(player, subtitle).replace(Replace.DISPLAY_NAME.value, player.displayName, ignoreCase = true),
-                             10,
-                             seconds * 20,
-                             20)
+                             10, seconds * 20, 20)
         }
     }
 

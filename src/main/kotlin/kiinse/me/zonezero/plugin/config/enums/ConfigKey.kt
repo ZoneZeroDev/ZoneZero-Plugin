@@ -6,7 +6,7 @@ enum class ConfigKey(val value: String) {
     DEFAULT_LOCALE("defaultLocale"),
     TOOLS_IS_DEBUG("debug"),
     TOOLS_CUSTOM_IP("customIp"),
-    CONFIG_VERSION("version"),
+    VERSION("version"),
     SETTINGS_ALLOW_CHAT("allowChat"),
     KICK_UNREGISTERED("kickNonRegistered"),
     KICK_WRONG_PASSWORD("kickOnWrongPassword"),

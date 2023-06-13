@@ -9,6 +9,7 @@ import kiinse.me.zonezero.plugin.enums.Strings
 import org.apache.commons.io.FileUtils
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.tomlj.Toml
+import org.tomlj.TomlParseResult
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -17,12 +18,14 @@ import java.util.logging.Level
 
 class FilesUtils(private val plugin: ZoneZero) {
 
+    val defaultMessagesFiles = listOf(Strings.LANG_EN_FILE, Strings.LANG_RU_FILE)
+
     fun getTomlFile(fileName: String): TomlFile {
         val configFile = getFile(fileName)
         if (!configFile.exists()) {
             copyFile(fileName, configFile)
         } else {
-            checkTomlFileVersion(configFile)
+            checkFilesVersion(configFile)
         }
         return TomlFile(Toml.parse(getFile(fileName).inputStream()))
     }
@@ -35,35 +38,88 @@ class FilesUtils(private val plugin: ZoneZero) {
         return TomlFile(Toml.parse(getFile(fileName).inputStream()))
     }
 
-    private fun checkTomlFileVersion(configFile: File) {
-        val cfgVersion = getConfigVersion(configFile)
-        if (cfgVersion == 0.0) return
+    private fun checkFilesVersion(configFile: File) {
+        val oldToml = Toml.parse(configFile.inputStream())
         val fileName = configFile.name
         val tmpCfg = getFile("${fileName.replace(".toml", "")}${Strings.TMP_TOML_SUFFIX.value}")
         deleteFile(tmpCfg)
         copyFile(fileName, tmpCfg)
-        val newVersion: Double = getConfigVersion(getFile("${fileName.replace(".toml", "")}${Strings.TMP_TOML_SUFFIX.value}"))
-        if (newVersion > cfgVersion || newVersion < cfgVersion) {
-            try {
-                val oldCfg = getFile("${fileName.replace(".toml", "")}${Strings.OLD_TOML_SUFFIX.value}")
-                deleteFile(oldCfg)
-                copyFileInFolder(configFile, oldCfg)
-                deleteFile(configFile)
-                copyFile(fileName)
-                ZoneZero.sendLog(Level.WARNING, Strings.TOML_MISMATCH_MESSAGE.value
-                    .replace(Replace.FILE.value, fileName, ignoreCase = true)
-                    .replace(Replace.OLD_FILE.value, oldCfg.name, ignoreCase = true))
-            } catch (e: Exception) {
-                ZoneZero.sendLog(Level.WARNING, Strings.NEW_TML_VERSION_COPY_ERROR.value
-                    .replace(Replace.FILE.value, fileName, ignoreCase = true), e)
-            }
+        val newToml = Toml.parse(getFile("${fileName.replace(".toml", "")}${Strings.TMP_TOML_SUFFIX.value}").inputStream())
+        if (checkMessagesVersion(getMessagesVersion(newToml), getMessagesVersion(oldToml), fileName, configFile, tmpCfg)) {
+            checkTomlVersion(getConfigVersion(newToml), getConfigVersion(oldToml), fileName, configFile, tmpCfg)
+        }
+    }
+
+    private fun checkTomlVersion(newConfigVersion: Double, cfgVersion: Double, fileName: String, configFile: File, tmpCfg: File) {
+        if (cfgVersion == 0.0) return
+        if (newConfigVersion > cfgVersion || newConfigVersion < cfgVersion) {
+            updateConfig(fileName, configFile)
         }
         deleteFile(tmpCfg)
     }
 
-    private fun getConfigVersion(file: File): Double {
+    private fun checkMessagesVersion(newMessagesVersion: Double, messagesVersion: Double, fileName: String, configFile: File, tmpCfg: File): Boolean {
+        if (messagesVersion == 0.0) return true
+        if (newMessagesVersion > messagesVersion || newMessagesVersion < messagesVersion) {
+            updateMessages()
+            updateConfig(fileName, configFile)
+            deleteFile(tmpCfg)
+            return false
+        }
+        return true
+    }
+
+    private fun updateConfig(fileName: String, configFile: File) {
+        try {
+            val oldCfg = getFile("${fileName.replace(".toml", "")}${Strings.OLD_TOML_SUFFIX.value}")
+            deleteFile(oldCfg)
+            copyFileInFolder(configFile, oldCfg)
+            deleteFile(configFile)
+            copyFile(fileName)
+            ZoneZero.sendLog(Level.WARNING, Strings.TOML_MISMATCH_MESSAGE.value
+                .replace(Replace.FILE.value, fileName, ignoreCase = true)
+                .replace(Replace.OLD_FILE.value, oldCfg.name, ignoreCase = true))
+        } catch (e: Exception) {
+            ZoneZero.sendLog(Level.WARNING, Strings.NEW_TML_VERSION_COPY_ERROR.value
+                .replace(Replace.FILE.value, fileName, ignoreCase = true), e)
+        }
+    }
+
+    private fun updateMessages() {
+        val dirName = Strings.MESSAGES_DIR.value
+        try {
+            val messages = getFile(dirName)
+            val oldMessages = getFile("${dirName}${Strings.OLD_MESSAGES_SUFFIX.value}")
+            deleteFile(oldMessages)
+            oldMessages.mkdir()
+            messages.listFiles()?.forEach {
+                copyFileInFolder(it, getFile("${dirName}${Strings.OLD_MESSAGES_SUFFIX.value}", it.name))
+            }
+            deleteFile(messages)
+            messages.mkdir()
+            defaultMessagesFiles.forEach {
+                copyFileFromDir(it)
+            }
+            ZoneZero.sendLog(Level.WARNING, Strings.MESSAGES_MISMATCH_MESSAGE.value
+                .replace(Replace.FILE.value, dirName, ignoreCase = true)
+                .replace(Replace.OLD_FILE.value, oldMessages.name, ignoreCase = true))
+        } catch (e: Exception) {
+            ZoneZero.sendLog(Level.WARNING, Strings.NEW_MESSAGES_VERSION_COPY_ERROR.value
+                .replace(Replace.FILE.value, dirName, ignoreCase = true), e)
+        }
+    }
+
+    private fun getConfigVersion(toml: TomlParseResult): Double {
         return try {
-            Toml.parse(file.inputStream()).getTableOrEmpty(ConfigTable.CONFIG.value).getDouble(ConfigKey.CONFIG_VERSION.value) { 0.0 }
+            toml.getTableOrEmpty(ConfigTable.CONFIG.value).getDouble(ConfigKey.VERSION.value) { 0.0 }
+        } catch (e: Exception) {
+            0.0
+        }
+    }
+
+    private fun getMessagesVersion(toml: TomlParseResult): Double {
+        return try {
+            toml.getTableOrEmpty(ConfigTable.MESSAGES.value).getDouble(ConfigKey.VERSION.value) { 0.0 }
         } catch (e: Exception) {
             0.0
         }
