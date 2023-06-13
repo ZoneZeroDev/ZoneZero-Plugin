@@ -6,6 +6,7 @@ import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json.Default.serializersModule
 import kotlinx.serialization.serializer
 import org.bukkit.entity.Player
+
 interface ApiService {
 
     fun get(address: ServerAddress): ServerAnswer
@@ -13,14 +14,14 @@ interface ApiService {
     fun <T> post(address: ServerAddress, strategy: SerializationStrategy<T>, value: T): ServerAnswer
     fun <T> post(address: ServerAddress, strategy: SerializationStrategy<T>, value: T, player: Player): ServerAnswer
 
-   fun updateServerKey()
+    fun updateServerKey()
 
 }
 
 inline fun <reified T> ApiService.post(address: ServerAddress, value: T): ServerAnswer {
-   return post(address, serializersModule.serializer(), value)
+    return post(address, serializersModule.serializer(), value)
 }
 
 inline fun <reified T> ApiService.post(address: ServerAddress, value: T, player: Player): ServerAnswer {
-   return post(address, serializersModule.serializer(), value, player)
+    return post(address, serializersModule.serializer(), value, player)
 }

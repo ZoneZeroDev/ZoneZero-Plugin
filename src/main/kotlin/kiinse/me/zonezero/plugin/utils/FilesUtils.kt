@@ -1,14 +1,14 @@
 package kiinse.me.zonezero.plugin.utils
 
 import kiinse.me.zonezero.plugin.ZoneZero
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.TomlFile
+import kiinse.me.zonezero.plugin.config.enums.ConfigKey
+import kiinse.me.zonezero.plugin.config.enums.ConfigTable
 import kiinse.me.zonezero.plugin.enums.Replace
 import kiinse.me.zonezero.plugin.enums.Strings
 import org.apache.commons.io.FileUtils
-import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.tomlj.Toml
-import org.tomlj.TomlParseResult
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -17,27 +17,35 @@ import java.util.logging.Level
 
 class FilesUtils(private val plugin: ZoneZero) {
 
-    fun getTomlFile(fileName: String): TomlParseResult {
+    fun getTomlFile(fileName: String): TomlFile {
         val configFile = getFile(fileName)
         if (!configFile.exists()) {
             copyFile(fileName, configFile)
         } else {
             checkTomlFileVersion(configFile)
         }
-        return Toml.parse(getFile(fileName).inputStream())
+        return TomlFile(Toml.parse(getFile(fileName).inputStream()))
+    }
+
+    fun getTomlFileWithoutCheck(fileName: String): TomlFile {
+        val configFile = getFile(fileName)
+        if (!configFile.exists()) {
+            copyFile(fileName, configFile)
+        }
+        return TomlFile(Toml.parse(getFile(fileName).inputStream()))
     }
 
     private fun checkTomlFileVersion(configFile: File) {
         val cfgVersion = getConfigVersion(configFile)
         if (cfgVersion == 0.0) return
         val fileName = configFile.name
-        val tmpCfg = getFile("${fileName}${Strings.TMP_TOML_SUFFIX.value}")
+        val tmpCfg = getFile("${fileName.replace(".toml", "")}${Strings.TMP_TOML_SUFFIX.value}")
         deleteFile(tmpCfg)
         copyFile(fileName, tmpCfg)
-        val newVersion: Double = getConfigVersion(getFile("${fileName}${Strings.TMP_TOML_SUFFIX.value}"))
+        val newVersion: Double = getConfigVersion(getFile("${fileName.replace(".toml", "")}${Strings.TMP_TOML_SUFFIX.value}"))
         if (newVersion > cfgVersion || newVersion < cfgVersion) {
             try {
-                val oldCfg = getFile("${fileName}${Strings.OLD_TOML_SUFFIX.value}")
+                val oldCfg = getFile("${fileName.replace(".toml", "")}${Strings.OLD_TOML_SUFFIX.value}")
                 deleteFile(oldCfg)
                 copyFileInFolder(configFile, oldCfg)
                 deleteFile(configFile)
@@ -55,7 +63,7 @@ class FilesUtils(private val plugin: ZoneZero) {
 
     private fun getConfigVersion(file: File): Double {
         return try {
-            Toml.parse(file.inputStream()).getTableOrEmpty(Config.TABLE_CONFIG.value).getDouble(Config.CONFIG_VERSION.value) { 0.0 }
+            Toml.parse(file.inputStream()).getTableOrEmpty(ConfigTable.CONFIG.value).getDouble(ConfigKey.CONFIG_VERSION.value) { 0.0 }
         } catch (e: Exception) {
             0.0
         }
@@ -73,12 +81,18 @@ class FilesUtils(private val plugin: ZoneZero) {
             .replace(Replace.DIRECTORY.value, file.name, ignoreCase = true))
     }
 
-    private fun copyFile(file: String) {
+    fun copyFile(file: String) {
         copyFileMethod(file, getFile(file))
     }
 
-    private fun copyFile(oldFile: String, newFile: File) {
+    fun copyFile(oldFile: String, newFile: File) {
         copyFileMethod(oldFile, newFile)
+    }
+
+    fun copyFileFromDir(directoryFile: Strings) {
+        val dirFile = directoryFile.value
+        val split = dirFile.split("/")
+        copyFileMethod(dirFile, getFile(split[0], split[1]))
     }
 
     private fun copyFileMethod(oldFile: String, destFile: File) {
@@ -122,34 +136,9 @@ class FilesUtils(private val plugin: ZoneZero) {
     }
 
     fun accessFile(file: String): InputStream? {
-        var input = ZoneZero::class.java.getResourceAsStream(file)
-        if (input == null) input = ZoneZero::class.java.classLoader.getResourceAsStream(file)
-        return input
+        return PathMatchingResourcePatternResolver(ZoneZero::class.java.classLoader).getResource("classpath:/$file").inputStream
     }
 
-    @Throws(Exception::class)
-    fun getFilesInDirectoryInJar(directory: String): List<String> {
-        val list = ArrayList<String>()
-        getResourceUrls("classpath:/$directory/*.*").forEach { name ->
-            val split = name!!.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            list.add(split[split.size - 1])
-        }
-        return list
-    }
-
-    @Throws(IOException::class)
-    private fun getResourceUrls(locationPattern: String): List<String?> {
-        return Arrays.stream(PathMatchingResourcePatternResolver(ZoneZero::class.java.classLoader).getResources(locationPattern))
-            .map { r: Resource -> toURL(r) }
-            .filter { obj: String? -> Objects.nonNull(obj) }
-            .toList()
-    }
-
-    private fun toURL(r: Resource): String? {
-        return try {
-            r.url.toExternalForm()
-        } catch (e: IOException) { null }
-    }
 
     private val dataFolder: String
         get() = plugin.dataFolder.absolutePath + File.separator

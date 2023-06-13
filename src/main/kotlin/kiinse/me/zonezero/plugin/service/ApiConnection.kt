@@ -2,7 +2,8 @@ package kiinse.me.zonezero.plugin.service
 
 import io.sentry.Sentry
 import kiinse.me.zonezero.plugin.ZoneZero
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.TomlTable
+import kiinse.me.zonezero.plugin.config.enums.ConfigKey
 import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.exceptions.APIException
 import kiinse.me.zonezero.plugin.exceptions.SecureException
@@ -25,7 +26,6 @@ import org.apache.http.client.fluent.Request
 import org.apache.http.entity.ContentType
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.tomlj.TomlTable
 import java.io.*
 import java.nio.charset.StandardCharsets
 import java.security.*
@@ -37,16 +37,16 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
- class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : ApiService {
+class ApiConnection(private val zoneZero: ZoneZero, configuration: TomlTable) : ApiService {
 
     private val line = "-----------------------"
     private val keys: MutableMap<KeyType, Key> = EnumMap(KeyType::class.java)
     private var publicKeyString: String = String()
     private val timeout = 10000
 
-     private var serverKey: PublicKey
+    private var serverKey: PublicKey
 
-     private val serviceServer = configuration.getString(Config.TOOLS_CUSTOM_IP.value) { Strings.DEFAULT_API.value }
+    private val serviceServer = configuration.get<String>(ConfigKey.TOOLS_CUSTOM_IP) { Strings.DEFAULT_API.value }
 
     init {
         try {
@@ -71,7 +71,7 @@ import javax.crypto.spec.SecretKeySpec
             val request = getRequestGet("$serviceServer/${strAddress}", hashMapOf(
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
                 Pair(Strings.HEADER_ON_PL, getOnpl(serverKey))
-            )).execute()
+                                                                                 )).execute()
             getServerAnswer(strAddress, request.returnResponse(), true)
         } catch (e: Exception) {
             Sentry.captureException(e)
@@ -87,7 +87,7 @@ import javax.crypto.spec.SecretKeySpec
                 Pair(Strings.HEADER_AUTH, "${Strings.TOKEN_PREFIX.value}${zoneZero.token}"),
                 Pair(Strings.HEADER_PLAYER, getEncryptedPlayer(player, serverKey)),
                 Pair(Strings.HEADER_ON_PL, getOnpl(serverKey))
-            )).execute()
+                                                                                 )).execute()
             getServerAnswer(strAddress, request.returnResponse(), true)
         } catch (e: Exception) {
             Sentry.captureException(e)
@@ -130,7 +130,7 @@ import javax.crypto.spec.SecretKeySpec
         }
     }
 
-    private fun getRequestGet(address: String, headers: Map<Strings, String>): Request  {
+    private fun getRequestGet(address: String, headers: Map<Strings, String>): Request {
         val request = Request.Get(address)
         request.connectTimeout(timeout)
         request.socketTimeout(timeout)
@@ -140,7 +140,7 @@ import javax.crypto.spec.SecretKeySpec
         return request
     }
 
-     fun getRequestPost(address: String, body: String, headers: Map<Strings, String>): Request {
+    private fun getRequestPost(address: String, body: String, headers: Map<Strings, String>): Request {
         val request = Request.Post(address)
         request.connectTimeout(timeout)
         request.socketTimeout(timeout)
@@ -153,7 +153,7 @@ import javax.crypto.spec.SecretKeySpec
         return request
     }
 
-     private fun getEncryptedPlayer(player: Player, publicKey: PublicKey): String {
+    private fun getEncryptedPlayer(player: Player, publicKey: PublicKey): String {
         return encryptRsa(player.name, publicKey)
     }
 
@@ -162,7 +162,7 @@ import javax.crypto.spec.SecretKeySpec
         return encryptRsa(Bukkit.getServer().onlinePlayers.size.toString(), publicKey)
     }
 
-     private fun getServerAnswer(address: String, response: HttpResponse, isDebug: Boolean): ServerAnswer {
+    private fun getServerAnswer(address: String, response: HttpResponse, isDebug: Boolean): ServerAnswer {
         val content = if (response.entity != null) {
             try {
                 val body = IOUtils.toString(response.entity.content, StandardCharsets.UTF_8)
@@ -171,8 +171,12 @@ import javax.crypto.spec.SecretKeySpec
                 } catch (e: Exception) {
                     body
                 }
-            } catch (e: Exception) { "" }
-        } else { "" }
+            } catch (e: Exception) {
+                ""
+            }
+        } else {
+            ""
+        }
         val responseCode = response.statusLine.statusCode
         val body = getBody(getEncryptedMessage(response, content))
         val answer = ServerAnswer(address, responseCode, body)
@@ -260,10 +264,12 @@ import javax.crypto.spec.SecretKeySpec
         try {
             val request = getRequestGet("$serviceServer/server", EnumMap(Strings::class.java)).execute()
             val answer = getServerAnswer("server", request.returnResponse(), false)
-            if (answer.status != 200) { throw SecureException(Strings.API_KEY_ERROR.value) }
+            if (answer.status != 200) {
+                throw SecureException(Strings.API_KEY_ERROR.value)
+            }
             serverKey = KeyFactory.getInstance(Strings.RSA_INSTANCE_SECOND.value).generatePublic(
-                X509EncodedKeySpec(Base64.decodeBase64(answer.getMessageAnswer().message))
-            )
+                X509EncodedKeySpec(Base64.decodeBase64(answer.getMessage()))
+                                                                                                )
         } catch (e: Exception) {
             throw SecureException(e)
         }

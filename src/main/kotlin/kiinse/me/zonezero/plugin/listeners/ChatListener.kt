@@ -2,15 +2,15 @@ package kiinse.me.zonezero.plugin.listeners
 
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.TomlTable
+import kiinse.me.zonezero.plugin.config.enums.ConfigKey
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.tomlj.TomlTable
 
-class ChatListener(private val playersData: PlayersData, config: TomlTable): Listener {
+class ChatListener(private val playersData: PlayersData, config: TomlTable) : Listener {
 
-    private val allowChat = config.getBoolean(Config.SETTINGS_ALLOW_CHAT.value) { false }
+    private val allowChat = config.get<Boolean>(ConfigKey.SETTINGS_ALLOW_CHAT) { false }
 
     @EventHandler
     fun onPlayerChat(event: AsyncPlayerChatEvent) {

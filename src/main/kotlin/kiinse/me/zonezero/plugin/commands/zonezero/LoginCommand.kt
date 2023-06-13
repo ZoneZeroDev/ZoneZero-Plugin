@@ -6,17 +6,21 @@ import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.commands.abstracts.MineCommand
 import kiinse.me.zonezero.plugin.commands.annotations.Command
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandContext
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.TomlTable
+import kiinse.me.zonezero.plugin.config.enums.ConfigKey
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.SubTitle
+import kiinse.me.zonezero.plugin.enums.Title
+import kiinse.me.zonezero.plugin.messages.MessageBuilder
 import kiinse.me.zonezero.plugin.service.body.PlayerLoginBody
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
-import org.tomlj.TomlTable
+import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, config: TomlTable) : MineCommand(plugin) {
 
-    private val kickOnWrongPassword = config.getBoolean(Config.KICK_WRONG_PASSWORD.value) { false }
+    private val kickOnWrongPassword = config.get<Boolean>(ConfigKey.KICK_WRONG_PASSWORD) { false }
     private val messageUtils: MessageUtils = plugin.messageUtils
 
     @Command(command = "login", permission = "zonezero.player.login", disallowNonPlayer = true, parameters = 1)
@@ -33,19 +37,60 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
                     200  -> {
                         messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_LOGGED_IN)
                         playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.SUCCESSFULLY_LOGGED_IN)
+                            .setTitle(Title.WELCOME)
+                            .setSubTitle(SubTitle.WELCOME)
+                            .send()
                     }
-                    202  -> messageUtils.sendMessageWithPrefix(player, Message.TWO_FACTOR_SENT)
+
+                    202  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.TWO_FACTOR_SENT)
+                            .setTitle(Title.TWO_FA_SEND)
+                            .setSubTitle(SubTitle.TWO_FA_SEND)
+                            .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                            .send()
+                    }
+
                     401  -> {
                         if (kickOnWrongPassword) {
                             player.kickPlayer(messageUtils.getOrString(player, Message.WRONG_PASSWORD))
                         } else {
-                            messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD)
+                            MessageBuilder(messageUtils, player)
+                                .setMessage(Message.WRONG_PASSWORD)
+                                .setTitle(Title.PASSWORD_WRONG)
+                                .setSubTitle(SubTitle.PASSWORD_WRONG)
+                                .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                                .send()
                         }
                     }
-                    404  -> messageUtils.sendMessageWithPrefix(player, Message.NOT_REGISTERED)
-                    429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS,
-                                                               hashMapOf(Pair("seconds", answer.getMessageAnswer().message.split("'")[1])))
-                    else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_LOGIN)
+
+                    404  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.NOT_REGISTERED)
+                            .setTitle(Title.REGISTER)
+                            .setSubTitle(SubTitle.REGISTER)
+                            .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                            .send()
+                    }
+
+                    429  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.TOO_MANY_ATTEMPTS)
+                            .setReplaceMap(hashMapOf(Pair("seconds", answer.getMessage().split("'")[1])))
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
+
+                    else -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.ERROR_ON_LOGIN)
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
                 }
             }
         }.start()

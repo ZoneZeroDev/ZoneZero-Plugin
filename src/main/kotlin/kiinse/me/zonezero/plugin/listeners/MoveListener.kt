@@ -1,7 +1,7 @@
 package kiinse.me.zonezero.plugin.listeners
 
-import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
+import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

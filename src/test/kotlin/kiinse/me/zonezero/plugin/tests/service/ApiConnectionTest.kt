@@ -5,7 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock
 import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.PlayersService
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.enums.ConfigTable
 import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.service.ApiConnection
 import kiinse.me.zonezero.plugin.service.body.TestPostBody
@@ -18,21 +18,18 @@ import kotlin.test.*
 class ApiConnectionTest {
 
     private var server: ServerMock? = null
-    private var zonezero: ZoneZero? = null
     private var apiService: ApiConnection? = null
     private var playersData: PlayersData? = null
 
     @BeforeTest
     fun setUp() {
         server = MockBukkit.mock()
-        zonezero = MockBukkit.load(ZoneZero::class.java)
-        val filesUtils = FilesUtils(zonezero!!)
-        val configuration = filesUtils.getTomlFile(Strings.CONFIG_FILE.value)
-        val toolsTable = configuration.getTableOrEmpty(Config.TABLE_TOOLS.value)
-        val settingsTable = configuration.getTableOrEmpty(Config.TABLE_SETTINGS.value)
-        apiService = ApiConnection(zonezero!!, toolsTable)
+        val zonezero = MockBukkit.load(ZoneZero::class.java)
+        val filesUtils = FilesUtils(zonezero)
+        val tomlFile = filesUtils.getTomlFile(Strings.CONFIG_FILE.value)
+        apiService = ApiConnection(zonezero, tomlFile.getTable(ConfigTable.TOOLS))
         apiService!!.updateServerKey()
-        playersData = PlayersService(zonezero!!, apiService!!, settingsTable);
+        playersData = PlayersService(zonezero, apiService!!, tomlFile.getTable(ConfigTable.SETTINGS))
     }
 
     @Test
@@ -40,7 +37,7 @@ class ApiConnectionTest {
         print("Testing GET decryption...")
         val answer = apiService!!.get(ServerAddress.TEST_GET)
         assertEquals(200, answer.status)
-        assertTrue { return@assertTrue (answer.getMessageAnswer().message == "Hello World!") }
+        assertTrue { return@assertTrue (answer.getMessage() == "Hello World!") }
         print(" OK\n")
     }
 
@@ -49,7 +46,7 @@ class ApiConnectionTest {
         print("Testing POST decryption and encryption...")
         val answer = apiService!!.post<TestPostBody>(ServerAddress.TEST_POST, TestPostBody("i love you"))
         assertEquals(200, answer.status)
-        assertTrue { return@assertTrue (answer.getMessageAnswer().message == "Hello World!") }
+        assertTrue { return@assertTrue (answer.getMessage() == "Hello World!") }
         assertEquals(406, apiService!!.post<TestPostBody>(ServerAddress.TEST_POST, TestPostBody()).status)
         print(" OK\n")
     }

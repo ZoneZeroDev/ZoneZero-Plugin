@@ -12,7 +12,9 @@ abstract class Scheduler protected constructor(val plugin: ZoneZero) {
         set(name) {
             field = if (name.isNullOrBlank()) {
                 RandomStringUtils.randomAscii(60).replace(">", "")
-            } else { name }
+            } else {
+                name
+            }
         }
     var delay: Long = -1
     var period: Long = -1

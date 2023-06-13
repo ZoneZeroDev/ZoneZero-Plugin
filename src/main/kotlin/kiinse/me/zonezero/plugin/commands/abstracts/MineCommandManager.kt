@@ -53,8 +53,7 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
     }
 
     @Throws(CommandException::class)
-    protected fun register(commandClass: MineCommand, method: Method, pluginCommand: PluginCommand?,
-                           command: String, annotation: Any, isMainCommand: Boolean) {
+    protected fun register(commandClass: MineCommand, method: Method, pluginCommand: PluginCommand?, command: String, annotation: Any, isMainCommand: Boolean) {
         register(pluginCommand, command)
         (if (isMainCommand) registeredMainCommandTable else registeredSubCommandTable)[command] = object : RegisteredCommand(method, commandClass, annotation) {}
         ZoneZero.sendLog(Level.CONFIG, Strings.COMMAND_REGISTERED.value.replace(Replace.COMMAND.value, command, ignoreCase = true))
@@ -84,13 +83,17 @@ abstract class MineCommandManager protected constructor(protected val plugin: Zo
 
     protected fun isDisAllowNonPlayer(sender: CommandSender, disAllowNonPlayer: Boolean): Boolean {
         val result = sender !is Player && disAllowNonPlayer
-        if (result) { failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender) }
+        if (result) {
+            failureHandler.handleFailure(CommandFailReason.NOT_PLAYER, sender)
+        }
         return result
     }
 
     protected fun hasNotPermissions(sender: CommandSender, permission: String): Boolean {
         val result = permission != "" && !sender.hasPermission(permission)
-        if (result) { failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender) }
+        if (result) {
+            failureHandler.handleFailure(CommandFailReason.NO_PERMISSION, sender)
+        }
         return result
     }
 

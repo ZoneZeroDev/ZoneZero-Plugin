@@ -1,5 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.guardsquare:proguard-gradle:7.3.2") {
+            exclude("com.android.tools.build")
+        }
+    }
+}
+
 plugins {
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.serialization") version "1.8.21"
@@ -11,7 +22,7 @@ plugins {
 }
 
 group = "kiinse.me.zonezero.plugin"
-version = "1.0.0-alpha.64"
+version = "1.0.0-beta.1"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -26,20 +37,20 @@ repositories {
 dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
     implementation("org.tomlj:tomlj:1.1.0")
-    implementation("org.springframework:spring-core:6.0.8")
+    implementation("org.springframework:spring-core:6.0.9")
     implementation("commons-codec:commons-codec:1.15")
-    implementation("commons-io:commons-io:2.11.0")
+    implementation("commons-io:commons-io:2.13.0")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("io.sentry:sentry:6.18.1")
+    implementation("io.sentry:sentry:6.22.0")
     implementation("org.apache.httpcomponents:fluent-hc:4.5.14")
     implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 
     compileOnly("org.spigotmc:spigot-api:1.16.2-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.21")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.22")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.19:3.1.0")
 }
 
@@ -74,11 +85,16 @@ tasks.withType<Jar> {
     from({ configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) } })
 }
 
+tasks.register<proguard.gradle.ProGuardTask>("proguard") {
+    configuration("proguard-rules.pro")
+}
+
 tasks.processResources {
     filesMatching("plugin.yml") {
         expand("version" to version)
     }
 }
+
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "17"

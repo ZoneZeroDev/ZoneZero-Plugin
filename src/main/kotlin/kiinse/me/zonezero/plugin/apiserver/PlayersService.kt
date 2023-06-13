@@ -3,7 +3,8 @@ package kiinse.me.zonezero.plugin.apiserver
 import kiinse.me.zonezero.plugin.ZoneZero
 import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
-import kiinse.me.zonezero.plugin.enums.Config
+import kiinse.me.zonezero.plugin.config.TomlTable
+import kiinse.me.zonezero.plugin.config.enums.ConfigKey
 import kiinse.me.zonezero.plugin.enums.Strings
 import kiinse.me.zonezero.plugin.service.body.*
 import kiinse.me.zonezero.plugin.service.data.ServerAnswer
@@ -17,14 +18,14 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.tomlj.TomlTable
 import java.util.*
 import java.util.function.Consumer
 import java.util.logging.Level
- class PlayersService(plugin: ZoneZero, private val api: ApiService, config: TomlTable) : PlayersData {
 
-    private val joinMessageOnAuth = config.getBoolean(Config.JOIN_MESSAGE_ON_AUTH.value) { false }
-    private val applyBlindEffect = config.getBoolean(Config.APPLY_BLIND_EFFECT.value) { false }
+class PlayersService(plugin: ZoneZero, private val api: ApiService, config: TomlTable) : PlayersData {
+
+    private val joinMessageOnAuth = config.get<Boolean>(ConfigKey.JOIN_MESSAGE_ON_AUTH) { false }
+    private val applyBlindEffect = config.get<Boolean>(ConfigKey.APPLY_BLIND_EFFECT) { false }
     private val joinMessages: HashMap<UUID, String> = HashMap()
     private val playersStatus: HashMap<UUID, PlayerStatus> = HashMap()
     private val filesUtils = plugin.filesUtils
@@ -53,9 +54,12 @@ import java.util.logging.Level
     override fun setPlayerStatus(player: Player, status: PlayerStatus) {
         val uuid = player.uniqueId
         if (status == PlayerStatus.NOT_AUTHORIZED) {
-            if (applyBlindEffect) { player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 1000000000, 1000000000, false, false)) }
+            if (applyBlindEffect) {
+                player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 1000000000, 1000000000, false, false))
+            }
         } else {
             player.removePotionEffect(PotionEffectType.BLINDNESS)
+            player.resetTitle()
             if (joinMessageOnAuth) {
                 runBlocking {
                     async {
@@ -102,9 +106,11 @@ import java.util.logging.Level
     }
 
     override fun authPlayerByIp(player: Player, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {
-        return@runBlocking async { consumer.accept(api.post<PlayerLoginBody>(ServerAddress.LOGIN_PLAYER_BY_IP,
-                                                                             PlayerLoginBody(ip = getPlayerIp(player)),
-                                                                             player)) }
+        return@runBlocking async {
+            consumer.accept(api.post<PlayerLoginBody>(ServerAddress.LOGIN_PLAYER_BY_IP,
+                                                      PlayerLoginBody(ip = getPlayerIp(player)),
+                                                      player))
+        }
     }
 
     override fun registerPlayer(player: Player, body: PlayerRegisterBody, consumer: Consumer<ServerAnswer>): Deferred<Unit> = runBlocking {

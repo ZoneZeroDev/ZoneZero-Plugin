@@ -6,7 +6,8 @@ import kiinse.me.zonezero.plugin.service.data.ServerAnswer
 import kotlinx.coroutines.Deferred
 import org.bukkit.entity.Player
 import java.util.function.Consumer
- interface PlayersData {
+
+interface PlayersData {
 
     fun getPlayerStatus(player: Player): PlayerStatus
     fun setPlayerStatus(player: Player, status: PlayerStatus)

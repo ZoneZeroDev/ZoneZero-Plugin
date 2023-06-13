@@ -7,9 +7,13 @@ import kiinse.me.zonezero.plugin.commands.abstracts.MineCommand
 import kiinse.me.zonezero.plugin.commands.annotations.Command
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandContext
 import kiinse.me.zonezero.plugin.enums.Message
+import kiinse.me.zonezero.plugin.enums.SubTitle
+import kiinse.me.zonezero.plugin.enums.Title
+import kiinse.me.zonezero.plugin.messages.MessageBuilder
 import kiinse.me.zonezero.plugin.service.body.PlayerRegisterBody
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
 
 class RegisterCommand(plugin: ZoneZero, private val playersData: PlayersData) : MineCommand(plugin) {
 
@@ -26,22 +30,59 @@ class RegisterCommand(plugin: ZoneZero, private val playersData: PlayersData) : 
         val args = context.args
         val password = args[0]
         if (password != args[1]) {
-            messageUtils.sendMessageWithPrefix(player, Message.PASSWORD_MISMATCH)
+            MessageBuilder(messageUtils, player)
+                .setMessage(Message.PASSWORD_MISMATCH)
+                .setTitle(Title.PASSWORD_MISMATCH)
+                .setSubTitle(SubTitle.PASSWORD_MISMATCH)
+                .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                .send()
             return
         }
         playersData.registerPlayer(player, PlayerRegisterBody(password, "", playersData.getPlayerIp(player))) { answer ->
             run {
                 when (answer.status) {
                     200  -> {
-                        messageUtils.sendMessageWithPrefix(player, Message.SUCCESSFULLY_REGISTERED)
-                        playersData.setPlayerStatus(player, PlayerStatus.AUTHORIZED)
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.SUCCESSFULLY_REGISTERED)
+                            .setTitle(Title.REGISTER_SUCCESS)
+                            .setSubTitle(SubTitle.REGISTER_SUCCESS)
+                            .send()
                     }
-                    406  -> messageUtils.sendMessageWithPrefix(player, Message.WRONG_PASSWORD_SIZE,
-                                                               hashMapOf(Pair("size", answer.getMessageAnswer().message.split("than ")[1])))
-                    403  -> messageUtils.sendMessageWithPrefix(player, Message.ALREADY_REGISTERED)
-                    429  -> messageUtils.sendMessageWithPrefix(player, Message.TOO_MANY_ATTEMPTS,
-                                                               hashMapOf(Pair("seconds", answer.getMessageAnswer().message.split("'")[1])))
-                    else -> messageUtils.sendMessageWithPrefix(player, Message.ERROR_ON_REGISTER)
+
+                    406  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.WRONG_PASSWORD_SIZE)
+                            .setReplaceMap(hashMapOf(Pair("size", answer.getMessage().split("than ")[1])))
+                            .setTitle(Title.PASSWORD_UNSAFE)
+                            .setSubTitle(SubTitle.PASSWORD_UNSAFE)
+                            .setTitleTime(TimeUnit.MINUTES.toSeconds(1000).toInt())
+                            .send()
+                    }
+
+                    403  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.ALREADY_REGISTERED)
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
+
+                    429  -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.TOO_MANY_ATTEMPTS)
+                            .setReplaceMap(hashMapOf(Pair("seconds", answer.getMessage().split("'")[1])))
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
+
+                    else -> {
+                        MessageBuilder(messageUtils, player)
+                            .setMessage(Message.ERROR_ON_REGISTER)
+                            .setTitle(Title.ERROR)
+                            .setSubTitle(SubTitle.ERROR)
+                            .send()
+                    }
                 }
             }
         }.start()

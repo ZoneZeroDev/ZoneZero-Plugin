@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ZoneZero.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ZoneZero.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ZoneZero.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ZoneZero.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kiinse.me.zonezero.plugin.ZoneZero.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kiinse.me.zonezero.plugin.ZoneZero.main.iml" />
     </modules>
   </component>
 </project>
