@@ -5,10 +5,7 @@ import kiinse.me.zonezero.plugin.apiserver.enums.PlayerStatus
 import kiinse.me.zonezero.plugin.apiserver.interfaces.PlayersData
 import kiinse.me.zonezero.plugin.config.TomlTable
 import kiinse.me.zonezero.plugin.config.enums.ConfigKey
-import kiinse.me.zonezero.plugin.enums.Message
-import kiinse.me.zonezero.plugin.enums.Replace
-import kiinse.me.zonezero.plugin.enums.SubTitle
-import kiinse.me.zonezero.plugin.enums.Title
+import kiinse.me.zonezero.plugin.enums.*
 import kiinse.me.zonezero.plugin.messages.MessageBuilder
 import kiinse.me.zonezero.plugin.utils.MessageUtils
 import org.bukkit.Bukkit
@@ -61,6 +58,7 @@ class JoinListener(private val zoneZero: ZoneZero,
                             .setMessage(Message.SUCCESSFULLY_LOGGED_IN_IP)
                             .setTitle(Title.WELCOME)
                             .setSubTitle(SubTitle.WELCOME)
+                            .setTitleType(TitleType.DISPLAY_NAME)
                             .send()
                     }
 

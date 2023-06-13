@@ -70,24 +70,18 @@ class MessageUtils(private val fileUtils: FilesUtils, settings: TomlTable) {
         player.sendMessage("$prefix ${replace(player, message, map)}")
     }
 
-    fun sendDisplayMessage(player: Player, title: Title, subtitle: SubTitle) {
-        if (sendTitle) {
-            player.sendTitle(getOrStringTitle(player, title), getOrStringSubtitle(player, subtitle), 10, titleTime * 20, 20)
-        }
-    }
-
     fun sendDisplayMessage(player: Player, title: Title, subtitle: SubTitle, seconds: Int) {
         if (sendTitle) {
             player.sendTitle(getOrStringTitle(player, title), getOrStringSubtitle(player, subtitle), 10, seconds * 20, 20)
         }
     }
 
-    fun sendDisplayMessageWithName(player: Player, title: Title, subtitle: SubTitle) {
+    fun sendDisplayMessageWithName(player: Player, title: Title, subtitle: SubTitle, seconds: Int) {
         if (sendTitle) {
             player.sendTitle(getOrStringTitle(player, title),
                              getOrStringSubtitle(player, subtitle).replace(Replace.DISPLAY_NAME.value, player.displayName, ignoreCase = true),
                              10,
-                             titleTime * 20,
+                             seconds * 20,
                              20)
         }
     }

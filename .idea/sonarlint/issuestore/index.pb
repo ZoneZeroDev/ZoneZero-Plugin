@@ -142,7 +142,5 @@ o
 Rsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/abstracts/MineCommandManager.kt,7/e/7ea4aa59a0d4f0377faab772de0ec58cadee788d
 {
 Ksrc/main/kotlin/kiinse/me/zonezero/plugin/commands/abstracts/MineCommand.kt,3/e/3e7790bb89c35626ac759620546e673b9f2501d3
-{
-Ksrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt,4/2/42a65753efbcb2112b094a93755e84b6028a3851
 ~
 Nsrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/ZoneZeroCommand.kt,c/c/ccfd40c9728ed0093e91f941b3e3ffa33b58f658

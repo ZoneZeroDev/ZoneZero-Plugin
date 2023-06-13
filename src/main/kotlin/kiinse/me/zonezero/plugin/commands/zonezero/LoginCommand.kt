@@ -11,6 +11,7 @@ import kiinse.me.zonezero.plugin.config.enums.ConfigKey
 import kiinse.me.zonezero.plugin.enums.Message
 import kiinse.me.zonezero.plugin.enums.SubTitle
 import kiinse.me.zonezero.plugin.enums.Title
+import kiinse.me.zonezero.plugin.enums.TitleType
 import kiinse.me.zonezero.plugin.messages.MessageBuilder
 import kiinse.me.zonezero.plugin.service.body.PlayerLoginBody
 import kiinse.me.zonezero.plugin.utils.MessageUtils
@@ -41,6 +42,7 @@ class LoginCommand(plugin: ZoneZero, private val playersData: PlayersData, confi
                             .setMessage(Message.SUCCESSFULLY_LOGGED_IN)
                             .setTitle(Title.WELCOME)
                             .setSubTitle(SubTitle.WELCOME)
+                            .setTitleType(TitleType.DISPLAY_NAME)
                             .send()
                     }
 

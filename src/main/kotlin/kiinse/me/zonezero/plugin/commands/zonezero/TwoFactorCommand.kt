@@ -7,10 +7,7 @@ import kiinse.me.zonezero.plugin.commands.abstracts.MineCommand
 import kiinse.me.zonezero.plugin.commands.annotations.Command
 import kiinse.me.zonezero.plugin.commands.annotations.SubCommand
 import kiinse.me.zonezero.plugin.commands.interfaces.MineCommandContext
-import kiinse.me.zonezero.plugin.enums.Message
-import kiinse.me.zonezero.plugin.enums.Strings
-import kiinse.me.zonezero.plugin.enums.SubTitle
-import kiinse.me.zonezero.plugin.enums.Title
+import kiinse.me.zonezero.plugin.enums.*
 import kiinse.me.zonezero.plugin.messages.MessageBuilder
 import kiinse.me.zonezero.plugin.service.body.PlayerTwoFaCodeBody
 import kiinse.me.zonezero.plugin.service.body.PlayerTwoFaDisableBody
@@ -44,6 +41,7 @@ class TwoFactorCommand(plugin: ZoneZero, private val playersData: PlayersData) :
                                     .setMessage(Message.SUCCESSFULLY_LOGGED_IN)
                                     .setTitle(Title.WELCOME)
                                     .setSubTitle(SubTitle.WELCOME)
+                                    .setTitleType(TitleType.DISPLAY_NAME)
                                     .send()
                             }
 
