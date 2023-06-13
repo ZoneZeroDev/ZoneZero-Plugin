@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8017909-009a-499f-b70b-8303e7ffdbb1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/1/31ee0494fdd0318c825d1fb89a05a9cd702e37e8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/3/1/31ee0494fdd0318c825d1fb89a05a9cd702e37e8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/proguard-rules.pro" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +128,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ZoneZero-Plugin [build no-tests]">
+  <component name="RunManager" selected="Gradle.ZoneZero-Plugin [proguard]">
     <configuration name="ApiConnectionTest.postTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -373,7 +368,7 @@
       <workItem from="1686606039326" duration="4269000" />
       <workItem from="1686653846940" duration="13366000" />
       <workItem from="1686671892842" duration="4176000" />
-      <workItem from="1686678316661" duration="47000" />
+      <workItem from="1686678316661" duration="142000" />
     </task>
     <servers />
   </component>

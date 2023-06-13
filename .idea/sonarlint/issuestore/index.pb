@@ -184,3 +184,11 @@ o
 build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
 j
 :src/main/kotlin/kiinse/me/zonezero/plugin/enums/Strings.kt,8/8/88b67a28f422ab269eb7bde9f9a1205ab30db29a
+m
+=src/main/kotlin/kiinse/me/zonezero/plugin/utils/FilesUtils.kt,6/b/6be114301be621520a870905f47480c8fbb5f7fb
+e
+5src/main/java/kiinse/me/zonezero/plugin/ZoneZero.java,7/0/70b5b2b12dcada0bf5b8b3cc1e0dca4986fccb49
+B
+proguard-rules.pro,8/f/8fb93e6a4b5f305875d392d25a97c87aa0ec6286
+{
+Ksrc/main/kotlin/kiinse/me/zonezero/plugin/commands/zonezero/LoginCommand.kt,4/2/42a65753efbcb2112b094a93755e84b6028a3851
